@@ -20,7 +20,7 @@ public class HomeView
         backgroundLayout.setPrefWidth(350);
 
         backgroundLayout.setStyle("-fx-background-color: transparent; -fx-opacity:1;");
-        backgroundLayout.getChildren().addAll(getTitle(),catagories.getLilotho());
+        backgroundLayout.getChildren().addAll(getTitle(),catagories.getLilotho(),catagories.getMaele(),catagories.getLipapali());
 
 
         return  backgroundLayout;

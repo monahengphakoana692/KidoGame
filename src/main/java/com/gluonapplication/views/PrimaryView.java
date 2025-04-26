@@ -7,6 +7,7 @@ import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -38,6 +39,17 @@ public class PrimaryView extends View {
         controls.setAlignment(Pos.CENTER);
 
         setCenter(controls);
+
+        ScrollPane scrollPane = new ScrollPane(controls);
+        scrollPane.setFitToWidth(true); // Makes content fit viewport width
+        scrollPane.setFitToHeight(true); // Makes content fit viewport height
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        scrollPane.setPannable(true); // Allows panning (touch scrolling)
+
+
+        // Set the ScrollPane as the center of the View
+        setCenter(scrollPane);
     }
 
     @Override

@@ -19,7 +19,7 @@ public class Catagories {
 
         image = new Image("/background2.jpg");
         imageView = new ImageView(image);
-        imageView.setFitWidth(200);
+        imageView.setFitWidth(150);
         imageView.setFitHeight(150);
         imageView.setPreserveRatio(true);
 
@@ -28,7 +28,55 @@ public class Catagories {
 
         Lilotho.getChildren().addAll(imageView, label);
         Lilotho.setStyle("-fx-background-color: orange;");
-        Lilotho.setMaxWidth(200);
+        Lilotho.setMaxWidth(100);
+
+        // Add padding to the VBox (top, right, bottom, left)
+        Lilotho.setPadding(new javafx.geometry.Insets(10, 10, 0, 10)); // 10px from top and left
+
+        return Lilotho;
+    }
+
+    public VBox getMaele()
+    {
+        Lilotho = new VBox(10);
+        Lilotho.setAlignment(Pos.TOP_CENTER); // Changed from CENTER to TOP_CENTER
+
+        image = new Image("/background2.jpg");
+        imageView = new ImageView(image);
+        imageView.setFitWidth(150);
+        imageView.setFitHeight(150);
+        imageView.setPreserveRatio(true);
+
+        label = new Label("Lipapali ka LiLOTHO");
+        label.setAlignment(Pos.CENTER);
+
+        Lilotho.getChildren().addAll(imageView, label);
+        Lilotho.setStyle("-fx-background-color: orange;");
+        Lilotho.setMaxWidth(100);
+
+        // Add padding to the VBox (top, right, bottom, left)
+        Lilotho.setPadding(new javafx.geometry.Insets(10, 10, 0, 10)); // 10px from top and left
+
+        return Lilotho;
+    }
+
+    public VBox getLipapali()
+    {
+        Lilotho = new VBox(10);
+        Lilotho.setAlignment(Pos.TOP_CENTER); // Changed from CENTER to TOP_CENTER
+
+        image = new Image("/background2.jpg");
+        imageView = new ImageView(image);
+        imageView.setFitWidth(150);
+        imageView.setFitHeight(150);
+        imageView.setPreserveRatio(true);
+
+        label = new Label("Lipapali ka LiLOTHO");
+        label.setAlignment(Pos.CENTER);
+
+        Lilotho.getChildren().addAll(imageView, label);
+        Lilotho.setStyle("-fx-background-color: orange;");
+        Lilotho.setMaxWidth(100);
 
         // Add padding to the VBox (top, right, bottom, left)
         Lilotho.setPadding(new javafx.geometry.Insets(10, 10, 0, 10)); // 10px from top and left
