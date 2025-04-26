@@ -26,7 +26,6 @@ public class GluonApplication extends Application {
         System.setProperty("attach.storage.path", System.getProperty("user.home") + "/.KidoGame");
         appManager.addViewFactory(PRIMARY_VIEW, PrimaryView::new);
         appManager.addViewFactory(SECONDARY_VIEW, SecondaryView::new);
-
         DrawerManager.buildDrawer(appManager);
     }
 
