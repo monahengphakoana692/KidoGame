@@ -27,6 +27,7 @@ public class GluonApplication extends Application {
         appManager.addViewFactory(PRIMARY_VIEW, PrimaryView::new);
         appManager.addViewFactory(SECONDARY_VIEW, SecondaryView::new);
 
+
         DrawerManager.buildDrawer(appManager);
     }
 
