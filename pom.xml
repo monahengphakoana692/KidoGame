@@ -1,82 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.gluonapplication</groupId>
-    <artifactId>fornow</artifactId>
+    <artifactId>kidogame</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>forNow</name>
+    <name>KidoGame</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.release>17</maven.compiler.release> <!-- Changed to 17 -->
-        <javafx.version>17.0.15</javafx.version> <!-- Downgraded to match Java 17 -->
-        <attach.version>4.0.22</attach.version>
+        <maven.compiler.release>17</maven.compiler.release>
+        <javafx.version>17.0.2</javafx.version>
+        <attach.version>4.0.15</attach.version>
         <gluonfx.plugin.version>1.0.26</gluonfx.plugin.version>
         <javafx.plugin.version>0.0.8</javafx.plugin.version>
         <mainClassName>com.gluonapplication.GluonApplication</mainClassName>
 
-        <!-- Android Configuration - simplified for gluonfx-maven-plugin 1.0.26 -->
+        <!-- Android Configuration -->
         <android.sdk>C:\Android\Sdk</android.sdk>
         <android.targetSdk>34</android.targetSdk>
         <android.compileSdk>34</android.compileSdk>
     </properties>
 
     <dependencies>
-        <!-- JavaFX -->
+        <!-- JavaFX Modules -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>17.0.15</version>
-            <classifier>win</classifier> <!-- Windows -->
-            <scope>compile</scope> <!-- Force Maven to use this exact version -->
+            <version>${javafx.version}</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>17.0.15</version>
-            <classifier>win</classifier> <!-- Windows -->
-            <scope>compile</scope> <!-- Force Maven to use this exact version -->
+            <version>${javafx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics</artifactId>
+            <version>${javafx.version}</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-media</artifactId>
-            <version>17.0.15</version>
-            <classifier>win</classifier> <!-- Windows -->
-            <scope>compile</scope> <!-- Force Maven to use this exact version -->
+            <version>${javafx.version}</version>
         </dependency>
 
-        <!-- Gluon -->
-        <dependency>
-            <groupId>com.esri.arcgisruntime</groupId>
-            <artifactId>arcgis-java</artifactId>
-            <version>100.15.0</version> <!-- Check for latest version -->
-        </dependency>
+        <!-- Gluon Mobile -->
         <dependency>
             <groupId>com.gluonhq</groupId>
             <artifactId>charm-glisten</artifactId>
-            <version>6.2.3</version>
+            <version>6.2.0</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.openjfx</groupId>
-                    <artifactId>*</artifactId> <!-- Exclude all transitive JavaFX deps -->
+                    <artifactId>*</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
 
-        <!-- Attach -->
+        <!-- Gluon Attach Services -->
         <dependency>
             <groupId>com.gluonhq.attach</groupId>
             <artifactId>display</artifactId>
             <version>${attach.version}</version>
-            <classifier>desktop</classifier>
         </dependency>
         <dependency>
             <groupId>com.gluonhq.attach</groupId>
             <artifactId>lifecycle</artifactId>
             <version>${attach.version}</version>
-            <classifier>desktop</classifier>
         </dependency>
         <dependency>
             <groupId>com.gluonhq.attach</groupId>
@@ -87,45 +81,29 @@
             <groupId>com.gluonhq.attach</groupId>
             <artifactId>storage</artifactId>
             <version>${attach.version}</version>
-            <classifier>desktop</classifier>
         </dependency>
         <dependency>
             <groupId>com.gluonhq.attach</groupId>
             <artifactId>util</artifactId>
             <version>${attach.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.gluonhq</groupId>
-            <artifactId>maps</artifactId>
-            <version>2.0.0-ea+6</version>
-        </dependency>
+
+        <!-- Other Utilities -->
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>2.10.1</version>
         </dependency>
-
-        <!-- Android Runtime
-        <dependency>
-            <groupId>com.gluonhq</groupId>
-            <artifactId>charm-down-plugin-android</artifactId>
-            <version>${attach.version}</version>
-            <scope>runtime</scope>
-        </dependency> -->
     </dependencies>
+
     <repositories>
         <repository>
-            <id>Gluon</id>
-            <url>https://nexus.gluonhq.com/nexus/content/repositories/releases</url>
+            <id>gluon-releases</id>
+            <url>https://nexus.gluonhq.com/nexus/content/repositories/releases/</url>
         </repository>
         <repository>
             <id>central</id>
             <url>https://repo.maven.apache.org/maven2</url>
-        </repository>
-        <repository>
-            <id>arcgis</id>
-            <name>Esri ArcGIS Repository</name>
-            <url>https://esri.jfrog.io/artifactory/arcgis</url>
         </repository>
     </repositories>
 
@@ -136,7 +114,10 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <release>17</release> <!-- Explicitly set to 17 -->
+                    <release>17</release>
+                    <compilerArgs>
+                        <arg>-Xlint:unchecked</arg>
+                    </compilerArgs>
                 </configuration>
             </plugin>
 
@@ -154,21 +135,25 @@
                 <artifactId>gluonfx-maven-plugin</artifactId>
                 <version>${gluonfx.plugin.version}</version>
                 <configuration>
-                    <target>${gluonfx.target}</target>
+                    <target>android</target>
+                    <mainClass>${mainClassName}</mainClass>
+                    <bundlesList>
+                        <list>com.gluonapplication</list>
+                    </bundlesList>
+                    <reflectionList>
+                        <list>com.gluonapplication.GluonApplication</list>
+                        <list>com.gluonapplication.views.*</list>
+                        <list>com.gluonapplication.DrawerManager</list>
+                    </reflectionList>
+                    <nativeImageArgs>
+                        <arg>--initialize-at-build-time=com.gluonapplication</arg>
+                    </nativeImageArgs>
                     <attachList>
                         <list>display</list>
                         <list>lifecycle</list>
                         <list>statusbar</list>
                         <list>storage</list>
                     </attachList>
-                    <mainClass>${mainClassName}</mainClass>
-                    <bundlesList>
-                        <list>com.gluonapplication</list>
-                    </bundlesList>
-                    <reflectionList>
-                        <list>com.gluonapplication.views.HomeView</list>
-                        <list>com.gluonapplication.views.SecondaryView</list>
-                    </reflectionList>
                 </configuration>
             </plugin>
         </plugins>
@@ -176,13 +161,50 @@
 
     <profiles>
         <profile>
-            <id>android</id>
-            <properties>
-                <gluonfx.target>android</gluonfx.target>
-            </properties>
+            <id>desktop</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
+            <dependencies>
+                <!-- Desktop-specific classifiers -->
+                <dependency>
+                    <groupId>org.openjfx</groupId>
+                    <artifactId>javafx-controls</artifactId>
+                    <version>${javafx.version}</version>
+                    <classifier>win</classifier>
+                </dependency>
+                <dependency>
+                    <groupId>com.gluonhq.attach</groupId>
+                    <artifactId>display</artifactId>
+                    <version>${attach.version}</version>
+                    <classifier>desktop</classifier>
+                </dependency>
+                <dependency>
+                    <groupId>com.gluonhq.attach</groupId>
+                    <artifactId>lifecycle</artifactId>
+                    <version>${attach.version}</version>
+                    <classifier>desktop</classifier>
+                </dependency>
+            </dependencies>
+        </profile>
+
+        <profile>
+            <id>android</id>
+            <dependencies>
+                <!-- Android-specific classifiers -->
+                <dependency>
+                    <groupId>com.gluonhq.attach</groupId>
+                    <artifactId>display</artifactId>
+                    <version>${attach.version}</version>
+                    <classifier>android</classifier>
+                </dependency>
+                <dependency>
+                    <groupId>com.gluonhq.attach</groupId>
+                    <artifactId>lifecycle</artifactId>
+                    <version>${attach.version}</version>
+                    <classifier>android</classifier>
+                </dependency>
+            </dependencies>
         </profile>
     </profiles>
 </project>

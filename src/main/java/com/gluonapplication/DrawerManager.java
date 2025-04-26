@@ -1,5 +1,6 @@
 package com.gluonapplication;
 
+import com.gluonapplication.views.SecondaryView;
 import com.gluonhq.attach.lifecycle.LifecycleService;
 import com.gluonhq.attach.util.Platform;
 import com.gluonhq.attach.util.Services;
@@ -19,19 +20,14 @@ public class DrawerManager {
     public static void buildDrawer(AppManager app) {
         NavigationDrawer drawer = app.getDrawer();
 
-        NavigationDrawer.Header header = new NavigationDrawer.Header("Lesotho Tour Guide",
-                "Explore the Mountain Kingdom",
-                new Avatar(21, new Image(DrawerManager.class.getResourceAsStream("/icon.png"))));
+        NavigationDrawer.Header header = new NavigationDrawer.Header("Sample",
+                "profile",
+                new Avatar(21, new Image(DrawerManager.class.getResourceAsStream("/game.jpg"))));
         drawer.setHeader(header);
 
-
-        final Item homeItem = new ViewItem("Home", MaterialDesignIcon.HOME.graphic(), HOME_VIEW);
-        final Item mapItem = new ViewItem("Map", MaterialDesignIcon.MAP.graphic(), MAP_VIEW);
-        final Item toursItem = new ViewItem("Tours", MaterialDesignIcon.EXPLORE.graphic(), TOURS_VIEW);
-        //final Item quizItem = new ViewItem("Quizzes", MaterialDesignIcon.QUIZ.graphic(), QUIZ_VIEW);
-        final Item settingsItem = new ViewItem("Settings", MaterialDesignIcon.SETTINGS.graphic(), SETTINGS_VIEW);
-
-        drawer.getItems().addAll(homeItem, mapItem, toursItem, settingsItem);
+        final Item homeItem = new ViewItem("PrimaryView", MaterialDesignIcon.HOME.graphic(), HOME_VIEW);
+        final Item secondView = new ViewItem("secondView", MaterialDesignIcon.HOME.graphic(),SECONDARY_VIEW);
+        drawer.getItems().addAll(homeItem,secondView);
 
         if (Platform.isDesktop()) {
             final Item quitItem = new Item("Quit", MaterialDesignIcon.EXIT_TO_APP.graphic());

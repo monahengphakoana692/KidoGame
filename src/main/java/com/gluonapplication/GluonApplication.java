@@ -13,21 +13,19 @@ import static com.gluonhq.charm.glisten.application.AppManager.HOME_VIEW;
 public class GluonApplication extends Application {
 
     public static final String PRIMARY_VIEW = HOME_VIEW;
-    public static final String MAP_VIEW = "Map View";
-    public static final String TOURS_VIEW = "Tours View";
-    public static final String QUIZ_VIEW = "Quiz View";
-    public static final String SETTINGS_VIEW = "Settings View";
+    public static final String SECONDARY_VIEW = "Second View";
+
 
     private final AppManager appManager = AppManager.initialize(this::postInit);
 
     @Override
     public void init()
     {
-        appManager.addViewFactory(PRIMARY_VIEW, HomeView::new);
-        appManager.addViewFactory(MAP_VIEW, MapViews::new);
-        //appManager.addViewFactory(TOURS_VIEW, ToursView::new);
-        appManager.addViewFactory(QUIZ_VIEW, QuizView::new);
-        //appManager.addViewFactory(SETTINGS_VIEW, SettingsView::new);
+        System.setProperty("charm.glisten.license.hide", "true");  // Disables license checks
+        System.setProperty("charm.glisten.tracking.hide", "true");
+        System.setProperty("attach.storage.path", System.getProperty("user.home") + "/.KidoGame");
+        appManager.addViewFactory(PRIMARY_VIEW, PrimaryView::new);
+        appManager.addViewFactory(SECONDARY_VIEW, SecondaryView::new);
 
         DrawerManager.buildDrawer(appManager);
     }
@@ -40,7 +38,7 @@ public class GluonApplication extends Application {
     private void postInit(Scene scene) {
         Swatch.BLUE.assignTo(scene); // Changed to blue for a travel app feel
         scene.getStylesheets().add(GluonApplication.class.getResource("style.css").toExternalForm());
-        ((Stage) scene.getWindow()).getIcons().add(new Image(GluonApplication.class.getResourceAsStream("/icon.png")));
+        ((Stage) scene.getWindow()).getIcons().add(new Image(GluonApplication.class.getResourceAsStream("/game.jpg")));
     }
 
     public static void main(String[] args) {
