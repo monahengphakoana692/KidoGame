@@ -1,11 +1,7 @@
 com\gluonapplication\MultiMediaView.class
-com\gluonapplication\views\SettingsView.class
 com\gluonapplication\DrawerManager.class
-com\gluonapplication\views\Hotspot.class
-com\gluonapplication\views\ToursView.class
 com\gluonapplication\views\HomeView.class
-com\gluonapplication\views\MapViews.class
 com\gluonapplication\GluonApplication.class
+com\gluonapplication\views\Catagories.class
 com\gluonapplication\views\SecondaryView.class
-com\gluonapplication\views\MapViews$1.class
-com\gluonapplication\views\QuizView.class
+com\gluonapplication\views\PrimaryView.class

@@ -13,7 +13,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>17</maven.compiler.release>
-        <javafx.version>17.0.2</javafx.version>
+        <javafx.version>17.0.15</javafx.version>
         <attach.version>4.0.15</attach.version>
         <gluonfx.plugin.version>1.0.26</gluonfx.plugin.version>
         <javafx.plugin.version>0.0.8</javafx.plugin.version>

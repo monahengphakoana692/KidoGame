@@ -15,7 +15,7 @@ public class SecondaryView extends View {
         
         getStylesheets().add(SecondaryView.class.getResource("secondary.css").toExternalForm());
         
-        Label label = new Label("This is Secondary!");
+        Label label = new Label("This is wow gggvg Secondary!");
 
         VBox controls = new VBox(label);
         controls.setAlignment(Pos.CENTER);

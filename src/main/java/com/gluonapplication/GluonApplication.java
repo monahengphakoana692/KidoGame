@@ -21,7 +21,7 @@ public class GluonApplication extends Application {
     @Override
     public void init()
     {
-        System.setProperty("charm.glisten.license.hide", "true");  // Disables license checks
+       System.setProperty("charm.glisten.license.hide", "true");  // Disables license checks
         System.setProperty("charm.glisten.tracking.hide", "true");
         System.setProperty("attach.storage.path", System.getProperty("user.home") + "/.KidoGame");
         appManager.addViewFactory(PRIMARY_VIEW, PrimaryView::new);
