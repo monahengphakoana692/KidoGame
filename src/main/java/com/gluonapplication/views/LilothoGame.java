@@ -11,6 +11,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
@@ -18,6 +21,9 @@ public class LilothoGame extends View {
 
     private static final String[] VIEW_NAMES = {"FirstLevel", "SecondLevel", "ThirdLevel"};
     private boolean[] choices = new boolean[3];
+    private Media media;
+    private MediaPlayer mediaPlayer;
+    private MediaView mediaView;
 
     public LilothoGame() {
         showLevel(0);
@@ -134,8 +140,9 @@ public class LilothoGame extends View {
 
         Button homeButton = new Button("Ea Lapeng");
         homeButton.setOnAction(e -> getAppManager().goHome());
-
-        VBox resultsView = new VBox(20, resultLabel, homeButton);
+        setVideoUrl("/wow.mp4");
+        mediaPlayer.play();
+        VBox resultsView = new VBox(20, mediaView,resultLabel, homeButton);
         resultsView.setAlignment(Pos.CENTER);
 
         ScrollPane scrollPane = new ScrollPane(resultsView);
@@ -146,6 +153,8 @@ public class LilothoGame extends View {
 
         if (correctAnswers == 3)
         {
+
+
             PrimaryView.setLevelnum("1");
         }
     }
@@ -155,5 +164,12 @@ public class LilothoGame extends View {
         Button navButton = MaterialDesignIcon.ARROW_BACK.button(e -> getAppManager().goHome());
         appBar.setNavIcon(navButton);
         appBar.setTitleText("PAPALI KA LILOTHO");
+    }
+
+    public void setVideoUrl(String url)
+    {
+        media = new Media(url.toString());
+        mediaPlayer = new MediaPlayer(media);
+        mediaView = new MediaView(mediaPlayer);
     }
 }
