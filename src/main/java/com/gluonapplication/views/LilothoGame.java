@@ -3,6 +3,7 @@ package com.gluonapplication.views;
 import com.gluonhq.charm.glisten.control.AppBar;
 import com.gluonhq.charm.glisten.mvc.View;
 import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -19,190 +20,226 @@ import javafx.scene.text.FontWeight;
 
 public class LilothoGame extends View {
 
-    private static final String[] VIEW_NAMES = {"FirstLevel", "SecondLevel", "ThirdLevel"};
-    private boolean[] choices = new boolean[3];
-    private MediaPlayer mediaPlayer;
-    private MediaPlayer mediaPlayerSound;
+    private static final int TOTAL_LEVELS = 3;
+    private final boolean[] levelResults = new boolean[TOTAL_LEVELS];
+    private MediaPlayer videoPlayer;
+    private MediaPlayer audioPlayer;
     private MediaView mediaView;
-    private MediaView mediaViewSound;
+    private int currentLevel = 0;
 
     public LilothoGame() {
-        showLevel(0);
+        initializeUI();
+        loadFirstLevel();
+    }
+
+    private void initializeUI() {
+        getStylesheets().add(getClass().getResource("primary.css").toExternalForm());
+    }
+
+    private void loadFirstLevel() {
+        currentLevel = 0;
+        showLevel(currentLevel);
     }
 
     private void showLevel(int levelIndex) {
+        VBox questionView = createQuestionView(levelIndex);
+        StackPane levelContainer = createLevelContainer(questionView);
+        setCenter(levelContainer);
+    }
+
+    private StackPane createLevelContainer(VBox content) {
+        Image background = new Image("/background.jpg");
+        ImageView bgView = new ImageView(background);
+        bgView.setOpacity(0.2);
+        bgView.setPreserveRatio(false);
+        bgView.setFitWidth(315);
+        bgView.setFitHeight(600);
+
+        StackPane container = new StackPane();
+        container.setMaxSize(200, 600);
+        container.setStyle("-fx-background-color: transparent;");
+        container.getChildren().addAll(bgView, content);
+        container.setPadding(new Insets(10));
+
+        return container;
+    }
+
+    private VBox createQuestionView(int levelIndex) {
         switch (levelIndex) {
-            case 0:
-                setCenter(createLevelView(createFirstQuestion(), levelIndex));
-                break;
-            case 1:
-                setCenter(createLevelView(createSecondQuestion(), levelIndex));
-                break;
-            case 2:
-                setCenter(createLevelView(createThirdQuestion(), levelIndex));
-                break;
-            default:
-                showResults();
-                break;
+            case 0: return createQuestion(
+                    "'Me Nts'oare ke nye",
+                    new String[]{"Leihlo", "Tsebe", "Ngoana", "Nko"},
+                    3  // Correct answer index (Nko)
+            );
+            case 1: return createQuestion(
+                    "Ts'oene tse peli \n Lihloa thaba \n lisa e qete?",
+                    new String[]{"Matsoele", "Moriri", "Litsebe", "Li Ts'oene"},
+                    2  // Correct answer index (Litsebe)
+            );
+            case 2: return createQuestion(
+                    "Mohlankana ea lulang \n lehaheng?",
+                    new String[]{"Thimola", "Leleme", "Khoeli", "Mokhubu"},
+                    1  // Correct answer index (Leleme)
+            );
+            default: return createResultsView();
         }
     }
 
-    private StackPane createLevelView(VBox questionBox, int levelIndex) {
-        getStylesheets().add(PrimaryView.class.getResource("primary.css").toExternalForm());
+    private VBox createQuestion(String questionText, String[] options, int correctIndex) {
+        Label questionLabel = new Label(questionText);
+        questionLabel.setFont(Font.font("Arial", FontWeight.BOLD, 30));
+        questionLabel.setWrapText(true);
 
-        Image backgroundImage = new Image("/background.jpg");
-        ImageView imageView = new ImageView(backgroundImage);
-        imageView.setStyle("-fx-opacity:0.2;");
-        imageView.setPreserveRatio(false);
-        imageView.setFitWidth(315);
-        imageView.setFitHeight(600);
+        VBox optionsBox = new VBox(10);
+        optionsBox.setAlignment(Pos.CENTER);
 
-        StackPane background = new StackPane();
-        background.setMaxWidth(200);
-        background.setMaxHeight(600);
-        background.setStyle("-fx-background-color:transparent;");
-        background.getChildren().addAll(imageView, questionBox);
-        background.setPadding(new javafx.geometry.Insets(10, 10, 0, 10));
+        for (int i = 0; i < options.length; i++) {
+            Button optionButton = createOptionButton(options[i], i == correctIndex);
+            optionsBox.getChildren().add(optionButton);
+        }
 
-        return background;
+        VBox questionBox = new VBox(20, questionLabel, optionsBox);
+        questionBox.setAlignment(Pos.CENTER);
+
+        return questionBox;
     }
 
-    private VBox createFirstQuestion() {
-        Label question = new Label("'Me Nts'oare ke nye");
-        question.setFont(Font.font("Arial", FontWeight.BOLD, 34));
-
-        Button[] options = {
-                createOption("Leihlo", false, 0),
-                createOption("Tsebe", false, 0),
-                createOption("Ngoana", false, 0),
-                createOption("Nko", true, 0)
-        };
-
-        return createQuestionLayout(question, options);
-    }
-
-    private VBox createSecondQuestion() {
-        Label question = new Label("Ts'oene tse peli \n Lihloa thaba \n lisa e qete?");
-        question.setFont(Font.font("Arial", FontWeight.BOLD, 30));
-
-        Button[] options = {
-                createOption("Matsoele", false, 1),
-                createOption("Moriri", false, 1),
-                createOption("Litsebe", true, 1),
-                createOption("Li Ts'oene", false, 1)
-        };
-
-        return createQuestionLayout(question, options);
-    }
-
-    private VBox createThirdQuestion() {
-        Label question = new Label("Mohlankana ea lulang \n lehaheng?");
-        question.setFont(Font.font("Arial", FontWeight.BOLD, 30));
-
-        Button[] options = {
-                createOption("Thimola", false, 2),
-                createOption("Leleme", true, 2),
-                createOption("Khoeli", false, 2),
-                createOption("Mokhubu", false, 2)
-        };
-
-        return createQuestionLayout(question, options);
-    }
-
-    private Button createOption(String text, boolean isCorrect, int levelIndex) {
+    private Button createOptionButton(String text, boolean isCorrect) {
         Button button = new Button(text);
-        button.setOnAction(e -> {
-            choices[levelIndex] = isCorrect;
-            if (levelIndex < VIEW_NAMES.length - 1) {
-                showLevel(levelIndex + 1);
-            } else {
-                showResults();
-            }
-        });
+        button.setOnAction(e -> handleAnswer(isCorrect));
         return button;
     }
 
-    private VBox createQuestionLayout(Label question, Button... options) {
-        VBox layout = new VBox(20);
-        layout.setAlignment(Pos.CENTER);
-        layout.getChildren().add(question);
-        layout.getChildren().addAll(options);
-        return layout;
+    private void handleAnswer(boolean isCorrect) {
+        levelResults[currentLevel] = isCorrect;
+        currentLevel++;
+
+        if (currentLevel < TOTAL_LEVELS) {
+            showLevel(currentLevel);
+        } else {
+            showResultsView();
+        }
     }
 
-    private void showResults() {
-        int correctAnswers = 0;
-        for (boolean choice : choices) {
-            if (choice) correctAnswers++;
+    private void showResultsView() {
+        int correctCount = countCorrectAnswers();
+        VBox resultsView = createResultsView(correctCount);
+        ScrollPane scrollPane = new ScrollPane(resultsView);
+        scrollPane.setFitToWidth(true);
+        setCenter(scrollPane);
+
+        if (correctCount == TOTAL_LEVELS) {
+            playSuccessAnimation();
+
+            // Create a container for the media view to ensure proper layout
+            StackPane mediaContainer = new StackPane(mediaView);
+            mediaContainer.setPadding(new Insets(10));
+            mediaContainer.setAlignment(Pos.CENTER);
+
+            resultsView.getChildren().add(mediaContainer);
+            PrimaryView.setLevelnum("1"); // Progress to next level
         }
+    }
 
-        // Initialize media components
-        Media media = new Media(getClass().getResource("/applauseV.mp4").toString());
-        Media mediaSound = new Media(getClass().getResource("/claps.mp3").toString());
-        mediaPlayer = new MediaPlayer(media);
-        mediaPlayerSound = new MediaPlayer(mediaSound);
-        mediaView = new MediaView(mediaPlayer);
-        mediaViewSound = new MediaView(mediaPlayerSound);
-        mediaView.setFitWidth(300);  // Set appropriate size
-        mediaView.setFitHeight(200);
+    private VBox createResultsView() {
+        return createResultsView(countCorrectAnswers());
+    }
 
-        // Play the video
-        mediaPlayer.setCycleCount(1); // Play only once
-        mediaPlayerSound.setCycleCount(2);
-
-
-        Label resultLabel = new Label("U fumane likarabo \n tse nepahetseng: " + correctAnswers + "/3");
+    private VBox createResultsView(int correctCount) {
+        Label resultLabel = new Label(String.format(
+                "U fumane likarabo \n tse nepahetseng tse: %d/%d",
+                correctCount, TOTAL_LEVELS
+        ));
         resultLabel.setFont(Font.font("Arial", FontWeight.BOLD, 24));
 
         Button homeButton = new Button("Ea Lapeng");
         homeButton.setOnAction(e -> {
-            onHidden();// Stop video when leaving
-            getAppManager().goHome();
-        });
-
-        VBox resultsView = new VBox(20, resultLabel, homeButton);
-        resultsView.setAlignment(Pos.CENTER);
-
-
-
-        if (correctAnswers == 3)
-        {
-            mediaPlayer.play();
-            mediaPlayerSound.play();
-            resultsView.getChildren().addAll(mediaView);
-            PrimaryView.setLevelnum("1");
-
-        }
-
-        ScrollPane scrollPane = new ScrollPane(resultsView);
-        scrollPane.setFitToWidth(true);
-        scrollPane.setFitToHeight(true);
-
-        setCenter(scrollPane);
-    }
-
-    @Override
-    protected void updateAppBar(AppBar appBar)
-    {
-        Button navButton = MaterialDesignIcon.ARROW_BACK.button(e ->
-                {
-                    getAppManager().goHome();
                     onHidden();
+                    getAppManager().goHome();
                 }
         );
 
-        appBar.setNavIcon(navButton);
+        Button retryButton = new Button("Leka ho Lekha");
+        retryButton.setOnAction(e -> loadFirstLevel());
+
+        VBox resultsBox = new VBox(20, resultLabel);
+        resultsBox.setAlignment(Pos.CENTER);
+
+        if (correctCount == TOTAL_LEVELS) {
+            resultsBox.getChildren().add(homeButton);
+            if (mediaView != null) {
+                resultsBox.getChildren().add(mediaView);
+            }
+        } else {
+            resultsBox.getChildren().addAll(retryButton, homeButton);
+        }
+
+        return resultsBox;
+    }
+
+    private int countCorrectAnswers() {
+        int count = 0;
+        for (boolean result : levelResults) {
+            if (result) count++;
+        }
+        return count;
+    }
+
+    private void playSuccessAnimation() {
+        cleanupMediaPlayers();
+
+        try {
+            Media videoMedia = new Media(getClass().getResource("/applauseV.mp4").toString());
+            Media audioMedia = new Media(getClass().getResource("/claps.mp3").toString());
+
+            videoPlayer = new MediaPlayer(videoMedia);
+            audioPlayer = new MediaPlayer(audioMedia);
+            mediaView = new MediaView(videoPlayer);
+
+            mediaView.setFitWidth(300);
+            mediaView.setFitHeight(200);
+            mediaView.setPreserveRatio(true);
+
+            // Ensure media is ready before playing
+            videoPlayer.setOnReady(() -> {
+                videoPlayer.play();
+                audioPlayer.play();
+            });
+
+            videoPlayer.setCycleCount(1);
+            audioPlayer.setCycleCount(2);
+
+        } catch (Exception e) {
+            System.err.println("Error loading media: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    private void cleanupMediaPlayers() {
+        if (videoPlayer != null) {
+            videoPlayer.stop();
+            videoPlayer.dispose();
+            videoPlayer = null;
+        }
+        if (audioPlayer != null) {
+            audioPlayer.stop();
+            audioPlayer.dispose();
+            audioPlayer = null;
+        }
+    }
+
+    @Override
+    protected void updateAppBar(AppBar appBar) {
+        appBar.setNavIcon(MaterialDesignIcon.ARROW_BACK.button(e -> {
+            cleanupMediaPlayers();
+            onHidden();
+            getAppManager().goHome();
+        }));
         appBar.setTitleText("PAPALI KA LILOTHO");
     }
 
+
     protected void onHidden() {
-        // Clean up media player when view is hidden
-        if ((mediaPlayer != null || mediaPlayerSound !=null) || (mediaPlayer != null && mediaPlayerSound !=null) )
-        {
-            mediaPlayerSound.stop();
-            mediaPlayerSound.dispose();
-            mediaPlayer.stop();
-            mediaPlayer.dispose();
-        }
+        cleanupMediaPlayers();
     }
 }
