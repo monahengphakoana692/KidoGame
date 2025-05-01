@@ -20,12 +20,14 @@ import javafx.scene.text.FontWeight;
 
 public class LilothoGame extends View {
 
-    private static final int TOTAL_LEVELS = 3;
-    private final boolean[] levelResults = new boolean[TOTAL_LEVELS];
+    private static final int LEVELS_PER_CATEGORY = 3;
+    private static final int TOTAL_CATEGORIES = 3;
+    private final boolean[] levelResults = new boolean[LEVELS_PER_CATEGORY];
     private MediaPlayer videoPlayer;
     private MediaPlayer audioPlayer;
     private MediaView mediaView;
     private int currentLevel = 0;
+    private int currentCategory = 0;
 
     public LilothoGame() {
         initializeUI();
@@ -34,6 +36,8 @@ public class LilothoGame extends View {
 
     private void initializeUI() {
         getStylesheets().add(getClass().getResource("primary.css").toExternalForm());
+        // Initialize current category from saved state
+        currentCategory = Integer.parseInt(PrimaryView.getLevelnum());
     }
 
     private void loadFirstLevel() {
@@ -65,23 +69,37 @@ public class LilothoGame extends View {
     }
 
     private VBox createQuestionView(int levelIndex) {
-        switch (levelIndex) {
-            case 0: return createQuestion(
-                    "'Me Nts'oare ke nye",
-                    new String[]{"Leihlo", "Tsebe", "Ngoana", "Nko"},
-                    3  // Correct answer index (Nko)
-            );
-            case 1: return createQuestion(
-                    "Ts'oene tse peli \n Lihloa thaba \n lisa e qete?",
-                    new String[]{"Matsoele", "Moriri", "Litsebe", "Li Ts'oene"},
-                    2  // Correct answer index (Litsebe)
-            );
-            case 2: return createQuestion(
-                    "Mohlankana ea lulang \n lehaheng?",
-                    new String[]{"Thimola", "Leleme", "Khoeli", "Mokhubu"},
-                    1  // Correct answer index (Leleme)
-            );
-            default: return createResultsView();
+        // Define all questions organized by category and level
+        String[][][] questions = {
+                // Category 0
+                {
+                        {"'Me Nts'oare ke nye", "Leihlo", "Tsebe", "Ngoana", "Nko", "3"},
+                        {"Ts'oene tse peli \n Lihloa thaba \n lisa e qete?", "Matsoele", "Moriri", "Litsebe", "Li Ts'oene", "2"},
+                        {"Mohlankana ea lulang \n lehaheng?", "Thimola", "Leleme", "Khoeli", "Mokhubu", "1"}
+                },
+                // Category 1
+                {
+                        {"Ka Qhala Phoofo \n ka ja mokotla? ", "Moholu", "Letlotlo", "Bolo", "chai", "1"},
+                        {"Maqheku a qabana ka lehaheng?", "Likhobe", "LIerekise", "Option 4", "2"},
+                        {"Question 3 Cat 1", "Option 1", "Option 2", "Option 3", "Option 4", "3"}
+                },
+                // Category 2
+                {
+                        {"Question 1 Cat 2", "Option 1", "Option 2", "Option 3", "Option 4", "0"},
+                        {"Question 2 Cat 2", "Option 1", "Option 2", "Option 3", "Option 4", "1"},
+                        {"Question 3 Cat 2", "Option 1", "Option 2", "Option 3", "Option 4", "2"}
+                }
+        };
+
+        if (currentCategory < TOTAL_CATEGORIES && levelIndex < LEVELS_PER_CATEGORY) {
+            String[] questionData = questions[currentCategory][levelIndex];
+            String questionText = questionData[0];
+            String[] options = {questionData[1], questionData[2], questionData[3], questionData[4]};
+            int correctIndex = Integer.parseInt(questionData[5]);
+
+            return createQuestion(questionText, options, correctIndex);
+        } else {
+            return createResultsView();
         }
     }
 
@@ -114,7 +132,7 @@ public class LilothoGame extends View {
         levelResults[currentLevel] = isCorrect;
         currentLevel++;
 
-        if (currentLevel < TOTAL_LEVELS) {
+        if (currentLevel < LEVELS_PER_CATEGORY) {
             showLevel(currentLevel);
         } else {
             showResultsView();
@@ -128,16 +146,20 @@ public class LilothoGame extends View {
         scrollPane.setFitToWidth(true);
         setCenter(scrollPane);
 
-        if (correctCount == TOTAL_LEVELS) {
+        if (correctCount == LEVELS_PER_CATEGORY) {
             playSuccessAnimation();
 
-            // Create a container for the media view to ensure proper layout
             StackPane mediaContainer = new StackPane(mediaView);
             mediaContainer.setPadding(new Insets(10));
             mediaContainer.setAlignment(Pos.CENTER);
 
             resultsView.getChildren().add(mediaContainer);
-            PrimaryView.setLevelnum("1"); // Progress to next level
+
+            // Progress to next category if available
+            if (currentCategory < TOTAL_CATEGORIES - 1) {
+                currentCategory++;
+                PrimaryView.setLevelnum(String.valueOf(currentCategory));
+            }
         }
     }
 
@@ -148,25 +170,34 @@ public class LilothoGame extends View {
     private VBox createResultsView(int correctCount) {
         Label resultLabel = new Label(String.format(
                 "U fumane likarabo \n tse nepahetseng tse: %d/%d",
-                correctCount, TOTAL_LEVELS
+                correctCount, LEVELS_PER_CATEGORY
         ));
         resultLabel.setFont(Font.font("Arial", FontWeight.BOLD, 24));
 
         Button homeButton = new Button("Ea Lapeng");
         homeButton.setOnAction(e -> {
-                    onHidden();
-                     getAppManager().goHome();
-                }
-        );
+            onHidden();
+            getAppManager().goHome();
+        });
 
         Button retryButton = new Button("Leka ho Lekha");
         retryButton.setOnAction(e -> loadFirstLevel());
 
+        Button nextCategoryButton = new Button("Category e 'ngoe");
+        nextCategoryButton.setOnAction(e -> {
+            currentLevel = 0;
+            showLevel(currentLevel);
+        });
+
         VBox resultsBox = new VBox(20, resultLabel);
         resultsBox.setAlignment(Pos.CENTER);
 
-        if (correctCount == TOTAL_LEVELS) {
-            resultsBox.getChildren().add(homeButton);
+        if (correctCount == LEVELS_PER_CATEGORY) {
+            if (currentCategory < TOTAL_CATEGORIES - 1) {
+                resultsBox.getChildren().add(nextCategoryButton);
+            } else {
+                resultsBox.getChildren().add(homeButton);
+            }
             if (mediaView != null) {
                 resultsBox.getChildren().add(mediaView);
             }
@@ -200,7 +231,6 @@ public class LilothoGame extends View {
             mediaView.setFitHeight(200);
             mediaView.setPreserveRatio(true);
 
-            // Ensure media is ready before playing
             videoPlayer.setOnReady(() -> {
                 videoPlayer.play();
                 audioPlayer.play();
@@ -235,9 +265,8 @@ public class LilothoGame extends View {
             onHidden();
             getAppManager().goHome();
         }));
-        appBar.setTitleText("PAPALI KA LILOTHO");
+        appBar.setTitleText("PAPALI KA LILOTHO - KAROLO EA: " + (currentCategory));
     }
-
 
     protected void onHidden() {
         cleanupMediaPlayers();

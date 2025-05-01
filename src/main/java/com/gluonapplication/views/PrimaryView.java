@@ -56,12 +56,17 @@ public class PrimaryView extends View
     protected void updateAppBar(AppBar appBar) {
         appBar.setNavIcon(MaterialDesignIcon.MENU.button(e -> getAppManager().getDrawer().open()));
         appBar.setTitleText("Primary");
-        appBar.getActionItems().add(new Label("LEVEL:"+Levelnum));
+        appBar.getActionItems().add(new Label("BOEMO: "+Levelnum));
     }
 
     public static void setLevelnum(String levelnum)
     {
         Levelnum = levelnum;
+    }
+
+    public static String getLevelnum()
+    {
+        return Levelnum;
     }
 
 
