@@ -21,9 +21,10 @@ public class LilothoGame extends View {
 
     private static final String[] VIEW_NAMES = {"FirstLevel", "SecondLevel", "ThirdLevel"};
     private boolean[] choices = new boolean[3];
-    private Media media;
     private MediaPlayer mediaPlayer;
+    private MediaPlayer mediaPlayerSound;
     private MediaView mediaView;
+    private MediaView mediaViewSound;
 
     public LilothoGame() {
         showLevel(0);
@@ -59,7 +60,7 @@ public class LilothoGame extends View {
         StackPane background = new StackPane();
         background.setMaxWidth(200);
         background.setMaxHeight(600);
-        background.setStyle("-fx-background-color:yellow;");
+        background.setStyle("-fx-background-color:transparent;");
         background.getChildren().addAll(imageView, questionBox);
         background.setPadding(new javafx.geometry.Insets(10, 10, 0, 10));
 
@@ -135,41 +136,73 @@ public class LilothoGame extends View {
             if (choice) correctAnswers++;
         }
 
+        // Initialize media components
+        Media media = new Media(getClass().getResource("/applauseV.mp4").toString());
+        Media mediaSound = new Media(getClass().getResource("/claps.mp3").toString());
+        mediaPlayer = new MediaPlayer(media);
+        mediaPlayerSound = new MediaPlayer(mediaSound);
+        mediaView = new MediaView(mediaPlayer);
+        mediaViewSound = new MediaView(mediaPlayerSound);
+        mediaView.setFitWidth(300);  // Set appropriate size
+        mediaView.setFitHeight(200);
+
+        // Play the video
+        mediaPlayer.setCycleCount(1); // Play only once
+        mediaPlayerSound.setCycleCount(2);
+
+
         Label resultLabel = new Label("U fumane likarabo \n tse nepahetseng: " + correctAnswers + "/3");
         resultLabel.setFont(Font.font("Arial", FontWeight.BOLD, 24));
 
         Button homeButton = new Button("Ea Lapeng");
-        homeButton.setOnAction(e -> getAppManager().goHome());
-        setVideoUrl("/wow.mp4");
-        mediaPlayer.play();
-        VBox resultsView = new VBox(20, mediaView,resultLabel, homeButton);
+        homeButton.setOnAction(e -> {
+            onHidden();// Stop video when leaving
+            getAppManager().goHome();
+        });
+
+        VBox resultsView = new VBox(20, resultLabel, homeButton);
         resultsView.setAlignment(Pos.CENTER);
+
+
+
+        if (correctAnswers == 3)
+        {
+            mediaPlayer.play();
+            mediaPlayerSound.play();
+            resultsView.getChildren().addAll(mediaView);
+            PrimaryView.setLevelnum("1");
+
+        }
 
         ScrollPane scrollPane = new ScrollPane(resultsView);
         scrollPane.setFitToWidth(true);
         scrollPane.setFitToHeight(true);
 
         setCenter(scrollPane);
-
-        if (correctAnswers == 3)
-        {
-
-
-            PrimaryView.setLevelnum("1");
-        }
     }
 
     @Override
-    protected void updateAppBar(AppBar appBar) {
-        Button navButton = MaterialDesignIcon.ARROW_BACK.button(e -> getAppManager().goHome());
+    protected void updateAppBar(AppBar appBar)
+    {
+        Button navButton = MaterialDesignIcon.ARROW_BACK.button(e ->
+                {
+                    getAppManager().goHome();
+                    onHidden();
+                }
+        );
+
         appBar.setNavIcon(navButton);
         appBar.setTitleText("PAPALI KA LILOTHO");
     }
 
-    public void setVideoUrl(String url)
-    {
-        media = new Media(url.toString());
-        mediaPlayer = new MediaPlayer(media);
-        mediaView = new MediaView(mediaPlayer);
+    protected void onHidden() {
+        // Clean up media player when view is hidden
+        if ((mediaPlayer != null || mediaPlayerSound !=null) || (mediaPlayer != null && mediaPlayerSound !=null) )
+        {
+            mediaPlayerSound.stop();
+            mediaPlayerSound.dispose();
+            mediaPlayer.stop();
+            mediaPlayer.dispose();
+        }
     }
 }
