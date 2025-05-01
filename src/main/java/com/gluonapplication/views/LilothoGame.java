@@ -155,7 +155,7 @@ public class LilothoGame extends View {
         Button homeButton = new Button("Ea Lapeng");
         homeButton.setOnAction(e -> {
                     onHidden();
-                    getAppManager().goHome();
+                     getAppManager().goHome();
                 }
         );
 
