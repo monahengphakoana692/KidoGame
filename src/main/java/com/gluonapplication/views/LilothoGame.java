@@ -143,6 +143,11 @@ public class LilothoGame extends View {
         scrollPane.setFitToHeight(true);
 
         setCenter(scrollPane);
+
+        if (correctAnswers == 3)
+        {
+            PrimaryView.setLevelnum("1");
+        }
     }
 
     @Override

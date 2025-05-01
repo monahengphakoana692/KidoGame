@@ -1,11 +1,9 @@
 package com.gluonapplication.views;
 
 import com.gluonhq.charm.glisten.control.AppBar;
-import com.gluonhq.charm.glisten.control.Icon;
 import com.gluonhq.charm.glisten.mvc.View;
 import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
@@ -13,7 +11,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-public class PrimaryView extends View {
+public class PrimaryView extends View
+{
+    private static String Levelnum = "0";
 
     public PrimaryView()
     {
@@ -56,9 +56,13 @@ public class PrimaryView extends View {
     protected void updateAppBar(AppBar appBar) {
         appBar.setNavIcon(MaterialDesignIcon.MENU.button(e -> getAppManager().getDrawer().open()));
         appBar.setTitleText("Primary");
-        appBar.getActionItems().add(MaterialDesignIcon.SEARCH.button(e -> System.out.println("Search")));
+        appBar.getActionItems().add(new Label("LEVEL:"+Levelnum));
     }
 
+    public static void setLevelnum(String levelnum)
+    {
+        Levelnum = levelnum;
+    }
 
 
 }
