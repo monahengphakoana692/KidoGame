@@ -79,15 +79,15 @@ public class LilothoGame extends View {
                 },
                 // Category 1
                 {
-                        {"Ka Qhala Phoofo \n ka ja mokotla? ", "Moholu", "Letlotlo", "Bolo", "chai", "1"},
-                        {"Maqheku a qabana ka lehaheng?", "Likhobe", "LIerekise", "Option 4", "2"},
-                        {"Question 3 Cat 1", "Option 1", "Option 2", "Option 3", "Option 4", "3"}
+                        {"Ka Qhala Phoofo \n ka ja mokotla? ", "Moholu", "Letlotlo", "Bolo", "chai", "0"},
+                        {"Maqheku a qabana ka lehaheng?", "Likhobe","LIerekise", "Limathi", "Ntate mohole le Nkhono", "0"},
+                        {"Thankha-Thankha ketla tsoalla kae?", "Lihaba ha li hola", "Khomo", "Mokopu ha u nama", "Lebese", "2"}
                 },
                 // Category 2
                 {
-                        {"Question 1 Cat 2", "Option 1", "Option 2", "Option 3", "Option 4", "0"},
-                        {"Question 2 Cat 2", "Option 1", "Option 2", "Option 3", "Option 4", "1"},
-                        {"Question 3 Cat 2", "Option 1", "Option 2", "Option 3", "Option 4", "2"}
+                        {"Phate li ea lekana?", "Likobo", "Lefats'e", "Leholimo le Lefats'e", "Leholimo", "2"},
+                        {"Mala a nku marang-rang?", "Boea", "Moholu", "Moraha ka sakeng", "Mohloa", "3"},
+                        {"Setoto se tlala ntlo?", "Moraha ka sakeng", "Metsi", "Jwala bo qhalaneng", "Bana ba hae", "0"}
                 }
         };
 
@@ -181,12 +181,17 @@ public class LilothoGame extends View {
         });
 
         Button retryButton = new Button("Leka ho Lekha");
-        retryButton.setOnAction(e -> loadFirstLevel());
+        retryButton.setOnAction(e -> {
+            onHidden();
+            loadFirstLevel();
 
-        Button nextCategoryButton = new Button("Category e 'ngoe");
+        });
+
+        Button nextCategoryButton = new Button("Karolo e 'ngoe");
         nextCategoryButton.setOnAction(e -> {
             currentLevel = 0;
             showLevel(currentLevel);
+            HoldMediaPlayers();
         });
 
         VBox resultsBox = new VBox(20, resultLabel);
@@ -255,6 +260,18 @@ public class LilothoGame extends View {
             audioPlayer.stop();
             audioPlayer.dispose();
             audioPlayer = null;
+        }
+    }
+    private void HoldMediaPlayers() {
+        if (videoPlayer != null) {
+            videoPlayer.stop();
+
+
+        }
+        if (audioPlayer != null) {
+            audioPlayer.stop();
+
+
         }
     }
 
