@@ -17,7 +17,8 @@ public class Catagories extends View {
     public static final String LIPAPALI_VIEW = "Lipapali";
 
     // Game instances
-    private  LilothoGame lilothoGame;
+    private  LevelsView levelsView;
+    private  LevelsView2 levelsView2;
     //private final MaeleGame maeleGame = new MaeleGame(); // You'll need to create this class
     //private final LipapaliGame lipapaliGame = new LipapaliGame(); // You'll need to create this class
 
@@ -77,17 +78,18 @@ public class Catagories extends View {
 
     public void showGame(String viewName) {
         try {
-            lilothoGame = new LilothoGame();
+            levelsView = new LevelsView();
+            levelsView2 = new LevelsView2();
             if (getAppManager() != null) {
                 // Check if view exists by attempting to switch to it
                 try {
                     getAppManager().switchView(viewName);
                     switch (viewName) {
                         case LILOTHO_VIEW:
-                            getAppManager().addViewFactory(viewName, () -> lilothoGame);
+                            getAppManager().addViewFactory(viewName, () -> levelsView);
                             break;
                         case MAELE_VIEW:
-                            // getAppManager().addViewFactory(viewName, () -> maeleGame);
+                            getAppManager().addViewFactory(viewName, () -> levelsView2);
                             break;
                         case LIPAPALI_VIEW:
                             // getAppManager().addViewFactory(viewName, () -> lipapaliGame);

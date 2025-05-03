@@ -29,8 +29,10 @@ public class LilothoGame extends View {
     private int currentLevel = 0;
     private int currentCategory = 0;
 
-    public LilothoGame() {
+    public LilothoGame()
+    {
         initializeUI();
+
         loadFirstLevel();
     }
 
@@ -45,7 +47,7 @@ public class LilothoGame extends View {
         showLevel(currentLevel);
     }
 
-    private void showLevel(int levelIndex) {
+    public void showLevel(int levelIndex) {
         VBox questionView = createQuestionView(levelIndex);
         StackPane levelContainer = createLevelContainer(questionView);
         setCenter(levelContainer);
@@ -149,10 +151,25 @@ public class LilothoGame extends View {
         if (correctCount == LEVELS_PER_CATEGORY) {
             playSuccessAnimation();
 
+            // Update icons based on current level progression
+            switch(PrimaryView.getLevelnum()) {
+                case "1":
+                    LevelsView.setL1Icon("/win1.png");
+                    break;
+                case "2":
+                    LevelsView.setL2Icon("/win2.png");
+                    break;
+                case "3":
+                    LevelsView.setL3Icon("/win3.png");
+                    break;
+            }
+
+            // Refresh the levels view
+            getAppManager().switchView("LevelsView");
+
             StackPane mediaContainer = new StackPane(mediaView);
             mediaContainer.setPadding(new Insets(10));
             mediaContainer.setAlignment(Pos.CENTER);
-
             resultsView.getChildren().add(mediaContainer);
 
             // Progress to next category if available
@@ -188,7 +205,8 @@ public class LilothoGame extends View {
         });
 
         Button nextCategoryButton = new Button("Karolo e 'ngoe");
-        nextCategoryButton.setOnAction(e -> {
+        nextCategoryButton.setOnAction(e ->
+        {
             currentLevel = 0;
             showLevel(currentLevel);
             HoldMediaPlayers();
@@ -287,5 +305,11 @@ public class LilothoGame extends View {
 
     protected void onHidden() {
         cleanupMediaPlayers();
+    }
+
+    public void seeLevels()
+    {
+        LevelsView levelsView = new LevelsView();
+        setCenter(levelsView);
     }
 }
