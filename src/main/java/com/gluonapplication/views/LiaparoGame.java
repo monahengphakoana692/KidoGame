@@ -18,7 +18,7 @@ import javafx.scene.media.MediaView;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
-public class MaeleGame extends View {
+public class LiaparoGame extends View {
 
     private static final int LEVELS_PER_CATEGORY = 3;
     private static final int TOTAL_CATEGORIES = 3;
@@ -29,27 +29,25 @@ public class MaeleGame extends View {
     private int currentLevel = 0;
     private int currentCategory = 0;
 
-    public MaeleGame()
+    public LiaparoGame()
     {
         initializeUI();
+
         loadFirstLevel();
     }
 
-    private void initializeUI()
-    {
+    private void initializeUI() {
         getStylesheets().add(getClass().getResource("primary.css").toExternalForm());
         // Initialize current category from saved state
         currentCategory = Integer.parseInt(PrimaryView.getLevelnum());
     }
 
-    private void loadFirstLevel()
-    {
+    private void loadFirstLevel() {
         currentLevel = 0;
         showLevel(currentLevel);
     }
 
-    public void showLevel(int levelIndex)
-    {
+    public void showLevel(int levelIndex) {
         VBox questionView = createQuestionView(levelIndex);
         StackPane levelContainer = createLevelContainer(questionView);
         setCenter(levelContainer);
@@ -74,51 +72,37 @@ public class MaeleGame extends View {
 
     private VBox createQuestionView(int levelIndex) {
         // Define all questions organized by category and level
-        String[][][] questions = new String[6][3][5];
-        questions[3] = new String[][] {
-                {"Khomo ea lebese ha e itsoale?", "Ha ho motho a iketsetsang lintho", "Hase ha ngata ngoana \n aka futsang Motsoali ka matla ", "Batho ba thusana", "Motho a phelang ka litsietse", "1"},
-                {"Khomo Lija Tika Motse?", "Batho ba sebetsa ntse ba orohela hae", "Batho baja", "Batho ba bitsoa moketeng", "Masholu ka hara motse", "0"},
-                {"Khomo li ne li tseba Monoang?", "Thimola", "Motho a phelang ka litsietse ", "Motho a phelang ka ho Hlorisoa", "Mokhubu", "1"}
+        String[][][] questions = {
+                // Category 0
+                {
+                        {"Khomo ea lebese ha e itsoale?", "Ha ho motho a iketsetsang lintho", "Hase ha ngata ngoana \n aka futsang Motsoali ka matla ", "Batho ba thusana", "Motho a phelang ka litsietse", "1"},
+                        {"Khomo Lija Tika Motse?", "Batho ba sebetsa ntse ba orohela hae", "Batho baja", "Batho ba bitsoa moketeng", "Masholu ka hara motse", "0"},
+                        {"Khomo li ne li tseba Monoang?", "Thimola", "Motho a phelang ka litsietse ", "Motho a phelang ka ho Hlorisoa", "Mokhubu", "1"}
+                },
+                // Category 1
+                {
+                        {"Lefura la monga khomo le psheisa mongalona? ", "Moholu", "Letlotlo", "Bolo", "chai", "0"},
+                        {"Khomo e thibela lerumo? ", "Ho hlaba khomo nakong ea mokete","Khomo e thusana li nthong tse ngata", "Bophelo ba motho bo bohlokoa ho feta leruo", "Motho o etsa sehlabelo ka ena ho thusa ba bang", "2"},
+                        {"Nama e ka mpeng ho khome?", "Ho se bui litaba ha ho hlokala", "Ho pata litaba", "Ke lekunutu kapa pinyane", "Ho iphapanya", "2"}
+                },
+                // Category 2
+                {
+                        {"Moketa Khomo o nonela tlhakong?", "Monna o nyala ngaoana ena ale moholo", "Monna aka na nyala moqekoa a holileng ho mo thusa", "Ngoana o holela mosebetsing", "Motho o holisoa ke ho sebetsa", "1"},
+                        {"Ke u tsoela Khomo?", "Motho a senyang nako, a etsa seo se sa motsoeleng molemo", "Moholu", "Moraha ka sakeng", "Mohloa", "3"},
+                        {"Ho tlola Khomo?", "Moraha ka sakeng", "Ho senyeheloa", "Jwala bo qhalaneng", "Bana ba hae", "1"}
+                }
         };
 
-        questions[4] = new String[][] {
-                {"Lefura la monga khomo le psheisa mongalona? ", "Moholu", "Letlotlo", "Bolo", "chai", "0"},
-                {"Khomo e thibela lerumo? ", "Ho hlaba khomo nakong ea mokete","Khomo e thusana li nthong tse ngata", "Bophelo ba motho bo bohlokoa ho feta leruo", "Motho o etsa sehlabelo ka ena ho thusa ba bang", "2"},
-                {"Nama e ka mpeng ho khome?", "Ho se bui litaba ha ho hlokala", "Ho pata litaba", "Ke lekunutu kapa pinyane", "Ho iphapanya", "2"}
-        };
+        if (currentCategory < TOTAL_CATEGORIES && levelIndex < LEVELS_PER_CATEGORY) {
+            String[] questionData = questions[currentCategory][levelIndex];
+            String questionText = "Khetha tlhaloso ea Leele le latelang: \n" + questionData[0];
+            String[] options = {questionData[1], questionData[2], questionData[3], questionData[4]};
+            int correctIndex = Integer.parseInt(questionData[5]);
 
-        questions[5] = new String[][] {
-                {"Moketa Khomo o nonela tlhakong?", "Monna o nyala ngaoana ena ale moholo", "Monna aka na nyala moqekoa a holileng ho mo thusa", "Ngoana o holela mosebetsing", "Motho o holisoa ke ho sebetsa", "1"},
-                {"Ke u tsoela Khomo?", "Motho a senyang nako, a etsa seo se sa motsoeleng molemo", "Moholu", "Moraha ka sakeng", "Mohloa", "3"},
-                {"Ho tlola Khomo?", "Moraha ka sakeng", "Ho senyeheloa", "Jwala bo qhalaneng", "Bana ba hae", "1"}
-        };
-
-        int adjustedCategory = currentCategory - 1;
-
-// Check if the category exists and has questions
-        if (adjustedCategory >= 0 && adjustedCategory < questions.length &&
-                questions[adjustedCategory] != null &&  // Check if category exists
-                levelIndex < LEVELS_PER_CATEGORY &&
-                levelIndex < questions[adjustedCategory].length) {  // Check if level exists
-
-            String[] questionData = questions[adjustedCategory][levelIndex];
-
-            // Additional safety check for question data
-            if (questionData != null && questionData.length >= 6) {  // Ensure we have all required elements
-                String questionText = "Khetha tlhaloso ea Leele le latelang: \n" + questionData[0];
-                String[] options = {
-                        questionData[1],
-                        questionData[2],
-                        questionData[3],
-                        questionData[4]
-                };
-                int correctIndex = Integer.parseInt(questionData[5]);
-
-                return createQuestion(questionText, options, correctIndex);
-            }
+            return createQuestion(questionText, options, correctIndex);
+        } else {
+            return createResultsView();
         }
-// If any check fails, return results view
-        return createResultsView();
     }
 
     private VBox createQuestion(String questionText, String[] options, int correctIndex) {
@@ -169,13 +153,13 @@ public class MaeleGame extends View {
 
             // Update icons based on current level progression
             switch(PrimaryView.getLevelnum()) {
-                case "4":
+                case "1":
                     LevelsView.setL1Icon("/win1.png");
                     break;
-                case "5":
+                case "2":
                     LevelsView.setL2Icon("/win2.png");
                     break;
-                case "6":
+                case "3":
                     LevelsView.setL3Icon("/win3.png");
                     break;
             }
@@ -316,13 +300,16 @@ public class MaeleGame extends View {
             onHidden();
             getAppManager().goHome();
         }));
-        // Show the actual level number (4-12) instead of category number
-        int displayLevel = (currentCategory + 1) * LEVELS_PER_CATEGORY + currentLevel + 1;
-        appBar.setTitleText("PAPALI KA MAELE - BOEMONG BA: " + displayLevel);
+        appBar.setTitleText("PAPALI KA LILOTHO - KAROLO EA: " + (currentCategory));
     }
 
     protected void onHidden() {
         cleanupMediaPlayers();
     }
 
+    public void seeLevels()
+    {
+        LevelsView levelsView = new LevelsView();
+        setCenter(levelsView);
+    }
 }

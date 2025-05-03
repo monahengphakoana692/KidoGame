@@ -21,7 +21,7 @@ import javafx.scene.text.FontWeight;
 public class LilothoGame extends View {
 
     private static final int LEVELS_PER_CATEGORY = 3;
-    private static final int TOTAL_CATEGORIES = 3;
+    private static final int TOTAL_CATEGORIES = 5;
     private final boolean[] levelResults = new boolean[LEVELS_PER_CATEGORY];
     private MediaPlayer videoPlayer;
     private MediaPlayer audioPlayer;
@@ -207,8 +207,7 @@ public class LilothoGame extends View {
         Button nextCategoryButton = new Button("Karolo e 'ngoe");
         nextCategoryButton.setOnAction(e ->
         {
-            currentLevel = 0;
-            showLevel(currentLevel);
+           getAppManager().goHome();
             HoldMediaPlayers();
         });
 

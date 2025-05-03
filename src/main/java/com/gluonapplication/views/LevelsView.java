@@ -1,6 +1,8 @@
 package com.gluonapplication.views;
 
+import com.gluonhq.charm.glisten.control.AppBar;
 import com.gluonhq.charm.glisten.mvc.View;
+import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
@@ -179,8 +181,10 @@ public class LevelsView extends View
                             }
                             break;
                         case LEVEL3:
-                            lilothoGame.showLevel(2);
-                            getAppManager().addViewFactory(viewName, () -> lilothoGame);
+                            if(PrimaryView.getLevelnum().equals("2")) {
+                                lilothoGame.showLevel(2);
+                                getAppManager().addViewFactory(viewName, () -> lilothoGame);
+                            }
                             break;
                     }
                 } catch (Exception e) {
@@ -188,7 +192,7 @@ public class LevelsView extends View
                 }
             }
         } catch (Exception e) {
-            showAlert("Error switching view: " + e.getMessage());
+            showAlert("Error switching view: 1" + e.getMessage());
         }
     }
 
@@ -198,6 +202,15 @@ public class LevelsView extends View
         alert.setHeaderText("An error occurred");
         alert.setContentText(error);
         alert.showAndWait();
+    }
+
+    @Override
+    protected void updateAppBar(AppBar appBar) {
+        appBar.setNavIcon(MaterialDesignIcon.ARROW_BACK.button(e -> {
+
+            getAppManager().goHome();
+        }));
+        appBar.setTitleText("PAPALI KA LILOTHO - KAROLO EA: " + (PrimaryView.getLevelnum()));
     }
 
 

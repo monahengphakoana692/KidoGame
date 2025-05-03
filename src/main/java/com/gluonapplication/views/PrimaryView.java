@@ -26,11 +26,11 @@ public class PrimaryView extends View
         imageView.setPreserveRatio(false);
         StackPane background1 = new StackPane();
         background1.setMaxWidth(200);
-        background1.setMaxHeight(600);
+        background1.setMaxHeight(700);
         background1.setStyle("-fx-background-color:yellow;");
 
         imageView.setFitWidth(315);
-        imageView.setFitHeight(600);
+        imageView.setFitHeight(900);
 
         background1.getChildren().addAll(imageView,homeView.getBackgroundLayout());
         background1.setPadding(new javafx.geometry.Insets(10, 10, 0, 10));

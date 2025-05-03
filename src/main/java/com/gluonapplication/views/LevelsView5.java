@@ -16,13 +16,13 @@ import javafx.scene.layout.VBox;
 
 import javax.swing.*;
 
-public class LevelsView2 extends View
+public class LevelsView5 extends View
 {
     // Constants for view names
-    public static final String LEVEL1 = "Level4";
+    public static final String LEVEL1 = "Level1";
 
-    public static final String LEVEL2 = "Level5";
-    public static final String LEVEL3 = "Level6";
+    public static final String LEVEL2 = "Level2";
+    public static final String LEVEL3 = "Level3";
 
     private static String L1Icon = "/L1.png";
     private static String L2Icon = "/L2.png";
@@ -56,13 +56,15 @@ public class LevelsView2 extends View
 
 
     // Game instances
-    private MaeleGame    MaeleGame;
+    private LiaparoGame  liaparoGame;
+    //private final MaeleGame maeleGame = new MaeleGame(); // You'll need to create this class
+    //private final LipapaliGame lipapaliGame = new LipapaliGame(); // You'll need to create this class
     private VBox level1Box;
     private VBox level2Box;
     private VBox level3Box;
     private VBox mainContainer;
 
-    public LevelsView2()
+    public LevelsView5()
     {
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setFitToWidth(true);
@@ -130,10 +132,39 @@ public class LevelsView2 extends View
 
         return levelBox;
     }
+
+    private VBox createCategoryBox(String imagePath, String title, String viewName, String style) {
+        VBox categoryBox = new VBox(10);
+        categoryBox.setAlignment(Pos.TOP_CENTER);
+        categoryBox.setPadding(new Insets(10));
+        categoryBox.setMaxWidth(150);
+        categoryBox.setStyle(style);
+
+        try {
+            Image image = new Image(imagePath);
+            ImageView imageView = new ImageView(image);
+            imageView.setFitWidth(150);
+            imageView.setFitHeight(150);
+            imageView.setPreserveRatio(true);
+            imageView.setOnMouseClicked(event -> showGame(viewName));
+
+            Label label = new Label(title);
+            label.setAlignment(Pos.CENTER);
+            label.setStyle("-fx-font-weight: bold;");
+
+            categoryBox.getChildren().addAll(imageView, label);
+        } catch (Exception e) {
+            showAlert("Error loading category: " + e.getMessage());
+        }
+
+        return categoryBox;
+    }
+
     public void showGame(String viewName) {
         try {
-            //lilothoGame = new LilothoGame();
-            MaeleGame   = new MaeleGame();
+
+
+            liaparoGame = new LiaparoGame();
 
 
             if (getAppManager() != null) {
@@ -142,22 +173,20 @@ public class LevelsView2 extends View
                     getAppManager().switchView(viewName);
                     switch (viewName) {
                         case LEVEL1:
-                            if(PrimaryView.getLevelnum().equals("3")) {
-                                MaeleGame.showLevel(4);
-                                getAppManager().addViewFactory(viewName, () -> MaeleGame);
-                            }
+                            liaparoGame.showLevel(0);
+                            getAppManager().addViewFactory(viewName, () -> liaparoGame);
                             break;
                         case LEVEL2:
-                            if(PrimaryView.getLevelnum().equals("4"))
+                            if(PrimaryView.getLevelnum().equals("1"))
                             {
-                                MaeleGame.showLevel(5);
-                                getAppManager().addViewFactory(viewName, () -> MaeleGame);
+                                liaparoGame.showLevel(1);
+                                getAppManager().addViewFactory(viewName, () -> liaparoGame);
                             }
                             break;
                         case LEVEL3:
-                            if(PrimaryView.getLevelnum().equals("5")) {
-                                MaeleGame.showLevel(6);
-                                getAppManager().addViewFactory(viewName, () -> MaeleGame);
+                            if(PrimaryView.getLevelnum().equals("2")) {
+                                liaparoGame.showLevel(2);
+                                getAppManager().addViewFactory(viewName, () -> liaparoGame);
                             }
                             break;
                     }
@@ -184,7 +213,7 @@ public class LevelsView2 extends View
 
             getAppManager().goHome();
         }));
-        appBar.setTitleText("PAPALI KA MAELE - KAROLO EA: " + (PrimaryView.getLevelnum()));
+        appBar.setTitleText("PAPALI KA LIJO - KAROLO EA: " + (PrimaryView.getLevelnum()));
     }
 
 
