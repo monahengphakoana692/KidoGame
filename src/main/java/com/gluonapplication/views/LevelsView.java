@@ -29,29 +29,30 @@ public class LevelsView extends View
     private static String L3Icon= "/L3.png";
 
 
-    public static  String getL1Icon() {
+    public   String getL1Icon() {
         return L1Icon;
     }
 
-    public static void setL1Icon(String l1Icon) {
+    public  void setL1Icon(String l1Icon) {
         L1Icon = l1Icon;
     }
 
-    public static  String getL2Icon() {
+    public   String getL2Icon() {
         return L2Icon;
     }
 
-    public static void setL2Icon(String l2Icon) {
+    public  void setL2Icon(String l2Icon) {
         L2Icon = l2Icon;
     }
 
-    public static String getL3Icon() {
+    public  String getL3Icon() {
         return L3Icon;
     }
 
-    public static void setL3Icon(String l3Icon) {
+    public  void setL3Icon(String l3Icon) {
         L3Icon = l3Icon;
     }
+
 
 
 
@@ -59,10 +60,10 @@ public class LevelsView extends View
     private  LilothoGame lilothoGame;
     //private final MaeleGame maeleGame = new MaeleGame(); // You'll need to create this class
     //private final LipapaliGame lipapaliGame = new LipapaliGame(); // You'll need to create this class
-    private VBox level1Box;
-    private VBox level2Box;
-    private VBox level3Box;
-    private VBox mainContainer;
+    static VBox level1Box;
+    static VBox level2Box;
+    static VBox level3Box;
+    static VBox mainContainer;
 
     public LevelsView()
     {
@@ -87,7 +88,7 @@ public class LevelsView extends View
         setCenter(scrollPane);
     }
 
-    private void refreshLevelBoxes() {
+    public void refreshLevelBoxes() {
         // Clear existing boxes
         mainContainer.getChildren().clear();
 

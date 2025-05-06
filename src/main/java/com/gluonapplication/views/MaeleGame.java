@@ -28,6 +28,7 @@ public class MaeleGame extends View {
     private MediaView mediaView;
     private int currentLevelIndex = 0; // Index within current category (0-2)
     private int currentCategory;      // Category index (3-5)
+    private LevelsView2 levelsView;
 
     public MaeleGame() {
         initializeUI();
@@ -178,17 +179,17 @@ public class MaeleGame extends View {
             // Update icons based on current category progression
             switch(currentCategory) {
                 case 3:
-                    LevelsView.setL1Icon("/win1.png");
+                    levelsView.setL1Icon("/win1.png");
                     // Unlock next category (4)
                     PrimaryView.setLevelnum("4");
                     break;
                 case 4:
-                    LevelsView.setL2Icon("/win2.png");
+                    levelsView.setL2Icon("/win2.png");
                     // Unlock next category (5)
                     PrimaryView.setLevelnum("5");
                     break;
                 case 5:
-                    LevelsView.setL3Icon("/win3.png");
+                    levelsView.setL3Icon("/win3.png");
                     // All categories completed
                     break;
             }

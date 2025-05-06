@@ -31,6 +31,7 @@ public class LijoGame extends View {
     Media video ;
     MediaPlayer mediaPlayer;
     MediaView videoView;
+    private LevelsView5 levelsView;
 
     public LijoGame() {
         initializeUI();
@@ -185,17 +186,17 @@ public class LijoGame extends View {
             // Update icons based on current category progression
             switch(currentCategory) {
                 case 12:
-                    LevelsView.setL1Icon("/win1.png");
+                    levelsView.setL1Icon("/win1.png");
                     // Unlock next category (7)
                     PrimaryView.setLevelnum("13");
                     break;
                 case 13:
-                    LevelsView.setL2Icon("/win2.png");
+                    levelsView.setL2Icon("/win2.png");
                     // Unlock next category (8)
                     PrimaryView.setLevelnum("14");
                     break;
                 case 14:
-                    LevelsView.setL3Icon("/win3.png");
+                    levelsView.setL3Icon("/win3.png");
                     // All categories completed
                     break;
             }

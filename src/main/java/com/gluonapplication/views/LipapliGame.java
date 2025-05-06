@@ -31,6 +31,7 @@ public class LipapliGame extends View {
     Media video ;
     MediaPlayer mediaPlayer;
     MediaView videoView;
+    private LevelsView3 levelsView;
 
     public LipapliGame() {
         initializeUI();
@@ -185,17 +186,17 @@ public class LipapliGame extends View {
             // Update icons based on current category progression
             switch(currentCategory) {
                 case 6:
-                    LevelsView.setL1Icon("/win1.png");
+                    levelsView.setL1Icon("/win1.png");
                     // Unlock next category (7)
                     PrimaryView.setLevelnum("7");
                     break;
                 case 7:
-                    LevelsView.setL2Icon("/win2.png");
+                    levelsView.setL2Icon("/win2.png");
                     // Unlock next category (8)
                     PrimaryView.setLevelnum("8");
                     break;
                 case 8:
-                    LevelsView.setL3Icon("/win3.png");
+                    levelsView.setL3Icon("/win3.png");
                     // All categories completed
                     break;
             }

@@ -31,6 +31,7 @@ public class LiaparoGame extends View {
     Media video ;
     MediaPlayer mediaPlayer;
     MediaView videoView;
+    private LevelsView4 levelsView;
 
     public LiaparoGame() {
         initializeUI();
@@ -185,17 +186,17 @@ public class LiaparoGame extends View {
             // Update icons based on current category progression
             switch(currentCategory) {
                 case 9:
-                    LevelsView.setL1Icon("/win1.png");
+                    levelsView.setL1Icon("/win1.png");
                     // Unlock next category (7)
                     PrimaryView.setLevelnum("10");
                     break;
                 case 10:
-                    LevelsView.setL2Icon("/win2.png");
+                    levelsView.setL2Icon("/win2.png");
                     // Unlock next category (8)
                     PrimaryView.setLevelnum("11");
                     break;
                 case 11:
-                    LevelsView.setL3Icon("/win3.png");
+                    levelsView.setL3Icon("/win3.png");
                     // All categories completed
                     break;
             }

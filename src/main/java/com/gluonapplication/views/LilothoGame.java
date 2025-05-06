@@ -28,6 +28,7 @@ public class LilothoGame extends View {
     private MediaView mediaView;
     private int currentLevel = 0;
     private int currentCategory = 0;
+    private LevelsView levelsView;
 
     public LilothoGame()
     {
@@ -168,13 +169,13 @@ public class LilothoGame extends View {
             // Update icons based on current level progression
             switch(PrimaryView.getLevelnum()) {
                 case "1":
-                    LevelsView.setL1Icon("/win1.png");
+                    levelsView.setL1Icon("/win1.png");
                     break;
                 case "2":
-                    LevelsView.setL2Icon("/win2.png");
+                    levelsView.setL2Icon("/win2.png");
                     break;
                 case "3":
-                    LevelsView.setL3Icon("/win3.png");
+                    levelsView.setL3Icon("/win3.png");
                     break;
             }
 
