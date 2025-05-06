@@ -29,6 +29,7 @@ public class HomeView extends View
         return  backgroundLayout;
     }
 
+
     public Label getTitle()
     {
         String title = "Khetha Papali eo u ka e bapalang";

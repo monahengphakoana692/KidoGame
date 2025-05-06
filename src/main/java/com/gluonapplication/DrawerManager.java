@@ -15,7 +15,7 @@ import javafx.scene.image.Image;
 import static com.gluonapplication.GluonApplication.*;
 import static com.gluonhq.charm.glisten.application.AppManager.HOME_VIEW;
 
-public class DrawerManager {
+  public class DrawerManager {
 
     public static void buildDrawer(AppManager app) {
         NavigationDrawer drawer = app.getDrawer();
