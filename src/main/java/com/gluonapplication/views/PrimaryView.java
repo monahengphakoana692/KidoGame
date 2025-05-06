@@ -13,7 +13,7 @@ import javafx.scene.layout.VBox;
 
 public class PrimaryView extends View
 {
-    private static String Levelnum = "0";
+    private static String Levelnum = "6";
 
     public PrimaryView()
     {

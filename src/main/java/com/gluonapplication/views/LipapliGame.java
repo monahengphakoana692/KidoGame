@@ -26,13 +26,14 @@ public class LipapliGame extends View {
     private MediaPlayer videoPlayer;
     private MediaPlayer audioPlayer;
     private MediaView mediaView;
-    private int currentLevel = 0;
-    private int currentCategory = 0;
+    private int currentLevelIndex = 0; // Index within current category (0-2)
+    private int currentCategory;      // Category index (6-8)
+    Media video ;
+    MediaPlayer mediaPlayer;
+    MediaView videoView;
 
-    public LipapliGame()
-    {
+    public LipapliGame() {
         initializeUI();
-
         loadFirstLevel();
     }
 
@@ -43,8 +44,8 @@ public class LipapliGame extends View {
     }
 
     private void loadFirstLevel() {
-        currentLevel = 0;
-        showLevel(currentLevel);
+        currentLevelIndex = 0; // Always start at first question of category
+        showLevel(currentLevelIndex);
     }
 
     public void showLevel(int levelIndex) {
@@ -72,40 +73,70 @@ public class LipapliGame extends View {
 
     private VBox createQuestionView(int levelIndex) {
         // Define all questions organized by category and level
-        String[][][] questions = {
-                // Category 0
-                {
-                        {"Khomo ea lebese ha e itsoale?", "Ha ho motho a iketsetsang lintho", "Hase ha ngata ngoana \n aka futsang Motsoali ka matla ", "Batho ba thusana", "Motho a phelang ka litsietse", "1"},
-                        {"Khomo Lija Tika Motse?", "Batho ba sebetsa ntse ba orohela hae", "Batho baja", "Batho ba bitsoa moketeng", "Masholu ka hara motse", "0"},
-                        {"Khomo li ne li tseba Monoang?", "Thimola", "Motho a phelang ka litsietse ", "Motho a phelang ka ho Hlorisoa", "Mokhubu", "1"}
-                },
-                // Category 1
-                {
-                        {"Lefura la monga khomo le psheisa mongalona? ", "Moholu", "Letlotlo", "Bolo", "chai", "0"},
-                        {"Khomo e thibela lerumo? ", "Ho hlaba khomo nakong ea mokete","Khomo e thusana li nthong tse ngata", "Bophelo ba motho bo bohlokoa ho feta leruo", "Motho o etsa sehlabelo ka ena ho thusa ba bang", "2"},
-                        {"Nama e ka mpeng ho khome?", "Ho se bui litaba ha ho hlokala", "Ho pata litaba", "Ke lekunutu kapa pinyane", "Ho iphapanya", "2"}
-                },
-                // Category 2
-                {
-                        {"Moketa Khomo o nonela tlhakong?", "Monna o nyala ngaoana ena ale moholo", "Monna aka na nyala moqekoa a holileng ho mo thusa", "Ngoana o holela mosebetsing", "Motho o holisoa ke ho sebetsa", "1"},
-                        {"Ke u tsoela Khomo?", "Motho a senyang nako, a etsa seo se sa motsoeleng molemo", "Moholu", "Moraha ka sakeng", "Mohloa", "3"},
-                        {"Ho tlola Khomo?", "Moraha ka sakeng", "Ho senyeheloa", "Jwala bo qhalaneng", "Bana ba hae", "1"}
-                }
+        String[][][] questions = new String[9][3][7];
+        questions[6] = new String[][] {
+                {"/applauseV.mp4","Khomo ea lebese ha e itsoale?", "Ha ho motho a iketsetsang lintho", "Hase ha ngata ngoana \n aka futsang Motsoali ka matla ", "Batho ba thusana", "Motho a phelang ka litsietse", "1"},
+                {"/applauseV.mp4","Khomo Lija Tika Motse?", "Batho ba sebetsa ntse ba orohela hae", "Batho baja", "Batho ba bitsoa moketeng", "Masholu ka hara motse", "0"},
+                {"/applauseV.mp4","Khomo li ne li tseba Monoang?", "Thimola", "Motho a phelang ka litsietse ", "Motho a phelang ka ho Hlorisoa", "Mokhubu", "1"}
         };
 
-        if (currentCategory < TOTAL_CATEGORIES && levelIndex < LEVELS_PER_CATEGORY) {
-            String[] questionData = questions[currentCategory][levelIndex];
-            String questionText = "Khetha tlhaloso ea Leele le latelang: \n" + questionData[0];
-            String[] options = {questionData[1], questionData[2], questionData[3], questionData[4]};
-            int correctIndex = Integer.parseInt(questionData[5]);
+        questions[7] = new String[][] {
+                {"/applauseV.mp4","Lefura la monga khomo le psheisa mongalona? ", "Moholu", "Letlotlo", "Bolo", "chai", "0"},
+                {"/applauseV.mp4","Khomo e thibela lerumo? ", "Ho hlaba khomo nakong ea mokete","Khomo e thusana li nthong tse ngata", "Bophelo ba motho bo bohlokoa ho feta leruo", "Motho o etsa sehlabelo ka ena ho thusa ba bang", "2"},
+                {"/applauseV.mp4","Nama e ka mpeng ho khome?", "Ho se bui litaba ha ho hlokala", "Ho pata litaba", "Ke lekunutu kapa pinyane", "Ho iphapanya", "2"}
+        };
 
-            return createQuestion(questionText, options, correctIndex);
-        } else {
-            return createResultsView();
+        questions[8] = new String[][] {
+                {"/applauseV.mp4","Moketa Khomo o nonela tlhakong?", "Monna o nyala ngaoana ena ale moholo", "Monna aka na nyala moqekoa a holileng ho mo thusa", "Ngoana o holela mosebetsing", "Motho o holisoa ke ho sebetsa", "1"},
+                {"/applauseV.mp4","Ke u tsoela Khomo?", "Motho a senyang nako, a etsa seo se sa motsoeleng molemo", "Moholu", "Moraha ka sakeng", "Mohloa", "3"},
+                {"/applauseV.mp4","Ho tlola Khomo?", "Moraha ka sakeng", "Ho senyeheloa", "Jwala bo qhalaneng", "Bana ba hae", "3"}
+        };
+
+        // Check if the category exists and has questions
+        if (currentCategory >= 6 && currentCategory <= 8 &&
+                questions[currentCategory] != null &&
+                levelIndex < questions[currentCategory].length) {
+
+            String[] questionData = questions[currentCategory][levelIndex];
+
+            // Additional safety check for question data
+            if (questionData != null && questionData.length >= 7) {
+                String questionText = "Khetha tlhaloso ea Leele le latelang: \n" + questionData[1];
+                String[] options = {
+                        questionData[2],
+                        questionData[3],
+                        questionData[4],
+                        questionData[5]
+                };
+                int correctIndex = Integer.parseInt(questionData[6]);
+
+                return createQuestion(questionData[0], questionText, options, correctIndex);
+            }
         }
+
+        // If any check fails, return results view
+        return createResultsView();
     }
 
-    private VBox createQuestion(String questionText, String[] options, int correctIndex) {
+    private VBox createOptionVideo(String url)
+    {
+
+
+        video = new Media(getClass().getResource(url).toString());
+        mediaPlayer = new MediaPlayer(video);
+        videoView = new MediaView(mediaPlayer);
+        videoView.setFitHeight(70);
+        videoView.setFitWidth(70);
+        mediaPlayer.setCycleCount(10);
+        mediaPlayer.play();
+
+        VBox videoHolder = new VBox(videoView);
+        videoHolder.setAlignment(Pos.TOP_CENTER);
+
+        return videoHolder;
+    }
+
+    private VBox createQuestion(String url, String questionText, String[] options, int correctIndex) {
         Label questionLabel = new Label(questionText);
         questionLabel.setFont(Font.font("Arial", FontWeight.BOLD, 30));
         questionLabel.setWrapText(true);
@@ -118,7 +149,7 @@ public class LipapliGame extends View {
             optionsBox.getChildren().add(optionButton);
         }
 
-        VBox questionBox = new VBox(20, questionLabel, optionsBox);
+        VBox questionBox = new VBox(20, createOptionVideo(url), questionLabel, optionsBox);
         questionBox.setAlignment(Pos.CENTER);
 
         return questionBox;
@@ -131,11 +162,11 @@ public class LipapliGame extends View {
     }
 
     private void handleAnswer(boolean isCorrect) {
-        levelResults[currentLevel] = isCorrect;
-        currentLevel++;
+        levelResults[currentLevelIndex] = isCorrect;
+        currentLevelIndex++;
 
-        if (currentLevel < LEVELS_PER_CATEGORY) {
-            showLevel(currentLevel);
+        if (currentLevelIndex < LEVELS_PER_CATEGORY) {
+            showLevel(currentLevelIndex);
         } else {
             showResultsView();
         }
@@ -151,16 +182,21 @@ public class LipapliGame extends View {
         if (correctCount == LEVELS_PER_CATEGORY) {
             playSuccessAnimation();
 
-            // Update icons based on current level progression
-            switch(PrimaryView.getLevelnum()) {
-                case "1":
+            // Update icons based on current category progression
+            switch(currentCategory) {
+                case 6:
                     LevelsView.setL1Icon("/win1.png");
+                    // Unlock next category (7)
+                    PrimaryView.setLevelnum("7");
                     break;
-                case "2":
+                case 7:
                     LevelsView.setL2Icon("/win2.png");
+                    // Unlock next category (8)
+                    PrimaryView.setLevelnum("8");
                     break;
-                case "3":
+                case 8:
                     LevelsView.setL3Icon("/win3.png");
+                    // All categories completed
                     break;
             }
 
@@ -171,12 +207,6 @@ public class LipapliGame extends View {
             mediaContainer.setPadding(new Insets(10));
             mediaContainer.setAlignment(Pos.CENTER);
             resultsView.getChildren().add(mediaContainer);
-
-            // Progress to next category if available
-            if (currentCategory < TOTAL_CATEGORIES - 1) {
-                currentCategory++;
-                PrimaryView.setLevelnum(String.valueOf(currentCategory));
-            }
         }
     }
 
@@ -201,14 +231,14 @@ public class LipapliGame extends View {
         retryButton.setOnAction(e -> {
             onHidden();
             loadFirstLevel();
-
         });
 
         Button nextCategoryButton = new Button("Karolo e 'ngoe");
-        nextCategoryButton.setOnAction(e ->
-        {
-            currentLevel = 0;
-            showLevel(currentLevel);
+        nextCategoryButton.setOnAction(e -> {
+            // Move to next category if available
+
+                getAppManager().goHome();
+
             HoldMediaPlayers();
         });
 
@@ -216,7 +246,7 @@ public class LipapliGame extends View {
         resultsBox.setAlignment(Pos.CENTER);
 
         if (correctCount == LEVELS_PER_CATEGORY) {
-            if (currentCategory < TOTAL_CATEGORIES - 1) {
+            if (currentCategory < 8) { // If not the last category
                 resultsBox.getChildren().add(nextCategoryButton);
             } else {
                 resultsBox.getChildren().add(homeButton);
@@ -280,16 +310,13 @@ public class LipapliGame extends View {
             audioPlayer = null;
         }
     }
+
     private void HoldMediaPlayers() {
         if (videoPlayer != null) {
             videoPlayer.stop();
-
-
         }
         if (audioPlayer != null) {
             audioPlayer.stop();
-
-
         }
     }
 
@@ -300,16 +327,11 @@ public class LipapliGame extends View {
             onHidden();
             getAppManager().goHome();
         }));
-        appBar.setTitleText("PAPALI KA LILOTHO - KAROLO EA: " + (currentCategory));
+        appBar.setTitleText("PAPALI KA LILOTHO - KAROLO EA: " + currentCategory);
     }
 
     protected void onHidden() {
         cleanupMediaPlayers();
     }
 
-    public void seeLevels()
-    {
-        LevelsView levelsView = new LevelsView();
-        setCenter(levelsView);
-    }
 }

@@ -93,9 +93,9 @@ public class LevelsView3 extends View
         mainContainer.getChildren().clear();
 
         // Create new boxes with current icons
-        level1Box = createCenteredLevelBox(getL1Icon(), "Boemo ba 1", LEVEL1);
-        level2Box = createCenteredLevelBox(getL2Icon(), "Boemo ba 2", LEVEL2);
-        level3Box = createCenteredLevelBox(getL3Icon(), "Boemo ba 3", LEVEL3);
+        level1Box = createCenteredLevelBox(getL1Icon(), "Boemo ba 7", LEVEL1);
+        level2Box = createCenteredLevelBox(getL2Icon(), "Boemo ba 8", LEVEL2);
+        level3Box = createCenteredLevelBox(getL3Icon(), "Boemo ba 9", LEVEL3);
 
         mainContainer.getChildren().addAll(level1Box, level2Box, level3Box);
     }
@@ -174,20 +174,32 @@ public class LevelsView3 extends View
                     getAppManager().switchView(viewName);
                     switch (viewName) {
                         case LEVEL1:
-                            lipapliGame.showLevel(0);
-                            getAppManager().addViewFactory(viewName, () -> lipapliGame);
+                            if(PrimaryView.getLevelnum().equals("6"))
+                            {
+                                lipapliGame.showLevel(7);
+                                getAppManager().addViewFactory(viewName, () -> lipapliGame);
+                            }else
+                            {
+                                showAlert("Boemo bo Koetsoe");
+                            }
                             break;
                         case LEVEL2:
-                            if(PrimaryView.getLevelnum().equals("1"))
+                            if(PrimaryView.getLevelnum().equals("7"))
                             {
-                                lipapliGame.showLevel(1);
+                                lipapliGame.showLevel(8);
                                 getAppManager().addViewFactory(viewName, () -> lipapliGame);
+                            }else
+                            {
+                                showAlert("Boemo bo Koetsoe");
                             }
                             break;
                         case LEVEL3:
-                            if(PrimaryView.getLevelnum().equals("2")) {
-                                lipapliGame.showLevel(2);
+                            if(PrimaryView.getLevelnum().equals("8")) {
+                                lipapliGame.showLevel(9);
                                 getAppManager().addViewFactory(viewName, () -> lipapliGame);
+                            }else
+                            {
+                                showAlert("Boemo bo Koetsoe");
                             }
                             break;
                     }

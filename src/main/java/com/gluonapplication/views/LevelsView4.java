@@ -93,9 +93,9 @@ public class LevelsView4 extends View
         mainContainer.getChildren().clear();
 
         // Create new boxes with current icons
-        level1Box = createCenteredLevelBox(getL1Icon(), "Boemo ba 1", LEVEL1);
-        level2Box = createCenteredLevelBox(getL2Icon(), "Boemo ba 2", LEVEL2);
-        level3Box = createCenteredLevelBox(getL3Icon(), "Boemo ba 3", LEVEL3);
+        level1Box = createCenteredLevelBox(getL1Icon(), "Boemo ba 10", LEVEL1);
+        level2Box = createCenteredLevelBox(getL2Icon(), "Boemo ba 11", LEVEL2);
+        level3Box = createCenteredLevelBox(getL3Icon(), "Boemo ba 12", LEVEL3);
 
         mainContainer.getChildren().addAll(level1Box, level2Box, level3Box);
     }
@@ -172,19 +172,21 @@ public class LevelsView4 extends View
                     getAppManager().switchView(viewName);
                     switch (viewName) {
                         case LEVEL1:
-                            lijoGame.showLevel(0);
-                            getAppManager().addViewFactory(viewName, () -> lijoGame);
+                            if(PrimaryView.getLevelnum().equals("9")) {
+                                lijoGame.showLevel(10);
+                                getAppManager().addViewFactory(viewName, () -> lijoGame);
+                            }
                             break;
                         case LEVEL2:
-                            if(PrimaryView.getLevelnum().equals("1"))
+                            if(PrimaryView.getLevelnum().equals("10"))
                             {
-                                lijoGame.showLevel(1);
+                                lijoGame.showLevel(11);
                                 getAppManager().addViewFactory(viewName, () -> lijoGame);
                             }
                             break;
                         case LEVEL3:
-                            if(PrimaryView.getLevelnum().equals("2")) {
-                                lijoGame.showLevel(2);
+                            if(PrimaryView.getLevelnum().equals("11")) {
+                                lijoGame.showLevel(12);
                                 getAppManager().addViewFactory(viewName, () -> lijoGame);
                             }
                             break;
