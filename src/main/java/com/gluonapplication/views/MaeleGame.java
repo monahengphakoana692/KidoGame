@@ -72,21 +72,21 @@ public class MaeleGame extends View {
         // Define all questions organized by category and level
         String[][][] questions = new String[6][3][5];
         questions[3] = new String[][] {
-                {"Khomo ea lebese ha e itsoale?", "Ha ho motho a iketsetsang lintho", "Hase ha ngata ngoana \n aka futsang Motsoali ka matla ", "Batho ba thusana", "Motho a phelang ka litsietse", "1"},
-                {"Khomo Lija Tika Motse?", "Batho ba sebetsa ntse ba orohela hae", "Batho baja", "Batho ba bitsoa moketeng", "Masholu ka hara motse", "0"},
-                {"Khomo li ne li tseba Monoang?", "Thimola", "Motho a phelang ka litsietse ", "Motho a phelang ka ho Hlorisoa", "Mokhubu", "1"}
+                {"/Leleme.jpg","Khomo ea lebese ha e itsoale?", "Ha ho motho a iketsetsang lintho", "Hase ha ngata ngoana \n aka futsang Motsoali ka matla ", "Batho ba thusana", "Motho a phelang ka litsietse", "1"},
+                {"/Leleme.jpg","Khomo Lija Tika Motse?", "Batho ba sebetsa ntse ba orohela hae", "Batho baja", "Batho ba bitsoa moketeng", "Masholu ka hara motse", "0"},
+                {"/Leleme.jpg","Khomo li ne li tseba Monoang?", "Thimola", "Motho a phelang ka litsietse ", "Motho a phelang ka ho Hlorisoa", "Mokhubu", "1"}
         };
 
         questions[4] = new String[][] {
-                {"Lefura la monga khomo le psheisa mongalona? ", "Moholu", "Letlotlo", "Bolo", "chai", "0"},
-                {"Khomo e thibela lerumo? ", "Ho hlaba khomo nakong ea mokete","Khomo e thusana li nthong tse ngata", "Bophelo ba motho bo bohlokoa ho feta leruo", "Motho o etsa sehlabelo ka ena ho thusa ba bang", "2"},
-                {"Nama e ka mpeng ho khome?", "Ho se bui litaba ha ho hlokala", "Ho pata litaba", "Ke lekunutu kapa pinyane", "Ho iphapanya", "2"}
+                {"/Leleme.jpg","Lefura la monga khomo le psheisa mongalona? ", "Moholu", "Letlotlo", "Bolo", "chai", "0"},
+                {"/Leleme.jpg","Khomo e thibela lerumo? ", "Ho hlaba khomo nakong ea mokete","Khomo e thusana li nthong tse ngata", "Bophelo ba motho bo bohlokoa ho feta leruo", "Motho o etsa sehlabelo ka ena ho thusa ba bang", "2"},
+                {"/Leleme.jpg","Nama e ka mpeng ho khome?", "Ho se bui litaba ha ho hlokala", "Ho pata litaba", "Ke lekunutu kapa pinyane", "Ho iphapanya", "2"}
         };
 
         questions[5] = new String[][] {
-                {"Moketa Khomo o nonela tlhakong?", "Monna o nyala ngaoana ena ale moholo", "Monna aka na nyala moqekoa a holileng ho mo thusa", "Ngoana o holela mosebetsing", "Motho o holisoa ke ho sebetsa", "1"},
-                {"Ke u tsoela Khomo?", "Motho a senyang nako, a etsa seo se sa motsoeleng molemo", "Moholu", "Moraha ka sakeng", "Mohloa", "3"},
-                {"Ho tlola Khomo?", "Moraha ka sakeng", "Ho senyeheloa", "Jwala bo qhalaneng", "Bana ba hae", "1"}
+                {"/Leleme.jpg","Moketa Khomo o nonela tlhakong?", "Monna o nyala ngaoana ena ale moholo", "Monna aka na nyala moqekoa a holileng ho mo thusa", "Ngoana o holela mosebetsing", "Motho o holisoa ke ho sebetsa", "1"},
+                {"/Leleme.jpg","Ke u tsoela Khomo?", "Motho a senyang nako, a etsa seo se sa motsoeleng molemo", "Moholu", "Moraha ka sakeng", "Mohloa", "3"},
+                {"/Leleme.jpg","Ho tlola Khomo?", "Moraha ka sakeng", "Ho senyeheloa", "Jwala bo qhalaneng", "Bana ba hae", "3"}
         };
 
         // Check if the category exists and has questions
@@ -98,16 +98,16 @@ public class MaeleGame extends View {
 
             // Additional safety check for question data
             if (questionData != null && questionData.length >= 6) {
-                String questionText = "Khetha tlhaloso ea Leele le latelang: \n" + questionData[0];
+                String questionText = "Khetha tlhaloso ea Leele le latelang: \n" + questionData[1];
                 String[] options = {
-                        questionData[1],
                         questionData[2],
                         questionData[3],
-                        questionData[4]
+                        questionData[4],
+                        questionData[5]
                 };
-                int correctIndex = Integer.parseInt(questionData[5]);
+                int correctIndex = Integer.parseInt(questionData[6]);
 
-                return createQuestion(questionText, options, correctIndex);
+                return createQuestion(questionData[0],questionText, options, correctIndex);
             }
         }
 
@@ -115,7 +115,21 @@ public class MaeleGame extends View {
         return createResultsView();
     }
 
-    private VBox createQuestion(String questionText, String[] options, int correctIndex) {
+    private VBox createOptionImage(String url)
+    {
+        Image image = new Image(url);
+        ImageView imageView = new ImageView(image);
+        imageView.setFitHeight(70);
+        imageView.setFitWidth(70);
+
+        VBox imageHolder = new VBox(imageView);
+        imageHolder.setAlignment(Pos.TOP_CENTER);
+
+        return imageHolder;
+
+    }
+
+    private VBox createQuestion(String url,String questionText, String[] options, int correctIndex) {
         Label questionLabel = new Label(questionText);
         questionLabel.setFont(Font.font("Arial", FontWeight.BOLD, 30));
         questionLabel.setWrapText(true);
@@ -128,7 +142,7 @@ public class MaeleGame extends View {
             optionsBox.getChildren().add(optionButton);
         }
 
-        VBox questionBox = new VBox(20, questionLabel, optionsBox);
+        VBox questionBox = new VBox(20,createOptionImage(url), questionLabel, optionsBox);
         questionBox.setAlignment(Pos.CENTER);
 
         return questionBox;
