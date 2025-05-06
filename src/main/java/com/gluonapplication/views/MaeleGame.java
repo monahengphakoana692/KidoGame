@@ -26,30 +26,26 @@ public class MaeleGame extends View {
     private MediaPlayer videoPlayer;
     private MediaPlayer audioPlayer;
     private MediaView mediaView;
-    private int currentLevel = 0;
-    private int currentCategory = 0;
+    private int currentLevelIndex = 0; // Index within current category (0-2)
+    private int currentCategory;      // Category index (3-5)
 
-    public MaeleGame()
-    {
+    public MaeleGame() {
         initializeUI();
         loadFirstLevel();
     }
 
-    private void initializeUI()
-    {
+    private void initializeUI() {
         getStylesheets().add(getClass().getResource("primary.css").toExternalForm());
         // Initialize current category from saved state
         currentCategory = Integer.parseInt(PrimaryView.getLevelnum());
     }
 
-    private void loadFirstLevel()
-    {
-        currentLevel = 0;
-        showLevel(currentLevel);
+    private void loadFirstLevel() {
+        currentLevelIndex = 0; // Always start at first question of category
+        showLevel(currentLevelIndex);
     }
 
-    public void showLevel(int levelIndex)
-    {
+    public void showLevel(int levelIndex) {
         VBox questionView = createQuestionView(levelIndex);
         StackPane levelContainer = createLevelContainer(questionView);
         setCenter(levelContainer);
@@ -93,18 +89,15 @@ public class MaeleGame extends View {
                 {"Ho tlola Khomo?", "Moraha ka sakeng", "Ho senyeheloa", "Jwala bo qhalaneng", "Bana ba hae", "1"}
         };
 
-        int adjustedCategory = currentCategory - 1;
+        // Check if the category exists and has questions
+        if (currentCategory >= 3 && currentCategory <= 5 &&
+                questions[currentCategory] != null &&
+                levelIndex < questions[currentCategory].length) {
 
-// Check if the category exists and has questions
-        if (adjustedCategory >= 0 && adjustedCategory < questions.length &&
-                questions[adjustedCategory] != null &&  // Check if category exists
-                levelIndex < LEVELS_PER_CATEGORY &&
-                levelIndex < questions[adjustedCategory].length) {  // Check if level exists
-
-            String[] questionData = questions[adjustedCategory][levelIndex];
+            String[] questionData = questions[currentCategory][levelIndex];
 
             // Additional safety check for question data
-            if (questionData != null && questionData.length >= 6) {  // Ensure we have all required elements
+            if (questionData != null && questionData.length >= 6) {
                 String questionText = "Khetha tlhaloso ea Leele le latelang: \n" + questionData[0];
                 String[] options = {
                         questionData[1],
@@ -117,7 +110,8 @@ public class MaeleGame extends View {
                 return createQuestion(questionText, options, correctIndex);
             }
         }
-// If any check fails, return results view
+
+        // If any check fails, return results view
         return createResultsView();
     }
 
@@ -147,11 +141,11 @@ public class MaeleGame extends View {
     }
 
     private void handleAnswer(boolean isCorrect) {
-        levelResults[currentLevel] = isCorrect;
-        currentLevel++;
+        levelResults[currentLevelIndex] = isCorrect;
+        currentLevelIndex++;
 
-        if (currentLevel < LEVELS_PER_CATEGORY) {
-            showLevel(currentLevel);
+        if (currentLevelIndex < LEVELS_PER_CATEGORY) {
+            showLevel(currentLevelIndex);
         } else {
             showResultsView();
         }
@@ -167,16 +161,21 @@ public class MaeleGame extends View {
         if (correctCount == LEVELS_PER_CATEGORY) {
             playSuccessAnimation();
 
-            // Update icons based on current level progression
-            switch(PrimaryView.getLevelnum()) {
-                case "4":
+            // Update icons based on current category progression
+            switch(currentCategory) {
+                case 3:
                     LevelsView.setL1Icon("/win1.png");
+                    // Unlock next category (4)
+                    PrimaryView.setLevelnum("4");
                     break;
-                case "5":
+                case 4:
                     LevelsView.setL2Icon("/win2.png");
+                    // Unlock next category (5)
+                    PrimaryView.setLevelnum("5");
                     break;
-                case "6":
+                case 5:
                     LevelsView.setL3Icon("/win3.png");
+                    // All categories completed
                     break;
             }
 
@@ -187,12 +186,6 @@ public class MaeleGame extends View {
             mediaContainer.setPadding(new Insets(10));
             mediaContainer.setAlignment(Pos.CENTER);
             resultsView.getChildren().add(mediaContainer);
-
-            // Progress to next category if available
-            if (currentCategory < TOTAL_CATEGORIES - 1) {
-                currentCategory++;
-                PrimaryView.setLevelnum(String.valueOf(currentCategory));
-            }
         }
     }
 
@@ -217,14 +210,19 @@ public class MaeleGame extends View {
         retryButton.setOnAction(e -> {
             onHidden();
             loadFirstLevel();
-
         });
 
         Button nextCategoryButton = new Button("Karolo e 'ngoe");
-        nextCategoryButton.setOnAction(e ->
-        {
-            currentLevel = 0;
-            showLevel(currentLevel);
+        nextCategoryButton.setOnAction(e -> {
+            // Move to next category if available
+            if (currentCategory < 5) {
+                currentCategory++;
+                PrimaryView.setLevelnum(String.valueOf(currentCategory));
+                currentLevelIndex = 0;
+                loadFirstLevel();
+            } else {
+                getAppManager().goHome();
+            }
             HoldMediaPlayers();
         });
 
@@ -232,7 +230,7 @@ public class MaeleGame extends View {
         resultsBox.setAlignment(Pos.CENTER);
 
         if (correctCount == LEVELS_PER_CATEGORY) {
-            if (currentCategory < TOTAL_CATEGORIES - 1) {
+            if (currentCategory < 5) { // If not the last category
                 resultsBox.getChildren().add(nextCategoryButton);
             } else {
                 resultsBox.getChildren().add(homeButton);
@@ -296,16 +294,13 @@ public class MaeleGame extends View {
             audioPlayer = null;
         }
     }
+
     private void HoldMediaPlayers() {
         if (videoPlayer != null) {
             videoPlayer.stop();
-
-
         }
         if (audioPlayer != null) {
             audioPlayer.stop();
-
-
         }
     }
 
@@ -316,13 +311,10 @@ public class MaeleGame extends View {
             onHidden();
             getAppManager().goHome();
         }));
-        // Show the actual level number (4-12) instead of category number
-        int displayLevel = (currentCategory + 1) * LEVELS_PER_CATEGORY + currentLevel + 1;
-        appBar.setTitleText("PAPALI KA MAELE - BOEMONG BA: " + displayLevel);
+        appBar.setTitleText("PAPALI KA MAELE - BOEMONG BA: " + currentCategory);
     }
 
     protected void onHidden() {
         cleanupMediaPlayers();
     }
-
 }

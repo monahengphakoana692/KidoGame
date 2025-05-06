@@ -90,9 +90,9 @@ public class LevelsView2 extends View
         mainContainer.getChildren().clear();
 
         // Create new boxes with current icons
-        level1Box = createCenteredLevelBox(getL1Icon(), "Boemo ba 1", LEVEL1);
-        level2Box = createCenteredLevelBox(getL2Icon(), "Boemo ba 2", LEVEL2);
-        level3Box = createCenteredLevelBox(getL3Icon(), "Boemo ba 3", LEVEL3);
+        level1Box = createCenteredLevelBox(getL1Icon(), "Boemo ba 4", LEVEL1);
+        level2Box = createCenteredLevelBox(getL2Icon(), "Boemo ba 5", LEVEL2);
+        level3Box = createCenteredLevelBox(getL3Icon(), "Boemo ba 6", LEVEL3);
 
         mainContainer.getChildren().addAll(level1Box, level2Box, level3Box);
     }
@@ -132,7 +132,7 @@ public class LevelsView2 extends View
     }
     public void showGame(String viewName) {
         try {
-            //lilothoGame = new LilothoGame();
+
             MaeleGame   = new MaeleGame();
 
 

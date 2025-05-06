@@ -75,37 +75,38 @@ public class LilothoGame extends View {
         String[][][] questions = {
                 // Category 0
                 {
-                        {"'Me Nts'oare ke nye", "Leihlo", "Tsebe", "Ngoana", "Nko", "3"},
-                        {"Ts'oene tse peli \n Lihloa thaba \n lisa e qete?", "Matsoele", "Moriri", "Litsebe", "Li Ts'oene", "2"},
-                        {"Mohlankana ea lulang \n lehaheng?", "Thimola", "Leleme", "Khoeli", "Mokhubu", "1"}
+                        {"/Leleme.jpg","'Me Nts'oare ke nye", "Leihlo", "Tsebe", "Ngoana", "Nko", "3"},
+                        {"/Leleme.jpg","Ts'oene tse peli \n Lihloa thaba \n lisa e qete?", "Matsoele", "Moriri", "Litsebe", "Li Ts'oene", "2"},
+                        {"/Leleme.jpg","Mohlankana ea lulang \n lehaheng?", "Thimola", "Leleme", "Khoeli", "Mokhubu", "1"}
                 },
                 // Category 1
                 {
-                        {"Ka Qhala Phoofo \n ka ja mokotla? ", "Moholu", "Letlotlo", "Bolo", "chai", "0"},
-                        {"Maqheku a qabana ka lehaheng?", "Likhobe","LIerekise", "Limathi", "Ntate mohole le Nkhono", "0"},
-                        {"Thankha-Thankha ketla tsoalla kae?", "Lihaba ha li hola", "Khomo", "Mokopu ha u nama", "Lebese", "2"}
+                        {"/Leleme.jpg","Ka Qhala Phoofo \n ka ja mokotla? ", "Moholu", "Letlotlo", "Bolo", "chai", "0"},
+                        {"/Leleme.jpg","Maqheku a qabana ka lehaheng?", "Likhobe","LIerekise", "Limathi", "Ntate mohole le Nkhono", "0"},
+                        {"/Leleme.jpg","Thankha-Thankha ketla tsoalla kae?", "Lihaba ha li hola", "Khomo", "Mokopu ha u nama", "Lebese", "2"}
                 },
                 // Category 2
                 {
-                        {"Phate li ea lekana?", "Likobo", "Lefats'e", "Leholimo le Lefats'e", "Leholimo", "2"},
-                        {"Mala a nku marang-rang?", "Boea", "Moholu", "Moraha ka sakeng", "Mohloa", "3"},
-                        {"Setoto se tlala ntlo?", "Moraha ka sakeng", "Metsi", "Jwala bo qhalaneng", "Bana ba hae", "0"}
+                        {"/Leleme.jpg","Phate li ea lekana?", "Likobo", "Lefats'e", "Leholimo le Lefats'e", "Leholimo", "2"},
+                        {"/Leleme.jpg","Mala a nku marang-rang?", "Boea", "Moholu", "Moraha ka sakeng", "Mohloa", "3"},
+                        {"/Leleme.jpg","Setoto se tlala ntlo?", "Moraha ka sakeng", "Metsi", "Jwala bo qhalaneng", "Bana ba hae", "0"}
                 }
         };
 
         if (currentCategory < TOTAL_CATEGORIES && levelIndex < LEVELS_PER_CATEGORY) {
             String[] questionData = questions[currentCategory][levelIndex];
-            String questionText = questionData[0];
-            String[] options = {questionData[1], questionData[2], questionData[3], questionData[4]};
-            int correctIndex = Integer.parseInt(questionData[5]);
+            String url = questionData[0];
+            String questionText = questionData[1];
+            String[] options = {questionData[2], questionData[3], questionData[4], questionData[5]};
+            int correctIndex = Integer.parseInt(questionData[6]);
 
-            return createQuestion(questionText, options, correctIndex);
+            return createQuestion(url,questionText, options, correctIndex);
         } else {
             return createResultsView();
         }
     }
 
-    private VBox createQuestion(String questionText, String[] options, int correctIndex) {
+    private VBox createQuestion(String url,String questionText, String[] options, int correctIndex) {
         Label questionLabel = new Label(questionText);
         questionLabel.setFont(Font.font("Arial", FontWeight.BOLD, 30));
         questionLabel.setWrapText(true);
@@ -118,10 +119,23 @@ public class LilothoGame extends View {
             optionsBox.getChildren().add(optionButton);
         }
 
-        VBox questionBox = new VBox(20, questionLabel, optionsBox);
+        VBox questionBox = new VBox(20,createOptionImage(url), questionLabel, optionsBox);
         questionBox.setAlignment(Pos.CENTER);
 
         return questionBox;
+    }
+    private VBox createOptionImage(String url)
+    {
+        Image image = new Image(url);
+        ImageView imageView = new ImageView(image);
+        imageView.setFitHeight(150);
+        imageView.setFitWidth(150);
+
+        VBox imageHolder = new VBox(imageView);
+        imageHolder.setAlignment(Pos.TOP_CENTER);
+
+        return imageHolder;
+
     }
 
     private Button createOptionButton(String text, boolean isCorrect) {
