@@ -327,7 +327,7 @@ public class LijoGame extends View {
             onHidden();
             getAppManager().goHome();
         }));
-        appBar.setTitleText("PAPALI KA LILOTHO - KAROLO EA: " + currentCategory);
+        appBar.setTitleText("PAPALI KA LIJO - BOEMO KE: " + currentCategory);
     }
 
     protected void onHidden() {

@@ -313,7 +313,7 @@ public class LilothoGame extends View {
             onHidden();
             getAppManager().goHome();
         }));
-        appBar.setTitleText("PAPALI KA LILOTHO - KAROLO EA: " + (currentCategory));
+        appBar.setTitleText("PAPALI KA LILOTHO - BOEMO KE: " + (currentCategory));
     }
 
     protected void onHidden() {

@@ -216,7 +216,7 @@ public class LevelsView extends View
 
             getAppManager().goHome();
         }));
-        appBar.setTitleText("PAPALI KA LILOTHO - KAROLO EA: " + (PrimaryView.getLevelnum()));
+        appBar.setTitleText("PAPALI KA LILOTHO - KAROLO EA: 1");
     }
 
 
