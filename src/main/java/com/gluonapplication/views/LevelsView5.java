@@ -56,9 +56,8 @@ public class LevelsView5 extends View
 
 
     // Game instances
-    private LiaparoGame  liaparoGame;
-    //private final MaeleGame maeleGame = new MaeleGame(); // You'll need to create this class
-    //private final LipapaliGame lipapaliGame = new LipapaliGame(); // You'll need to create this class
+    private LijoGame  lijoGame;
+
     private VBox level1Box;
     private VBox level2Box;
     private VBox level3Box;
@@ -92,9 +91,9 @@ public class LevelsView5 extends View
         mainContainer.getChildren().clear();
 
         // Create new boxes with current icons
-        level1Box = createCenteredLevelBox(getL1Icon(), "Boemo ba 1", LEVEL1);
-        level2Box = createCenteredLevelBox(getL2Icon(), "Boemo ba 2", LEVEL2);
-        level3Box = createCenteredLevelBox(getL3Icon(), "Boemo ba 3", LEVEL3);
+        level1Box = createCenteredLevelBox(getL1Icon(), "Boemo ba 13", LEVEL1);
+        level2Box = createCenteredLevelBox(getL2Icon(), "Boemo ba 14", LEVEL2);
+        level3Box = createCenteredLevelBox(getL3Icon(), "Boemo ba 15", LEVEL3);
 
         mainContainer.getChildren().addAll(level1Box, level2Box, level3Box);
     }
@@ -164,7 +163,7 @@ public class LevelsView5 extends View
         try {
 
 
-            liaparoGame = new LiaparoGame();
+            lijoGame = new LijoGame();
 
 
             if (getAppManager() != null) {
@@ -173,20 +172,31 @@ public class LevelsView5 extends View
                     getAppManager().switchView(viewName);
                     switch (viewName) {
                         case LEVEL1:
-                            liaparoGame.showLevel(0);
-                            getAppManager().addViewFactory(viewName, () -> liaparoGame);
+                            if(PrimaryView.getLevelnum().trim().equals("12")) {
+                                lijoGame.showLevel(13);
+                                getAppManager().addViewFactory(viewName, () -> lijoGame);
+                            }else
+                            {
+                                showAlert("Boemo bo Koetsoe");
+                            }
                             break;
                         case LEVEL2:
-                            if(PrimaryView.getLevelnum().equals("1"))
+                            if(PrimaryView.getLevelnum().equals("13"))
                             {
-                                liaparoGame.showLevel(1);
-                                getAppManager().addViewFactory(viewName, () -> liaparoGame);
+                                lijoGame.showLevel(14);
+                                getAppManager().addViewFactory(viewName, () -> lijoGame);
+                            }else
+                            {
+                                showAlert("Boemo bo Koetsoe");
                             }
                             break;
                         case LEVEL3:
-                            if(PrimaryView.getLevelnum().equals("2")) {
-                                liaparoGame.showLevel(2);
-                                getAppManager().addViewFactory(viewName, () -> liaparoGame);
+                            if(PrimaryView.getLevelnum().equals("14")) {
+                                lijoGame.showLevel(15);
+                                getAppManager().addViewFactory(viewName, () -> lijoGame);
+                            }else
+                            {
+                                showAlert("Boemo bo Koetsoe");
                             }
                             break;
                     }

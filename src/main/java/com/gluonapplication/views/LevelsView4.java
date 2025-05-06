@@ -53,10 +53,8 @@ public class LevelsView4 extends View
         L3Icon = l3Icon;
     }
 
-
-
     // Game instances
-    private LijoGame     lijoGame;
+    private LiaparoGame  liaparoGame;
 
     //private final MaeleGame maeleGame = new MaeleGame(); // You'll need to create this class
     //private final LipapaliGame lipapaliGame = new LipapaliGame(); // You'll need to create this class
@@ -165,7 +163,8 @@ public class LevelsView4 extends View
         try {
 
 
-            lijoGame    = new LijoGame();
+            liaparoGame = new LiaparoGame();
+
             if (getAppManager() != null) {
                 // Check if view exists by attempting to switch to it
                 try {
@@ -173,21 +172,30 @@ public class LevelsView4 extends View
                     switch (viewName) {
                         case LEVEL1:
                             if(PrimaryView.getLevelnum().equals("9")) {
-                                lijoGame.showLevel(10);
-                                getAppManager().addViewFactory(viewName, () -> lijoGame);
+                                liaparoGame.showLevel(10);
+                                getAppManager().addViewFactory(viewName, () -> liaparoGame);
+                            }else
+                            {
+                                showAlert("Boemo bo  Koetsoe");
                             }
                             break;
                         case LEVEL2:
                             if(PrimaryView.getLevelnum().equals("10"))
                             {
-                                lijoGame.showLevel(11);
-                                getAppManager().addViewFactory(viewName, () -> lijoGame);
+                                liaparoGame.showLevel(11);
+                                getAppManager().addViewFactory(viewName, () -> liaparoGame);
+                            }else
+                            {
+                                showAlert("Boemo bo Koetsoe");
                             }
                             break;
                         case LEVEL3:
                             if(PrimaryView.getLevelnum().equals("11")) {
-                                lijoGame.showLevel(12);
-                                getAppManager().addViewFactory(viewName, () -> lijoGame);
+                                liaparoGame.showLevel(12);
+                                getAppManager().addViewFactory(viewName, () -> liaparoGame);
+                            }else
+                            {
+                                showAlert("Boemo bo Koetsoe");
                             }
                             break;
                     }

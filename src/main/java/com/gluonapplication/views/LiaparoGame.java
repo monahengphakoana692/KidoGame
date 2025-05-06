@@ -73,27 +73,27 @@ public class LiaparoGame extends View {
 
     private VBox createQuestionView(int levelIndex) {
         // Define all questions organized by category and level
-        String[][][] questions = new String[9][3][7];
-        questions[6] = new String[][] {
+        String[][][] questions = new String[12][3][7];
+        questions[9] = new String[][] {
                 {"/applauseV.mp4","Khomo ea lebese ha e itsoale?", "Ha ho motho a iketsetsang lintho", "Hase ha ngata ngoana \n aka futsang Motsoali ka matla ", "Batho ba thusana", "Motho a phelang ka litsietse", "1"},
                 {"/applauseV.mp4","Khomo Lija Tika Motse?", "Batho ba sebetsa ntse ba orohela hae", "Batho baja", "Batho ba bitsoa moketeng", "Masholu ka hara motse", "0"},
                 {"/applauseV.mp4","Khomo li ne li tseba Monoang?", "Thimola", "Motho a phelang ka litsietse ", "Motho a phelang ka ho Hlorisoa", "Mokhubu", "1"}
         };
 
-        questions[7] = new String[][] {
+        questions[10] = new String[][] {
                 {"/applauseV.mp4","Lefura la monga khomo le psheisa mongalona? ", "Moholu", "Letlotlo", "Bolo", "chai", "0"},
                 {"/applauseV.mp4","Khomo e thibela lerumo? ", "Ho hlaba khomo nakong ea mokete","Khomo e thusana li nthong tse ngata", "Bophelo ba motho bo bohlokoa ho feta leruo", "Motho o etsa sehlabelo ka ena ho thusa ba bang", "2"},
                 {"/applauseV.mp4","Nama e ka mpeng ho khome?", "Ho se bui litaba ha ho hlokala", "Ho pata litaba", "Ke lekunutu kapa pinyane", "Ho iphapanya", "2"}
         };
 
-        questions[8] = new String[][] {
+        questions[11] = new String[][] {
                 {"/applauseV.mp4","Moketa Khomo o nonela tlhakong?", "Monna o nyala ngaoana ena ale moholo", "Monna aka na nyala moqekoa a holileng ho mo thusa", "Ngoana o holela mosebetsing", "Motho o holisoa ke ho sebetsa", "1"},
                 {"/applauseV.mp4","Ke u tsoela Khomo?", "Motho a senyang nako, a etsa seo se sa motsoeleng molemo", "Moholu", "Moraha ka sakeng", "Mohloa", "3"},
                 {"/applauseV.mp4","Ho tlola Khomo?", "Moraha ka sakeng", "Ho senyeheloa", "Jwala bo qhalaneng", "Bana ba hae", "3"}
         };
 
         // Check if the category exists and has questions
-        if (currentCategory >= 6 && currentCategory <= 8 &&
+        if (currentCategory >= 9 && currentCategory <= 11 &&
                 questions[currentCategory] != null &&
                 levelIndex < questions[currentCategory].length) {
 
@@ -184,17 +184,17 @@ public class LiaparoGame extends View {
 
             // Update icons based on current category progression
             switch(currentCategory) {
-                case 6:
+                case 9:
                     LevelsView.setL1Icon("/win1.png");
                     // Unlock next category (7)
-                    PrimaryView.setLevelnum("7");
+                    PrimaryView.setLevelnum("10");
                     break;
-                case 7:
+                case 10:
                     LevelsView.setL2Icon("/win2.png");
                     // Unlock next category (8)
-                    PrimaryView.setLevelnum("8");
+                    PrimaryView.setLevelnum("11");
                     break;
-                case 8:
+                case 11:
                     LevelsView.setL3Icon("/win3.png");
                     // All categories completed
                     break;
