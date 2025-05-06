@@ -178,12 +178,18 @@ public class LevelsView extends View
                             {
                                 lilothoGame.showLevel(1);
                                 getAppManager().addViewFactory(viewName, () -> lilothoGame);
+                            }else
+                            {
+                                showAlert("Boemo bo Koetsoe");
                             }
                             break;
                         case LEVEL3:
                             if(PrimaryView.getLevelnum().equals("2")) {
                                 lilothoGame.showLevel(2);
                                 getAppManager().addViewFactory(viewName, () -> lilothoGame);
+                            }else
+                            {
+                                showAlert("Boemo bo Koetsoe");
                             }
                             break;
                     }

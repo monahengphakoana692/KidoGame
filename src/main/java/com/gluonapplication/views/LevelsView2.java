@@ -145,6 +145,9 @@ public class LevelsView2 extends View
                             if(PrimaryView.getLevelnum().equals("3")) {
                                 MaeleGame.showLevel(4);
                                 getAppManager().addViewFactory(viewName, () -> MaeleGame);
+                            }else
+                            {
+                                showAlert("Boemo bo Koetsoe");
                             }
                             break;
                         case LEVEL2:
@@ -152,12 +155,18 @@ public class LevelsView2 extends View
                             {
                                 MaeleGame.showLevel(5);
                                 getAppManager().addViewFactory(viewName, () -> MaeleGame);
+                            }else
+                            {
+                                showAlert("Boemo bo Koetsoe");
                             }
                             break;
                         case LEVEL3:
                             if(PrimaryView.getLevelnum().equals("5")) {
                                 MaeleGame.showLevel(6);
                                 getAppManager().addViewFactory(viewName, () -> MaeleGame);
+                            }else
+                            {
+                                showAlert("Boemo bo Koetsoe");
                             }
                             break;
                     }

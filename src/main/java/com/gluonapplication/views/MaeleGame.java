@@ -228,15 +228,8 @@ public class MaeleGame extends View {
 
         Button nextCategoryButton = new Button("Karolo e 'ngoe");
         nextCategoryButton.setOnAction(e -> {
-            // Move to next category if available
-            if (currentCategory < 5) {
-                currentCategory++;
-                PrimaryView.setLevelnum(String.valueOf(currentCategory));
-                currentLevelIndex = 0;
-                loadFirstLevel();
-            } else {
+
                 getAppManager().goHome();
-            }
             HoldMediaPlayers();
         });
 
