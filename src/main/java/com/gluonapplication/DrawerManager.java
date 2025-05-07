@@ -20,17 +20,17 @@ import static com.gluonhq.charm.glisten.application.AppManager.HOME_VIEW;
     public static void buildDrawer(AppManager app) {
         NavigationDrawer drawer = app.getDrawer();
 
-        NavigationDrawer.Header header = new NavigationDrawer.Header("Sample",
-                "profile",
+        NavigationDrawer.Header header = new NavigationDrawer.Header("MOHLALA",
+                "KA WENA",
                 new Avatar(21, new Image(DrawerManager.class.getResourceAsStream("/game.jpg"))));
         drawer.setHeader(header);
 
-        final Item homeItem = new ViewItem("PrimaryView", MaterialDesignIcon.HOME.graphic(), HOME_VIEW);
-        final Item secondView = new ViewItem("secondView", MaterialDesignIcon.HOME.graphic(),SECONDARY_VIEW);
+        final Item homeItem = new ViewItem("LAPENG", MaterialDesignIcon.HOME.graphic(), HOME_VIEW);
+        final Item secondView = new ViewItem("LiTLALEHO", MaterialDesignIcon.BOOK.graphic(),SECONDARY_VIEW);
         drawer.getItems().addAll(homeItem,secondView);
 
         if (Platform.isDesktop()) {
-            final Item quitItem = new Item("Quit", MaterialDesignIcon.EXIT_TO_APP.graphic());
+            final Item quitItem = new Item("TSOA", MaterialDesignIcon.EXIT_TO_APP.graphic());
             quitItem.selectedProperty().addListener((obs, ov, nv) -> {
                 if (nv) {
                     Services.get(LifecycleService.class).ifPresent(LifecycleService::shutdown);

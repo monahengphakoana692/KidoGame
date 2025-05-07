@@ -18,6 +18,10 @@ public class PrimaryView extends View
     public static final String[] basicLevel = {"/L1.png","/L2.png","/L3.png"};
     public static final String[] AdvancedLevel = {"/win1.png","/win2.png","/win3.png"};
     public static String secondaryView = "secView";
+    private static String TotalQuestionsAnswered = "0";
+    private static String CorrectAnswers = "0";
+    private static String WrongAnswers = "0";
+    private static String SuccessPercentage = Double.toString(Integer.parseInt((getLevelnum()))/15*100);
 
     public PrimaryView()
     {
@@ -83,6 +87,43 @@ public class PrimaryView extends View
     {
         return Levelnum;
     }
+
+    public static String getTotalQuestionsAnswered() {
+        return TotalQuestionsAnswered;
+    }
+
+    public static String getCorrectAnswers() {
+        return CorrectAnswers;
+    }
+
+    public static String getWrongAnswers() {
+        return WrongAnswers;
+    }
+
+    public static String getSuccessPercentage() {
+        return SuccessPercentage;
+    }
+
+    public static void setTotalQuestionsAnswered(String TotalQuestions)
+    {
+        TotalQuestionsAnswered =TotalQuestions;
+    }
+    public static void setCorrectAnswers(String CorrectAnswer)
+    {
+        CorrectAnswers = CorrectAnswer;
+    }
+
+    public static void setWrongAnswers(String WrongAnswer)
+    {
+        WrongAnswers  = WrongAnswer;
+    }
+
+    public static void setSuccessPercentage(String SuccessPercent)
+    {
+        SuccessPercentage = SuccessPercent;
+    }
+
+
 
 
 }
