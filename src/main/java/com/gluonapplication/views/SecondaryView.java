@@ -6,6 +6,7 @@ import com.gluonhq.charm.glisten.control.FloatingActionButton;
 import com.gluonhq.charm.glisten.mvc.View;
 import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
@@ -16,7 +17,7 @@ public class SecondaryView extends View {
         getStylesheets().add(SecondaryView.class.getResource("secondary.css").toExternalForm());
         
         VBox Container = new VBox(10);
-        Container.getChildren().add(new Label("Ijagv"));
+        Container.getChildren().addAll(new Label("Ijagv"),new Button("me"));
 
         VBox controls = new VBox(Container);
         controls.setAlignment(Pos.CENTER);
