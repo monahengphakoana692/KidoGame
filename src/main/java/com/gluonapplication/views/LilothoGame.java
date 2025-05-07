@@ -3,10 +3,16 @@ package com.gluonapplication.views;
 import com.gluonhq.charm.glisten.control.AppBar;
 import com.gluonhq.charm.glisten.mvc.View;
 import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
+import javafx.animation.KeyFrame;
+import javafx.animation.PauseTransition;
+import javafx.animation.Timeline;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -17,6 +23,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.util.Duration;
 
 public class LilothoGame extends View {
 
@@ -28,7 +35,11 @@ public class LilothoGame extends View {
     private MediaView mediaView;
     private int currentLevel = 0;
     private int currentCategory = 0;
-    private LevelsView levelsView;
+    private LevelsView levelsView = new LevelsView();
+
+    private Timeline questionTimer;
+    private DoubleProperty timeRemaining = new SimpleDoubleProperty(10);
+    private ProgressBar timerProgressBar;
 
     public LilothoGame()
     {
@@ -48,13 +59,19 @@ public class LilothoGame extends View {
         showLevel(currentLevel);
     }
 
-    public void showLevel(int levelIndex) {
-        VBox questionView = createQuestionView(levelIndex);
-        StackPane levelContainer = createLevelContainer(questionView);
-        setCenter(levelContainer);
+    public void showLevel(int levelIndex)
+    {
+
+            VBox questionView = createQuestionView(levelIndex);
+            StackPane levelContainer = createLevelContainer(questionView);
+            setCenter(levelContainer);
+
+
     }
 
-    private StackPane createLevelContainer(VBox content) {
+    private StackPane createLevelContainer(VBox content)
+    {
+
         Image background = new Image("/background.jpg");
         ImageView bgView = new ImageView(background);
         bgView.setOpacity(0.2);
@@ -107,10 +124,20 @@ public class LilothoGame extends View {
         }
     }
 
-    private VBox createQuestion(String url,String questionText, String[] options, int correctIndex) {
+    private VBox createQuestion(String url, String questionText, String[] options, int correctIndex)
+    {
         Label questionLabel = new Label(questionText);
         questionLabel.setFont(Font.font("Arial", FontWeight.BOLD, 30));
         questionLabel.setWrapText(true);
+
+        // Create and configure the timer progress bar
+        timerProgressBar = new ProgressBar();
+        timerProgressBar.setPrefWidth(300);
+        timerProgressBar.setMaxWidth(Double.MAX_VALUE);
+        timerProgressBar.progressProperty().bind(timeRemaining.divide(10));
+
+        // Style the progress bar to change color as time runs out
+        timerProgressBar.setStyle("-fx-accent: #4CAF50;"); // Start with green
 
         VBox optionsBox = new VBox(10);
         optionsBox.setAlignment(Pos.CENTER);
@@ -120,8 +147,11 @@ public class LilothoGame extends View {
             optionsBox.getChildren().add(optionButton);
         }
 
-        VBox questionBox = new VBox(20,createOptionImage(url), questionLabel, optionsBox);
+        VBox questionBox = new VBox(20, createOptionImage(url), questionLabel, timerProgressBar, optionsBox);
         questionBox.setAlignment(Pos.CENTER);
+
+        // Start the timer for this question
+        startQuestionTimer(correctIndex);
 
         return questionBox;
     }
@@ -129,7 +159,7 @@ public class LilothoGame extends View {
     {
         Image image = new Image(url);
         ImageView imageView = new ImageView(image);
-        imageView.setFitHeight(150);
+        imageView.setFitHeight(100);
         imageView.setFitWidth(150);
 
         VBox imageHolder = new VBox(imageView);
@@ -141,19 +171,60 @@ public class LilothoGame extends View {
 
     private Button createOptionButton(String text, boolean isCorrect) {
         Button button = new Button(text);
-        button.setOnAction(e -> handleAnswer(isCorrect));
+        button.setUserData(isCorrect);
+        // Apply inline CSS styling
+        button.setStyle("-fx-font-size: 13px; " +
+                "-fx-pref-width: 210px; " +
+                "-fx-pref-height: 30px; " +
+                "-fx-background-radius: 25; " +
+                "-fx-border-radius: 25; ");
+        button.setOnAction(e -> handleAnswer(button, isCorrect));
         return button;
     }
 
-    private void handleAnswer(boolean isCorrect) {
-        levelResults[currentLevel] = isCorrect;
-        currentLevel++;
-
-        if (currentLevel < LEVELS_PER_CATEGORY) {
-            showLevel(currentLevel);
-        } else {
-            showResultsView();
+    private void handleAnswer(Button selectedButton, boolean isCorrect) {
+        // Stop the timer
+        if (questionTimer != null) {
+            questionTimer.stop();
         }
+
+        VBox optionsBox = (VBox) selectedButton.getParent();
+        for (var node : optionsBox.getChildren()) {
+            Button button = (Button) node;
+            button.setDisable(true);
+
+            // Highlight the correct answer in green
+            if ((boolean) button.getUserData()) {
+                button.setStyle(button.getStyle() +
+                        "-fx-background-color: #4CAF50; " + // Green
+                        "-fx-text-fill: white;");
+            }
+            // Highlight the selected answer (green if correct, red if wrong)
+            else if (button == selectedButton) {
+                if (isCorrect) {
+                    button.setStyle(button.getStyle() +
+                            "-fx-background-color: #4CAF50; " + // Green
+                            "-fx-text-fill: white;");
+                } else {
+                    button.setStyle(button.getStyle() +
+                            "-fx-background-color: #F44336; " + // Red
+                            "-fx-text-fill: white;");
+                }
+            }
+        }
+
+        levelResults[currentLevel] = isCorrect;
+
+        PauseTransition delay = new PauseTransition(Duration.seconds(1.5));
+        delay.setOnFinished(event -> {
+            currentLevel++;
+            if (currentLevel < LEVELS_PER_CATEGORY) {
+                showLevel(currentLevel);
+            } else {
+                showResultsView();
+            }
+        });
+        delay.play();
     }
 
     private void showResultsView() {
@@ -222,7 +293,7 @@ public class LilothoGame extends View {
         Button nextCategoryButton = new Button("Karolo e 'ngoe");
         nextCategoryButton.setOnAction(e ->
         {
-           getAppManager().goHome();
+            getAppManager().goHome();
             HoldMediaPlayers();
         });
 
@@ -307,6 +378,37 @@ public class LilothoGame extends View {
         }
     }
 
+    private void timeUp(int correctIndex) {
+        // Disable all buttons
+        VBox questionBox = (VBox) timerProgressBar.getParent();
+        VBox optionsBox = (VBox) questionBox.getChildren().get(3); // Options box is the 4th child
+
+        for (var node : optionsBox.getChildren()) {
+            Button button = (Button) node;
+            button.setDisable(true);
+
+            // Highlight the correct answer
+            if ((boolean) button.getUserData()) {
+                button.getStyleClass().add("correct-answer");
+            }
+        }
+
+        // Mark this question as failed
+        levelResults[currentLevel] = false;
+
+        // Delay before moving to next question
+        PauseTransition delay = new PauseTransition(Duration.seconds(3));
+        delay.setOnFinished(event -> {
+            currentLevel++;
+            if (currentLevel < LEVELS_PER_CATEGORY) {
+                showLevel(currentLevel);
+            } else {
+                showResultsView();
+            }
+        });
+        delay.play();
+    }
+
     @Override
     protected void updateAppBar(AppBar appBar) {
         appBar.setNavIcon(MaterialDesignIcon.ARROW_BACK.button(e -> {
@@ -321,9 +423,35 @@ public class LilothoGame extends View {
         cleanupMediaPlayers();
     }
 
-    public void seeLevels()
-    {
-        LevelsView levelsView = new LevelsView();
-        setCenter(levelsView);
+    private void startQuestionTimer(int correctIndex) {
+        // Stop any existing timer
+        if (questionTimer != null) {
+            questionTimer.stop();
+        }
+
+        // Reset time remaining
+        timeRemaining.set(10);
+
+        // Create new timer
+        questionTimer = new Timeline(
+                new KeyFrame(Duration.seconds(0.1), event -> {
+                    timeRemaining.set(timeRemaining.get() - 0.1);
+
+                    // Change color as time runs out
+                    if (timeRemaining.get() < 3) {
+                        timerProgressBar.setStyle("-fx-accent: #F44336;"); // Red when time is almost up
+                    } else if (timeRemaining.get() < 7) {
+                        timerProgressBar.setStyle("-fx-accent: #FFC107;"); // Yellow when time is halfway
+                    }
+
+                    if (timeRemaining.get() <= 0) {
+                        questionTimer.stop();
+                        timeUp(correctIndex);
+                    }
+                }
+                ));
+        questionTimer.setCycleCount(Timeline.INDEFINITE);
+        questionTimer.play();
     }
+
 }

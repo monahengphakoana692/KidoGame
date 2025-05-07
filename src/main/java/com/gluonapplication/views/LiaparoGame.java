@@ -3,10 +3,16 @@ package com.gluonapplication.views;
 import com.gluonhq.charm.glisten.control.AppBar;
 import com.gluonhq.charm.glisten.mvc.View;
 import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
+import javafx.animation.KeyFrame;
+import javafx.animation.PauseTransition;
+import javafx.animation.Timeline;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -17,6 +23,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.util.Duration;
 
 public class LiaparoGame extends View {
 
@@ -26,12 +33,17 @@ public class LiaparoGame extends View {
     private MediaPlayer videoPlayer;
     private MediaPlayer audioPlayer;
     private MediaView mediaView;
-    private int currentLevelIndex = 0; // Index within current category (0-2)
-    private int currentCategory;      // Category index (6-8)
-    Media video ;
-    MediaPlayer mediaPlayer;
-    MediaView videoView;
-    private LevelsView4 levelsView;
+    private int currentLevelIndex = 0;
+    private int currentCategory;
+    private Media video;
+    private MediaPlayer mediaPlayer;
+    private MediaView videoView;
+    private LevelsView4 levelsView = new LevelsView4();
+
+    // Timer related variables
+    private Timeline questionTimer;
+    private DoubleProperty timeRemaining = new SimpleDoubleProperty(10);
+    private ProgressBar timerProgressBar;
 
     public LiaparoGame() {
         initializeUI();
@@ -40,12 +52,11 @@ public class LiaparoGame extends View {
 
     private void initializeUI() {
         getStylesheets().add(getClass().getResource("primary.css").toExternalForm());
-        // Initialize current category from saved state
         currentCategory = Integer.parseInt(PrimaryView.getLevelnum());
     }
 
     private void loadFirstLevel() {
-        currentLevelIndex = 0; // Always start at first question of category
+        currentLevelIndex = 0;
         showLevel(currentLevelIndex);
     }
 
@@ -73,7 +84,6 @@ public class LiaparoGame extends View {
     }
 
     private VBox createQuestionView(int levelIndex) {
-        // Define all questions organized by category and level
         String[][][] questions = new String[12][3][7];
         questions[9] = new String[][] {
                 {"/applauseV.mp4","Khomo ea lebese ha e itsoale?", "Ha ho motho a iketsetsang lintho", "Hase ha ngata ngoana \n aka futsang Motsoali ka matla ", "Batho ba thusana", "Motho a phelang ka litsietse", "1"},
@@ -93,36 +103,22 @@ public class LiaparoGame extends View {
                 {"/applauseV.mp4","Ho tlola Khomo?", "Moraha ka sakeng", "Ho senyeheloa", "Jwala bo qhalaneng", "Bana ba hae", "3"}
         };
 
-        // Check if the category exists and has questions
         if (currentCategory >= 9 && currentCategory <= 11 &&
                 questions[currentCategory] != null &&
                 levelIndex < questions[currentCategory].length) {
 
             String[] questionData = questions[currentCategory][levelIndex];
-
-            // Additional safety check for question data
             if (questionData != null && questionData.length >= 7) {
                 String questionText = "Khetha tlhaloso ea Leele le latelang: \n" + questionData[1];
-                String[] options = {
-                        questionData[2],
-                        questionData[3],
-                        questionData[4],
-                        questionData[5]
-                };
+                String[] options = {questionData[2], questionData[3], questionData[4], questionData[5]};
                 int correctIndex = Integer.parseInt(questionData[6]);
-
                 return createQuestion(questionData[0], questionText, options, correctIndex);
             }
         }
-
-        // If any check fails, return results view
         return createResultsView();
     }
 
-    private VBox createOptionVideo(String url)
-    {
-
-
+    private VBox createOptionVideo(String url) {
         video = new Media(getClass().getResource(url).toString());
         mediaPlayer = new MediaPlayer(video);
         videoView = new MediaView(mediaPlayer);
@@ -133,14 +129,20 @@ public class LiaparoGame extends View {
 
         VBox videoHolder = new VBox(videoView);
         videoHolder.setAlignment(Pos.TOP_CENTER);
-
         return videoHolder;
     }
 
     private VBox createQuestion(String url, String questionText, String[] options, int correctIndex) {
         Label questionLabel = new Label(questionText);
-        questionLabel.setFont(Font.font("Arial", FontWeight.BOLD, 30));
+        questionLabel.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         questionLabel.setWrapText(true);
+
+        // Timer progress bar
+        timerProgressBar = new ProgressBar();
+        timerProgressBar.setPrefWidth(300);
+        timerProgressBar.setMaxWidth(Double.MAX_VALUE);
+        timerProgressBar.progressProperty().bind(timeRemaining.divide(10));
+        timerProgressBar.setStyle("-fx-accent: #4CAF50;");
 
         VBox optionsBox = new VBox(10);
         optionsBox.setAlignment(Pos.CENTER);
@@ -150,27 +152,112 @@ public class LiaparoGame extends View {
             optionsBox.getChildren().add(optionButton);
         }
 
-        VBox questionBox = new VBox(20, createOptionVideo(url), questionLabel, optionsBox);
+        VBox questionBox = new VBox(20, createOptionVideo(url), questionLabel, timerProgressBar, optionsBox);
         questionBox.setAlignment(Pos.CENTER);
 
+        startQuestionTimer(correctIndex);
         return questionBox;
     }
 
     private Button createOptionButton(String text, boolean isCorrect) {
         Button button = new Button(text);
-        button.setOnAction(e -> handleAnswer(isCorrect));
+        button.setUserData(isCorrect);
+        button.setStyle("-fx-font-size: 13px; " +
+                "-fx-pref-width: 210px; " +
+                "-fx-pref-height: 60px; " +
+                "-fx-background-radius: 25; " +
+                "-fx-border-radius: 25; ");
+        button.setOnAction(e -> handleAnswer(button, isCorrect));
         return button;
     }
 
-    private void handleAnswer(boolean isCorrect) {
-        levelResults[currentLevelIndex] = isCorrect;
-        currentLevelIndex++;
-
-        if (currentLevelIndex < LEVELS_PER_CATEGORY) {
-            showLevel(currentLevelIndex);
-        } else {
-            showResultsView();
+    private void handleAnswer(Button selectedButton, boolean isCorrect) {
+        if (questionTimer != null) {
+            questionTimer.stop();
         }
+
+        VBox optionsBox = (VBox) selectedButton.getParent();
+        for (var node : optionsBox.getChildren()) {
+            Button button = (Button) node;
+            button.setDisable(true);
+
+            if ((boolean) button.getUserData()) {
+                button.setStyle(button.getStyle() +
+                        "-fx-background-color: #4CAF50; " +
+                        "-fx-text-fill: white;");
+            } else if (button == selectedButton && !isCorrect) {
+                button.setStyle(button.getStyle() +
+                        "-fx-background-color: #F44336; " +
+                        "-fx-text-fill: white;");
+            }
+        }
+
+        levelResults[currentLevelIndex] = isCorrect;
+
+        PauseTransition delay = new PauseTransition(Duration.seconds(2));
+        delay.setOnFinished(event -> {
+            currentLevelIndex++;
+            if (currentLevelIndex < LEVELS_PER_CATEGORY) {
+                showLevel(currentLevelIndex);
+            } else {
+                showResultsView();
+            }
+        });
+        delay.play();
+    }
+
+    private void startQuestionTimer(int correctIndex) {
+        if (questionTimer != null) {
+            questionTimer.stop();
+        }
+
+        timeRemaining.set(10);
+        questionTimer = new Timeline(
+                new KeyFrame(Duration.seconds(0.1), event -> {
+                    timeRemaining.set(timeRemaining.get() - 0.1);
+
+                    if (timeRemaining.get() < 3) {
+                        timerProgressBar.setStyle("-fx-accent: #F44336;");
+                    } else if (timeRemaining.get() < 7) {
+                        timerProgressBar.setStyle("-fx-accent: #FFC107;");
+                    }
+
+                    if (timeRemaining.get() <= 0) {
+                        questionTimer.stop();
+                        timeUp(correctIndex);
+                    }
+                }));
+        questionTimer.setCycleCount(Timeline.INDEFINITE);
+        questionTimer.play();
+    }
+
+    private void timeUp(int correctIndex) {
+        VBox questionBox = (VBox) timerProgressBar.getParent();
+        VBox optionsBox = (VBox) questionBox.getChildren().get(3);
+
+        for (var node : optionsBox.getChildren()) {
+            Button button = (Button) node;
+            button.setDisable(true);
+
+            if ((boolean) button.getUserData()) {
+                button.setStyle(button.getStyle() +
+                        "-fx-background-color: #4CAF50; " +
+                        "-fx-text-fill: white;");
+            }
+        }
+
+        levelResults[currentLevelIndex] = false;
+
+        PauseTransition delay = new PauseTransition(Duration.seconds(2));
+        delay.setOnFinished(event -> {
+            currentLevelIndex++;
+            if (currentLevelIndex < LEVELS_PER_CATEGORY) {
+                showLevel(currentLevelIndex);
+            } else {
+                showResultsView();
+            }
+        });
+        delay.play();
     }
 
     private void showResultsView() {
@@ -198,6 +285,7 @@ public class LiaparoGame extends View {
                 case 11:
                     levelsView.setL3Icon("/win3.png");
                     // All categories completed
+                    PrimaryView.setLevelnum("12");
                     break;
             }
 

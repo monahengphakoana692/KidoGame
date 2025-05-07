@@ -58,3 +58,21 @@
     /*-fx-background-position: center;
     -fx-background-repeat: no-repeat;
 }*/
+
+.option-button {
+    -fx-font-size: 13px;
+    -fx-pref-width: 210px;
+    -fx-pref-height: 30px;
+    -fx-background-radius: 25;
+    -fx-border-radius: 25;
+}
+
+.correct-answer {
+    -fx-background-color: #4CAF50; /* Green */
+    -fx-text-fill: white;
+}
+
+.wrong-answer {
+    -fx-background-color: #F44336; /* Red */
+    -fx-text-fill: white;
+}

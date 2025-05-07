@@ -13,9 +13,11 @@ import javafx.scene.layout.VBox;
 
 public class PrimaryView extends View
 {
-    private static String Levelnum = "0";
+    private static String Levelnum = "14";
+    private Label levelLabel;
     public static final String[] basicLevel = {"/L1.png","/L2.png","/L3.png"};
     public static final String[] AdvancedLevel = {"/win1.png","/win2.png","/win3.png"};
+    public static String secondaryView = "secView";
 
     public PrimaryView()
     {
@@ -52,22 +54,32 @@ public class PrimaryView extends View
 
         // Set the ScrollPane as the center of the View
         setCenter(scrollPane);
+        if(getLevelnum().equals(15))
+        {
+            getAppManager().addViewFactory(secondaryView, () -> new SecondaryView());
+        }
+
     }
 
     @Override
     protected void updateAppBar(AppBar appBar) {
         appBar.setNavIcon(MaterialDesignIcon.MENU.button(e -> getAppManager().getDrawer().open()));
-        appBar.setTitleText("Primary");
-        appBar.getActionItems().add(new Label("BOEMO: "+Levelnum));
+        appBar.setTitleText("Lapeng");
+
+        levelLabel = new Label("BOEMO: " + Levelnum);
+        appBar.getActionItems().add(levelLabel);
     }
+
 
     public static void setLevelnum(String levelnum)
 
     {
         Levelnum = levelnum;
+
     }
 
     public static String getLevelnum()
+
     {
         return Levelnum;
     }

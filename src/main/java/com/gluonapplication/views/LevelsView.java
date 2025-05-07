@@ -58,8 +58,6 @@ public class LevelsView extends View
 
     // Game instances
     private  LilothoGame lilothoGame;
-    //private final MaeleGame maeleGame = new MaeleGame(); // You'll need to create this class
-    //private final LipapaliGame lipapaliGame = new LipapaliGame(); // You'll need to create this class
     static VBox level1Box;
     static VBox level2Box;
     static VBox level3Box;
@@ -134,32 +132,6 @@ public class LevelsView extends View
         return levelBox;
     }
 
-    private VBox createCategoryBox(String imagePath, String title, String viewName, String style) {
-        VBox categoryBox = new VBox(10);
-        categoryBox.setAlignment(Pos.TOP_CENTER);
-        categoryBox.setPadding(new Insets(10));
-        categoryBox.setMaxWidth(150);
-        categoryBox.setStyle(style);
-
-        try {
-            Image image = new Image(imagePath);
-            ImageView imageView = new ImageView(image);
-            imageView.setFitWidth(150);
-            imageView.setFitHeight(150);
-            imageView.setPreserveRatio(true);
-            imageView.setOnMouseClicked(event -> showGame(viewName));
-
-            Label label = new Label(title);
-            label.setAlignment(Pos.CENTER);
-            label.setStyle("-fx-font-weight: bold;");
-
-            categoryBox.getChildren().addAll(imageView, label);
-        } catch (Exception e) {
-            showAlert("Error loading category: " + e.getMessage());
-        }
-
-        return categoryBox;
-    }
 
     public void showGame(String viewName) {
         try {
