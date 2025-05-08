@@ -150,7 +150,8 @@ public class SecondaryView extends View {
         categoryBox.getChildren().addAll(title, levelsBox, statsBox);
         return categoryBox;
     }
-    private VBox createOverallStatsBox() {
+    private VBox createOverallStatsBox()
+    {
         VBox overallBox = new VBox(15);
         overallBox.setAlignment(Pos.CENTER);
         overallBox.setStyle("-fx-background-color: orange; " +

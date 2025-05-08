@@ -236,7 +236,9 @@ public class MaeleGame extends View {
 
         if (correctCount == LEVELS_PER_CATEGORY) {
             playSuccessAnimation();
-
+            PrimaryView.setCorrectAnswers(Integer.toString(correctCount + Integer.parseInt(PrimaryView.getCorrectAnswers())));
+            PrimaryView.setTotalQuestionsAnswered(Integer.toString(LEVELS_PER_CATEGORY));
+            PrimaryView.setWrongAnswers(Integer.toString(Integer.parseInt(PrimaryView.getWrongAnswers())));
             // Update icons based on current category progression
             switch(currentCategory) {
                 case 3:

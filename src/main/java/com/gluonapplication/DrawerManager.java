@@ -26,8 +26,9 @@ import static com.gluonhq.charm.glisten.application.AppManager.HOME_VIEW;
         drawer.setHeader(header);
 
         final Item homeItem = new ViewItem("LAPENG", MaterialDesignIcon.HOME.graphic(), HOME_VIEW);
-        final Item secondView = new ViewItem("LiTLALEHO", MaterialDesignIcon.BOOK.graphic(),SECONDARY_VIEW);
-        drawer.getItems().addAll(homeItem,secondView);
+        final Item secondView = new ViewItem("LiTLALEHO", MaterialDesignIcon.ASSESSMENT.graphic(),SECONDARY_VIEW);
+        final Item lesson = new ViewItem("BOITHUTO", MaterialDesignIcon.BOOK.graphic(),LESSSONS_VIEW);
+        drawer.getItems().addAll(homeItem,secondView,lesson);
 
         if (Platform.isDesktop()) {
             final Item quitItem = new Item("TSOA", MaterialDesignIcon.EXIT_TO_APP.graphic());

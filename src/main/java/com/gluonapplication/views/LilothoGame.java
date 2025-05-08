@@ -41,16 +41,13 @@ public class LilothoGame extends View {
     private DoubleProperty timeRemaining = new SimpleDoubleProperty(10);
     private ProgressBar timerProgressBar;
 
-    public LilothoGame()
-    {
+    public LilothoGame() {
         initializeUI();
-
         loadFirstLevel();
     }
 
     private void initializeUI() {
         getStylesheets().add(getClass().getResource("primary.css").toExternalForm());
-        // Initialize current category from saved state
         currentCategory = Integer.parseInt(PrimaryView.getLevelnum());
     }
 
@@ -59,19 +56,13 @@ public class LilothoGame extends View {
         showLevel(currentLevel);
     }
 
-    public void showLevel(int levelIndex)
-    {
-
-            VBox questionView = createQuestionView(levelIndex);
-            StackPane levelContainer = createLevelContainer(questionView);
-            setCenter(levelContainer);
-
-
+    public void showLevel(int levelIndex) {
+        VBox questionView = createQuestionView(levelIndex);
+        StackPane levelContainer = createLevelContainer(questionView);
+        setCenter(levelContainer);
     }
 
-    private StackPane createLevelContainer(VBox content)
-    {
-
+    private StackPane createLevelContainer(VBox content) {
         Image background = new Image("/background.jpg");
         ImageView bgView = new ImageView(background);
         bgView.setOpacity(0.2);
@@ -89,7 +80,6 @@ public class LilothoGame extends View {
     }
 
     private VBox createQuestionView(int levelIndex) {
-        // Define all questions organized by category and level
         String[][][] questions = {
                 // Category 0
                 {
@@ -118,26 +108,22 @@ public class LilothoGame extends View {
             String[] options = {questionData[2], questionData[3], questionData[4], questionData[5]};
             int correctIndex = Integer.parseInt(questionData[6]);
 
-            return createQuestion(url,questionText, options, correctIndex);
+            return createQuestion(url, questionText, options, correctIndex);
         } else {
             return createResultsView();
         }
     }
 
-    private VBox createQuestion(String url, String questionText, String[] options, int correctIndex)
-    {
+    private VBox createQuestion(String url, String questionText, String[] options, int correctIndex) {
         Label questionLabel = new Label(questionText);
         questionLabel.setFont(Font.font("Arial", FontWeight.BOLD, 30));
         questionLabel.setWrapText(true);
 
-        // Create and configure the timer progress bar
         timerProgressBar = new ProgressBar();
         timerProgressBar.setPrefWidth(300);
         timerProgressBar.setMaxWidth(Double.MAX_VALUE);
         timerProgressBar.progressProperty().bind(timeRemaining.divide(10));
-
-        // Style the progress bar to change color as time runs out
-        timerProgressBar.setStyle("-fx-accent: #4CAF50;"); // Start with green
+        timerProgressBar.setStyle("-fx-accent: #4CAF50;");
 
         VBox optionsBox = new VBox(10);
         optionsBox.setAlignment(Pos.CENTER);
@@ -150,13 +136,11 @@ public class LilothoGame extends View {
         VBox questionBox = new VBox(20, createOptionImage(url), questionLabel, timerProgressBar, optionsBox);
         questionBox.setAlignment(Pos.CENTER);
 
-        // Start the timer for this question
         startQuestionTimer(correctIndex);
-
         return questionBox;
     }
-    private VBox createOptionImage(String url)
-    {
+
+    private VBox createOptionImage(String url) {
         Image image = new Image(url);
         ImageView imageView = new ImageView(image);
         imageView.setFitHeight(100);
@@ -164,26 +148,18 @@ public class LilothoGame extends View {
 
         VBox imageHolder = new VBox(imageView);
         imageHolder.setAlignment(Pos.TOP_CENTER);
-
         return imageHolder;
-
     }
 
     private Button createOptionButton(String text, boolean isCorrect) {
         Button button = new Button(text);
         button.setUserData(isCorrect);
-        // Apply inline CSS styling
-        button.setStyle("-fx-font-size: 13px; " +
-                "-fx-pref-width: 210px; " +
-                "-fx-pref-height: 30px; " +
-                "-fx-background-radius: 25; " +
-                "-fx-border-radius: 25; ");
+        button.setStyle("-fx-font-size: 13px; -fx-pref-width: 210px; -fx-pref-height: 30px; -fx-background-radius: 25; -fx-border-radius: 25;");
         button.setOnAction(e -> handleAnswer(button, isCorrect));
         return button;
     }
 
     private void handleAnswer(Button selectedButton, boolean isCorrect) {
-        // Stop the timer
         if (questionTimer != null) {
             questionTimer.stop();
         }
@@ -193,23 +169,10 @@ public class LilothoGame extends View {
             Button button = (Button) node;
             button.setDisable(true);
 
-            // Highlight the correct answer in green
             if ((boolean) button.getUserData()) {
-                button.setStyle(button.getStyle() +
-                        "-fx-background-color: #4CAF50; " + // Green
-                        "-fx-text-fill: white;");
-            }
-            // Highlight the selected answer (green if correct, red if wrong)
-            else if (button == selectedButton) {
-                if (isCorrect) {
-                    button.setStyle(button.getStyle() +
-                            "-fx-background-color: #4CAF50; " + // Green
-                            "-fx-text-fill: white;");
-                } else {
-                    button.setStyle(button.getStyle() +
-                            "-fx-background-color: #F44336; " + // Red
-                            "-fx-text-fill: white;");
-                }
+                button.setStyle(button.getStyle() + "-fx-background-color: #4CAF50; -fx-text-fill: white;");
+            } else if (button == selectedButton) {
+                button.setStyle(button.getStyle() + (isCorrect ? "-fx-background-color: #4CAF50;" : "-fx-background-color: #F44336;") + " -fx-text-fill: white;");
             }
         }
 
@@ -229,6 +192,10 @@ public class LilothoGame extends View {
 
     private void showResultsView() {
         int correctCount = countCorrectAnswers();
+        PrimaryView.setCorrectAnswers(Integer.toString(correctCount + Integer.parseInt(PrimaryView.getCorrectAnswers())));
+        PrimaryView.setTotalQuestionsAnswered(Integer.toString(LEVELS_PER_CATEGORY));
+        PrimaryView.setWrongAnswers(Integer.toString(Integer.parseInt(PrimaryView.getWrongAnswers())));
+
         VBox resultsView = createResultsView(correctCount);
         ScrollPane scrollPane = new ScrollPane(resultsView);
         scrollPane.setFitToWidth(true);
@@ -236,21 +203,11 @@ public class LilothoGame extends View {
 
         if (correctCount == LEVELS_PER_CATEGORY) {
             playSuccessAnimation();
-
-            // Update icons based on current level progression
-            switch(PrimaryView.getLevelnum()) {
-                case "1":
-                    levelsView.setL1Icon("/win1.png");
-                    break;
-                case "2":
-                    levelsView.setL2Icon("/win2.png");
-                    break;
-                case "3":
-                    levelsView.setL3Icon("/win3.png");
-                    break;
+            switch (PrimaryView.getLevelnum()) {
+                case "1": levelsView.setL1Icon("/win1.png"); break;
+                case "2": levelsView.setL2Icon("/win2.png"); break;
+                case "3": levelsView.setL3Icon("/win3.png"); break;
             }
-
-            // Refresh the levels view
             getAppManager().switchView("LevelsView");
 
             StackPane mediaContainer = new StackPane(mediaView);
@@ -258,7 +215,6 @@ public class LilothoGame extends View {
             mediaContainer.setAlignment(Pos.CENTER);
             resultsView.getChildren().add(mediaContainer);
 
-            // Progress to next category if available
             if (currentCategory < TOTAL_CATEGORIES - 1) {
                 currentCategory++;
                 PrimaryView.setLevelnum(String.valueOf(currentCategory));
@@ -271,10 +227,7 @@ public class LilothoGame extends View {
     }
 
     private VBox createResultsView(int correctCount) {
-        Label resultLabel = new Label(String.format(
-                "U fumane likarabo \n tse nepahetseng tse: %d/%d",
-                correctCount, LEVELS_PER_CATEGORY
-        ));
+        Label resultLabel = new Label(String.format("U fumane likarabo \n tse nepahetseng tse: %d/%d", correctCount, LEVELS_PER_CATEGORY));
         resultLabel.setFont(Font.font("Arial", FontWeight.BOLD, 24));
 
         Button homeButton = new Button("Ea Lapeng");
@@ -287,12 +240,10 @@ public class LilothoGame extends View {
         retryButton.setOnAction(e -> {
             onHidden();
             loadFirstLevel();
-
         });
 
         Button nextCategoryButton = new Button("Karolo e 'ngoe");
-        nextCategoryButton.setOnAction(e ->
-        {
+        nextCategoryButton.setOnAction(e -> {
             getAppManager().goHome();
             HoldMediaPlayers();
         });
@@ -321,33 +272,26 @@ public class LilothoGame extends View {
         for (boolean result : levelResults) {
             if (result) count++;
         }
-        PrimaryView.setCorrectAnswers(Integer.toString(count));
         return count;
     }
 
     private void playSuccessAnimation() {
         cleanupMediaPlayers();
-
         try {
             Media videoMedia = new Media(getClass().getResource("/applauseV.mp4").toString());
             Media audioMedia = new Media(getClass().getResource("/claps.mp3").toString());
-
             videoPlayer = new MediaPlayer(videoMedia);
             audioPlayer = new MediaPlayer(audioMedia);
             mediaView = new MediaView(videoPlayer);
-
             mediaView.setFitWidth(300);
             mediaView.setFitHeight(200);
             mediaView.setPreserveRatio(true);
-
             videoPlayer.setOnReady(() -> {
                 videoPlayer.play();
                 audioPlayer.play();
             });
-
             videoPlayer.setCycleCount(1);
             audioPlayer.setCycleCount(2);
-
         } catch (Exception e) {
             System.err.println("Error loading media: " + e.getMessage());
             e.printStackTrace();
@@ -366,38 +310,23 @@ public class LilothoGame extends View {
             audioPlayer = null;
         }
     }
+
     private void HoldMediaPlayers() {
-        if (videoPlayer != null) {
-            videoPlayer.stop();
-
-
-        }
-        if (audioPlayer != null) {
-            audioPlayer.stop();
-
-
-        }
+        if (videoPlayer != null) videoPlayer.stop();
+        if (audioPlayer != null) audioPlayer.stop();
     }
 
     private void timeUp(int correctIndex) {
-        // Disable all buttons
         VBox questionBox = (VBox) timerProgressBar.getParent();
-        VBox optionsBox = (VBox) questionBox.getChildren().get(3); // Options box is the 4th child
-
+        VBox optionsBox = (VBox) questionBox.getChildren().get(3);
         for (var node : optionsBox.getChildren()) {
             Button button = (Button) node;
             button.setDisable(true);
-
-            // Highlight the correct answer
             if ((boolean) button.getUserData()) {
                 button.getStyleClass().add("correct-answer");
             }
         }
-
-        // Mark this question as failed
         levelResults[currentLevel] = false;
-
-        // Delay before moving to next question
         PauseTransition delay = new PauseTransition(Duration.seconds(3));
         delay.setOnFinished(event -> {
             currentLevel++;
@@ -425,34 +354,25 @@ public class LilothoGame extends View {
     }
 
     private void startQuestionTimer(int correctIndex) {
-        // Stop any existing timer
         if (questionTimer != null) {
             questionTimer.stop();
         }
-
-        // Reset time remaining
         timeRemaining.set(10);
-
-        // Create new timer
         questionTimer = new Timeline(
                 new KeyFrame(Duration.seconds(0.1), event -> {
                     timeRemaining.set(timeRemaining.get() - 0.1);
-
-                    // Change color as time runs out
                     if (timeRemaining.get() < 3) {
-                        timerProgressBar.setStyle("-fx-accent: #F44336;"); // Red when time is almost up
+                        timerProgressBar.setStyle("-fx-accent: #F44336;");
                     } else if (timeRemaining.get() < 7) {
-                        timerProgressBar.setStyle("-fx-accent: #FFC107;"); // Yellow when time is halfway
+                        timerProgressBar.setStyle("-fx-accent: #FFC107;");
                     }
-
                     if (timeRemaining.get() <= 0) {
                         questionTimer.stop();
                         timeUp(correctIndex);
                     }
-                }
-                ));
+                })
+        );
         questionTimer.setCycleCount(Timeline.INDEFINITE);
         questionTimer.play();
     }
-
 }

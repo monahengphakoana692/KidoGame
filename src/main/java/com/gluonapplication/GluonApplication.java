@@ -14,6 +14,7 @@ public class GluonApplication extends Application {
 
     public static final String PRIMARY_VIEW = HOME_VIEW;
     public static final String SECONDARY_VIEW = "Second View";
+    public static final String LESSSONS_VIEW = "Lessons";
 
 
     private final AppManager appManager = AppManager.initialize(this::postInit);
@@ -26,6 +27,7 @@ public class GluonApplication extends Application {
         System.setProperty("attach.storage.path", System.getProperty("user.home") + "/.KidoGame");
         appManager.addViewFactory(PRIMARY_VIEW, PrimaryView::new);
         appManager.addViewFactory(SECONDARY_VIEW, SecondaryView::new);
+        appManager.addViewFactory(LESSSONS_VIEW, Lessons::new);
 
 
         DrawerManager.buildDrawer(appManager);

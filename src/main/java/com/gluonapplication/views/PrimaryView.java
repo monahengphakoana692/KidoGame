@@ -13,7 +13,7 @@ import javafx.scene.layout.VBox;
 
 public class PrimaryView extends View
 {
-    private static String Levelnum = "14";
+    private static String Levelnum = "0";
     private Label levelLabel;
     public static final String[] basicLevel = {"/L1.png","/L2.png","/L3.png"};
     public static final String[] AdvancedLevel = {"/win1.png","/win2.png","/win3.png"};
@@ -124,7 +124,7 @@ public class PrimaryView extends View
     }
 
     public static class CategoryStats {
-        public int totalQuestions = 45;
+        public int totalQuestions = 9;
         public int correctAnswers = Integer.parseInt(PrimaryView.getCorrectAnswers());
         public int wrongAnswers   = Integer.parseInt(PrimaryView.getWrongAnswers());
         public LevelStat[] levelStats = new LevelStat[3];
@@ -133,6 +133,7 @@ public class PrimaryView extends View
             // Initialize level stats
             for (int i = 0; i < levelStats.length; i++) {
                 levelStats[i] = new LevelStat();
+                levelStats[i].correctAnswers = correctAnswers;
             }
         }
 
@@ -151,7 +152,7 @@ public class PrimaryView extends View
     }
 
     public static class OverallStats {
-        public int totalQuestions;
+        public int totalQuestions = 45;
         public int totalCorrect;
         public int totalWrong;
 
