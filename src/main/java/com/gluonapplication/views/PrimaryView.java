@@ -3,6 +3,7 @@ package com.gluonapplication.views;
 import com.gluonhq.charm.glisten.control.AppBar;
 import com.gluonhq.charm.glisten.mvc.View;
 import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
+import javafx.animation.PauseTransition;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -10,10 +11,13 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
 
 public class PrimaryView extends View
 {
-    private static String Levelnum = "11";
+    private static String Levelnum = "0";
     private Label levelLabel;
     public static final String[] basicLevel = {"/L1.png","/L2.png","/L3.png"};
     public static final String[] AdvancedLevel = {"/win1.png","/win2.png","/win3.png"};
@@ -22,6 +26,7 @@ public class PrimaryView extends View
     private static String CorrectAnswers = "0";
     private static String WrongAnswers = "0";
     private static String SuccessPercentage = Double.toString(Integer.parseInt((getLevelnum()))/15*100);
+    private MediaPlayer audioPlayer;
 
     public PrimaryView()
     {
@@ -62,6 +67,8 @@ public class PrimaryView extends View
         {
             getAppManager().addViewFactory(secondaryView, () -> new SecondaryView());
         }
+
+        BackgroundSound();//playing the background sound
 
     }
 
@@ -184,6 +191,16 @@ public class PrimaryView extends View
         OverallStats stats = new OverallStats();
         // Implement actual statistics tracking
         return stats;
+    }
+
+    public void BackgroundSound() {
+        Media audioMedia = new Media(getClass().getResource("/backgroundSound.mp3").toString());
+        audioPlayer = new MediaPlayer(audioMedia);
+
+        audioPlayer.setVolume(0.1);
+        audioPlayer.setCycleCount(MediaPlayer.INDEFINITE); // Optional: loop background sound
+
+        audioPlayer.play();
     }
 
 

@@ -25,6 +25,10 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.util.Duration;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class LilothoGame extends View {
 
     private static final int LEVELS_PER_CATEGORY = 3;
@@ -128,8 +132,15 @@ public class LilothoGame extends View {
         VBox optionsBox = new VBox(10);
         optionsBox.setAlignment(Pos.CENTER);
 
+        List<Integer> indexList = new ArrayList<>();
         for (int i = 0; i < options.length; i++) {
-            Button optionButton = createOptionButton(options[i], i == correctIndex);
+            indexList.add(i);
+        }
+        Collections.shuffle(indexList); // Randomize the order
+
+        for (int i : indexList) {
+            boolean isCorrect = (i == correctIndex); // preserve correct flag
+            Button optionButton = createOptionButton(options[i], isCorrect);
             optionsBox.getChildren().add(optionButton);
         }
 

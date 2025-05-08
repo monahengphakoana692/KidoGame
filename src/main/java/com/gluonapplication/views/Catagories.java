@@ -12,7 +12,6 @@ import javafx.scene.layout.VBox;
 public class Catagories extends View {
     // Constants for view names
     public static final String LILOTHO_VIEW = "Lilotho";
-
     public static final String MAELE_VIEW = "Maele";
     public static final String LIPAPALI_VIEW = "Lipapali";
     public static final String LIAPARO_VIEW = "Liaparo";
@@ -23,8 +22,6 @@ public class Catagories extends View {
     private  LevelsView3 levelsView3;
     private  LevelsView4 levelsView4;
     private  LevelsView5 levelsView5;
-    //private final MaeleGame maeleGame = new MaeleGame();
-    //private final LipapaliGame lipapaliGame = new LipapaliGame();
 
     public VBox getLilotho() {
         return createCategoryBox(
