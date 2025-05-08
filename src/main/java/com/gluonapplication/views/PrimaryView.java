@@ -123,7 +123,67 @@ public class PrimaryView extends View
         SuccessPercentage = SuccessPercent;
     }
 
+    public static class CategoryStats {
+        public int totalQuestions = 45;
+        public int correctAnswers = Integer.parseInt(PrimaryView.getCorrectAnswers());
+        public int wrongAnswers   = Integer.parseInt(PrimaryView.getWrongAnswers());
+        public LevelStat[] levelStats = new LevelStat[3];
 
+        public CategoryStats() {
+            // Initialize level stats
+            for (int i = 0; i < levelStats.length; i++) {
+                levelStats[i] = new LevelStat();
+            }
+        }
+
+        public double successPercentage() {
+            return totalQuestions > 0 ? (correctAnswers * 100.0 / totalQuestions) : 0;
+        }
+    }
+
+    public static class LevelStat {
+        public int questionsAttempted;
+        public int correctAnswers;
+
+        public double completionPercentage() {
+            return questionsAttempted > 0 ? (correctAnswers * 100.0 / questionsAttempted) : 0;
+        }
+    }
+
+    public static class OverallStats {
+        public int totalQuestions;
+        public int totalCorrect;
+        public int totalWrong;
+
+        public double overallPercentage() {
+            return totalQuestions > 0 ? (totalCorrect * 100.0 / totalQuestions) : 0;
+        }
+    }
+
+    // Add these methods to track statistics for each category
+    public static CategoryStats getLilothoStats() {
+        CategoryStats stats = new CategoryStats();
+        // Implement actual statistics tracking
+        return stats;
+    }
+
+    public static CategoryStats getMaeleStats() {
+        CategoryStats stats = new CategoryStats();
+        // Implement actual statistics tracking
+        return stats;
+    }
+
+    public static CategoryStats getLipapaliStats() {
+        CategoryStats stats = new CategoryStats();
+        // Implement actual statistics tracking
+        return stats;
+    }
+
+    public static OverallStats getOverallStats() {
+        OverallStats stats = new OverallStats();
+        // Implement actual statistics tracking
+        return stats;
+    }
 
 
 }

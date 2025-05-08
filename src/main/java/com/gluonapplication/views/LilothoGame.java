@@ -321,6 +321,7 @@ public class LilothoGame extends View {
         for (boolean result : levelResults) {
             if (result) count++;
         }
+        PrimaryView.setCorrectAnswers(Integer.toString(count));
         return count;
     }
 
