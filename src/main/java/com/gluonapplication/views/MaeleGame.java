@@ -187,28 +187,24 @@ public class MaeleGame extends View {
     }
 
     private void handleAnswer(Button selectedButton, boolean isCorrect) {
-        // Stop the timer
+        // Stopping the timer
         if (questionTimer != null) {
             questionTimer.stop();
         }
 
-        // Disable all buttons and show feedback
         VBox optionsBox = (VBox) selectedButton.getParent();
         for (var node : optionsBox.getChildren()) {
             Button button = (Button) node;
             button.setDisable(true);
 
-            // Highlight correct answer in green
             if ((boolean) button.getUserData()) {
-                button.setStyle(button.getStyle() +
-                        "-fx-background-color: #4CAF50; " + // Green
-                        "-fx-text-fill: white;");
-            }
-            // Highlight selected wrong answer in red
-            else if (button == selectedButton && !isCorrect) {
-                button.setStyle(button.getStyle() +
-                        "-fx-background-color: #F44336; " + // Red
-                        "-fx-text-fill: white;");
+                button.setStyle(button.getStyle() + "-fx-background-color: #4CAF50; -fx-text-fill: white;");
+                if (button == selectedButton) {
+                    CorrectSound();
+                }
+            } else if (button == selectedButton) {
+                button.setStyle(button.getStyle() + (isCorrect ? "-fx-background-color: #4CAF50;" : "-fx-background-color: #F44336;") + " -fx-text-fill: white;");
+                IncorrectSound();
             }
         }
 
@@ -450,5 +446,30 @@ public class MaeleGame extends View {
                 ));
         questionTimer.setCycleCount(Timeline.INDEFINITE);
         questionTimer.play();
+    }
+
+    public void CorrectSound()
+    {
+        Media audioMedia = new Media(getClass().getResource("/correct.mp3").toString());
+        audioPlayer = new MediaPlayer(audioMedia);
+        audioPlayer.play();
+        PauseTransition delay = new PauseTransition(Duration.seconds(2));
+        delay.setOnFinished(event -> {
+            audioPlayer.stop();
+        });
+        delay.play();
+
+    }
+    public void IncorrectSound()
+    {
+        Media audioMedia = new Media(getClass().getResource("/wrong.mp3").toString());
+        audioPlayer = new MediaPlayer(audioMedia);
+        audioPlayer.play();
+        PauseTransition delay = new PauseTransition(Duration.seconds(2));
+        delay.setOnFinished(event -> {
+            audioPlayer.stop();
+        });
+        delay.play();
+
     }
 }
