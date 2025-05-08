@@ -211,7 +211,7 @@ public class LiaparoGame extends View {
             questionTimer.stop();
         }
 
-        timeRemaining.set(10);
+        timeRemaining.set(15);
         questionTimer = new Timeline(
                 new KeyFrame(Duration.seconds(0.1), event -> {
                     timeRemaining.set(timeRemaining.get() - 0.1);

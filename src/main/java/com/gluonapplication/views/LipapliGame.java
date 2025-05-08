@@ -265,7 +265,7 @@ public class LipapliGame extends View {
             playSuccessAnimation();
 
             // Update icons based on current category progression
-            switch(currentCategory) {
+            switch(Integer.parseInt(PrimaryView.getLevelnum())) {
                 case 6:
                     levelsView.setL1Icon("/win1.png");
                     // Unlock next category (4)
@@ -298,7 +298,7 @@ public class LipapliGame extends View {
             questionTimer.stop();
         }
 
-        timeRemaining.set(10);
+        timeRemaining.set(15);
         questionTimer = new Timeline(
                 new KeyFrame(Duration.seconds(0.1), event -> {
                     timeRemaining.set(timeRemaining.get() - 0.1);

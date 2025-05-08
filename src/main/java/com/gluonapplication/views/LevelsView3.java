@@ -199,7 +199,7 @@ public class LevelsView3 extends View
                                 getAppManager().addViewFactory(viewName, () -> lipapliGame);
                             }else
                             {
-                                showAlert("Boemo bo Koetsoe");
+                                showAlert("Boemo bo ty Koetsoe");
                             }
                             break;
                     }

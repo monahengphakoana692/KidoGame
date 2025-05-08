@@ -424,7 +424,7 @@ public class MaeleGame extends View {
         }
 
         // Reset time remaining
-        timeRemaining.set(10);
+        timeRemaining.set(15);
 
         // Create new timer
         questionTimer = new Timeline(

@@ -87,15 +87,15 @@ public class LilothoGame extends View {
         String[][][] questions = {
                 // Category 0
                 {
-                        {"/Leleme.jpg","'Me Nts'oare ke nye", "Leihlo", "Tsebe", "Ngoana", "Nko", "3"},
-                        {"/Leleme.jpg","Ts'oene tse peli \n Lihloa thaba \n lisa e qete?", "Matsoele", "Moriri", "Litsebe", "Li Ts'oene", "2"},
+                        {"/nko.jpg","'Me Nts'oare ke nye", "Leihlo", "Tsebe", "Ngoana", "Nko", "3"},
+                        {"/litsebe.jpg","Ts'oene tse peli \n Lihloa thaba \n lisa e qete?", "Matsoele", "Moriri", "Litsebe", "Li Ts'oene", "2"},
                         {"/Leleme.jpg","Mohlankana ea lulang \n lehaheng?", "Thimola", "Leleme", "Khoeli", "Mokhubu", "1"}
                 },
                 // Category 1
                 {
-                        {"/Leleme.jpg","Ka Qhala Phoofo \n ka ja mokotla? ", "Moholu", "Letlotlo", "Bolo", "chai", "0"},
-                        {"/Leleme.jpg","Maqheku a qabana ka lehaheng?", "Likhobe","LIerekise", "Limathi", "Ntate mohole le Nkhono", "0"},
-                        {"/Leleme.jpg","Thankha-Thankha ketla tsoalla kae?", "Lihaba ha li hola", "Khomo", "Mokopu ha u nama", "Lebese", "2"}
+                        {"/moholu.jpg","khetha selotho sa amanang le sets'oants'o se amanang le se ka holimo","Ka qhala Phoofo \n ka ja mokotla? ", "nthethe a bina moholo a lutse", "mala nku mararang", "mokopu ha u nama", "0"},
+                        {"/likhobe.jpg","khetha selotho sa amanang le sets'oants'o se \n amanang le se ka holimo", "O monate fela oa hlaba? ", "Ka qhala Phoofo \n ka ja mokotla?","Thankha-Thankha ketla tsoalla kae","Maqheku a qabana ka lehaheng", "3"},
+                        {"/mokopu.jpg","khetha selotho sa amanang le sets'oants'o se \n amanang le se ka holimo","Thankha-Thankha ketla tsoalla kae?", "Setoto se ts'ela tsela?", "Mohaisane o tlola jarete?", "tsa anehoa tsa tsoha li ile?", "0"}
                 },
                 // Category 2
                 {
