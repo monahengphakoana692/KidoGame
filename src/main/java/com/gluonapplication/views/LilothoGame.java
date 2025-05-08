@@ -171,8 +171,12 @@ public class LilothoGame extends View {
 
             if ((boolean) button.getUserData()) {
                 button.setStyle(button.getStyle() + "-fx-background-color: #4CAF50; -fx-text-fill: white;");
+                if (button == selectedButton) {
+                    CorrectSound();
+                }
             } else if (button == selectedButton) {
                 button.setStyle(button.getStyle() + (isCorrect ? "-fx-background-color: #4CAF50;" : "-fx-background-color: #F44336;") + " -fx-text-fill: white;");
+                IncorrectSound();
             }
         }
 
@@ -374,5 +378,30 @@ public class LilothoGame extends View {
         );
         questionTimer.setCycleCount(Timeline.INDEFINITE);
         questionTimer.play();
+    }
+
+    public void CorrectSound()
+    {
+        Media audioMedia = new Media(getClass().getResource("/correct.mp3").toString());
+        audioPlayer = new MediaPlayer(audioMedia);
+        audioPlayer.play();
+        PauseTransition delay = new PauseTransition(Duration.seconds(2));
+        delay.setOnFinished(event -> {
+           audioPlayer.stop();
+        });
+        delay.play();
+
+    }
+    public void IncorrectSound()
+    {
+        Media audioMedia = new Media(getClass().getResource("/wrong.mp3").toString());
+        audioPlayer = new MediaPlayer(audioMedia);
+        audioPlayer.play();
+        PauseTransition delay = new PauseTransition(Duration.seconds(2));
+        delay.setOnFinished(event -> {
+            audioPlayer.stop();
+        });
+        delay.play();
+
     }
 }
