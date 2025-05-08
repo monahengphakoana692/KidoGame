@@ -197,7 +197,7 @@ public class PrimaryView extends View
         Media audioMedia = new Media(getClass().getResource("/backgroundSound.mp3").toString());
         audioPlayer = new MediaPlayer(audioMedia);
 
-        audioPlayer.setVolume(0.1);
+        audioPlayer.setVolume(0.2);
         audioPlayer.setCycleCount(MediaPlayer.INDEFINITE); // Optional: loop background sound
 
         audioPlayer.play();

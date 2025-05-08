@@ -136,7 +136,7 @@ public class LilothoGame extends View {
         for (int i = 0; i < options.length; i++) {
             indexList.add(i);
         }
-        Collections.shuffle(indexList); // Randomize the order
+        Collections.shuffle(indexList); // Randomizing the order
 
         for (int i : indexList) {
             boolean isCorrect = (i == correctIndex); // preserve correct flag
