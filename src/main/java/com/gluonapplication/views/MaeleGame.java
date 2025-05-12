@@ -3,9 +3,7 @@ package com.gluonapplication.views;
 import com.gluonhq.charm.glisten.control.AppBar;
 import com.gluonhq.charm.glisten.mvc.View;
 import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
-import javafx.animation.KeyFrame;
-import javafx.animation.PauseTransition;
-import javafx.animation.Timeline;
+import javafx.animation.*;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Insets;
@@ -323,22 +321,77 @@ public class MaeleGame extends View {
 
     private void playSuccessAnimation() {
         cleanupMediaPlayers();
-
         try {
+            // Load media resources
             Media videoMedia = new Media(getClass().getResource("/applauseV.mp4").toString());
             Media audioMedia = new Media(getClass().getResource("/claps.mp3").toString());
-
             videoPlayer = new MediaPlayer(videoMedia);
             audioPlayer = new MediaPlayer(audioMedia);
-            mediaView = new MediaView(videoPlayer);
 
+            // Create MediaView with initial transparent and scaled down state
+            mediaView = new MediaView(videoPlayer);
             mediaView.setFitWidth(300);
             mediaView.setFitHeight(200);
             mediaView.setPreserveRatio(true);
+            mediaView.setOpacity(0);
+            mediaView.setScaleX(0.5);
+            mediaView.setScaleY(0.5);
 
+            // Add the MediaView to your scene (replace 'rootContainer' with your actual container)
+            // For example: rootContainer.getChildren().add(mediaView);
+            // Make sure to position it properly in your layout
+
+            // Animation for video appearance
+            FadeTransition fadeIn = new FadeTransition(Duration.millis(500), mediaView);
+            fadeIn.setFromValue(0);
+            fadeIn.setToValue(1);
+
+            ScaleTransition scaleIn = new ScaleTransition(Duration.millis(500), mediaView);
+            scaleIn.setFromX(0.5);
+            scaleIn.setFromY(0.5);
+            scaleIn.setToX(1.0);
+            scaleIn.setToY(1.0);
+
+            ParallelTransition appearAnimation = new ParallelTransition(fadeIn, scaleIn);
+
+            // Animation for video disappearance
+            FadeTransition fadeOut = new FadeTransition(Duration.millis(500), mediaView);
+            fadeOut.setFromValue(1);
+            fadeOut.setToValue(0);
+
+            ScaleTransition scaleOut = new ScaleTransition(Duration.millis(500), mediaView);
+            scaleOut.setFromX(1.0);
+            scaleOut.setFromY(1.0);
+            scaleOut.setToX(0.5);
+            scaleOut.setToY(0.5);
+
+            ParallelTransition disappearAnimation = new ParallelTransition(fadeOut, scaleOut);
+
+            // Set up the sequence of events
             videoPlayer.setOnReady(() -> {
-                videoPlayer.play();
-                audioPlayer.play();
+                // Play the appear animation
+                appearAnimation.play();
+
+                // Start media playback after appear animation finishes
+                appearAnimation.setOnFinished(e -> {
+                    videoPlayer.play();
+                    audioPlayer.play();
+                });
+
+                // Schedule cleanup after 10 seconds
+                PauseTransition delay = new PauseTransition(Duration.seconds(10));
+                delay.setOnFinished(e -> {
+                    // Play the disappear animation
+                    disappearAnimation.play();
+
+                    // Clean up after disappear animation finishes
+                    disappearAnimation.setOnFinished(ev -> {
+                        cleanupMediaPlayers();
+                        // Remove the MediaView from the scene
+                        // For example: rootContainer.getChildren().remove(mediaView);
+                    });
+                });
+                delay.play();
             });
 
             videoPlayer.setCycleCount(1);
