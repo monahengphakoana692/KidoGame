@@ -1,6 +1,7 @@
 package com.gluonapplication.views;
 
 import com.gluonhq.charm.glisten.mvc.View;
+import javafx.animation.ScaleTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
@@ -8,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 
 public class Catagories extends View {
     // Constants for view names
@@ -81,11 +83,40 @@ public class Catagories extends View {
             imageView.setFitWidth(150);
             imageView.setFitHeight(150);
             imageView.setPreserveRatio(true);
-            imageView.setOnMouseClicked(event -> showGame(viewName));
+
+            // Add hover animation
+            imageView.setOnMouseEntered(e -> {
+                ScaleTransition scale = new ScaleTransition(Duration.millis(200), imageView);
+                scale.setToX(1.05);
+                scale.setToY(1.05);
+                scale.play();
+            });
+
+            imageView.setOnMouseExited(e -> {
+                ScaleTransition scale = new ScaleTransition(Duration.millis(200), imageView);
+                scale.setToX(1.0);
+                scale.setToY(1.0);
+                scale.play();
+            });
+
+            imageView.setOnMouseClicked(event -> {
+                // Add click animation
+                ScaleTransition click = new ScaleTransition(Duration.millis(100), imageView);
+                click.setToX(0.95);
+                click.setToY(0.95);
+                click.setAutoReverse(true);
+                click.setCycleCount(2);
+                click.setOnFinished(e -> showGame(viewName));
+                click.play();
+            });
 
             Label label = new Label(title);
             label.setAlignment(Pos.CENTER);
             label.setStyle("-fx-font-weight: bold;");
+
+            // Add hover animation to label
+            label.setOnMouseEntered(e -> label.setStyle("-fx-font-weight: bold; -fx-text-fill: white;"));
+            label.setOnMouseExited(e -> label.setStyle("-fx-font-weight: bold; -fx-text-fill: black;"));
 
             categoryBox.getChildren().addAll(imageView, label);
         } catch (Exception e) {
