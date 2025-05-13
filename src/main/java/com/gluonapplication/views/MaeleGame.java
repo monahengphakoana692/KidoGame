@@ -102,12 +102,12 @@
                     },
                     // Category 4 (displayed as Level 2)
                     {
-                            {"/khomo.jpeg","khetha maele a amanang le sets'oants'o seka holimo",
+                            {"/khomo.jpg","khetha maele a amanang le sets'oants'o seka holimo",
                                     "Khomo ea senone le tlhako? ",
                                     "ho tlola khomo",
                                     "Bosiu ba naka tsa khomo",
                                     "ke u tsoela khomo", "0"},
-                            {"/hoseng.jpeg","khetha maele a amanang le sets'oants'o seka holimo",
+                            {"/hoseng.jpg","khetha maele a amanang le sets'oants'o seka holimo",
                                     "Khomo e thibela lerumo? ",
                                     "Khomo ha lina motlooa pele",
                                     "Bosiu ba naka tsa khomo?",
@@ -126,7 +126,7 @@
                                     "Morena ke khomo ea sehangoa ke bohle",
                                     "Khomo e ts'oaroa ka linaka?",
                                     "Ho batla ka khomo mmele?", "2"},
-                            {"/haeno.jpeg", "khetha maele a amanang le sets'oants'o seka holimo",
+                            {"/home.jpg", "khetha maele a amanang le sets'oants'o seka holimo",
                                     "Ke u tsoela Khomo?",
                                     "Khomo e thibela lerumo?",
                                     "Khomo halina motlowa pele",
@@ -165,7 +165,7 @@
         {
             Image image = new Image(url);
             ImageView imageView = new ImageView(image);
-            imageView.setFitHeight(40);
+            imageView.setFitHeight(70);
             imageView.setFitWidth(70);
 
             VBox imageHolder = new VBox(imageView);
