@@ -82,26 +82,25 @@ public class LijoGame extends View {
     }
 
     private VBox createQuestionView(int levelIndex) {
-        String[][][] questions = new String[15][3][7];
-        questions[12] = new String[][] {
-                {"/applauseV.mp4","Khomo ea lebese ha e itsoale?", "Ha ho motho a iketsetsang lintho", "Hase ha ngata ngoana \n aka futsang Motsoali ka matla ", "Batho ba thusana", "Motho a phelang ka litsietse", "1"},
-                {"/applauseV.mp4","Khomo Lija Tika Motse?", "Batho ba sebetsa ntse ba orohela hae", "Batho baja", "Batho ba bitsoa moketeng", "Masholu ka hara motse", "0"},
-                {"/applauseV.mp4","Khomo li ne li tseba Monoang?", "Thimola", "Motho a phelang ka litsietse ", "Motho a phelang ka ho Hlorisoa", "Mokhubu", "1"}
+        String[][][] questions = new String[12][3][7];
+        questions[9] = new String[][] {
+                {"/Nyekoe.jpg","nyekoe ke ?", "poone e halikiloeng", "mokopu, linaoa le mabele tse phehiloeng mmoho", "poone ea lehoetla e phehiloeng", "mokopu oa oa solotsi o phehiloeng osa betloa ", "1"},
+                {"/likhetso.png","likhetso ke ?", "mokopu oa lephutse ", "mokopu o besitsoeng ", "likhobe tsa poone ", "mokopu oa oa solotsi o phehiloeng osa betloa", "3"},
+                {"/qhubu.png","qhubu ke ?", "mokopu oa lephutse", "likhobe tsa poone ", "poone e halikiloeng", "poone e halikiloeng ea nto siloa ", "1"}};
+
+        questions[10] = new String[][] {
+                {"/lepu.png","khetha lijo tse amanang le sets'oants'o seka holimo ", "likhetso?", "sebera?", "Lepu?", "lipabi?", "2"},
+                {"/leqhebekoane.png","khetha lijo tse amanang le sets'oants'o seka holimo ", "sebutsoa-butsoane?","leqebekoane?", "lipabi?", "sebera?", "1"},
+                {"/sekele.png","khetha lijo tse amanang le sets'oants'o seka holimo ", "sebutsoa-butsoane?", "sebera?", "sekele?", "likhetso?", "2"}
         };
 
-        questions[13] = new String[][] {
-                {"/applauseV.mp4","Lefura la monga khomo le psheisa mongalona? ", "Moholu", "Letlotlo", "Bolo", "chai", "0"},
-                {"/applauseV.mp4","Khomo e thibela lerumo? ", "Ho hlaba khomo nakong ea mokete","Khomo e thusana li nthong tse ngata", "Bophelo ba motho bo bohlokoa ho feta leruo", "Motho o etsa sehlabelo ka ena ho thusa ba bang", "2"},
-                {"/applauseV.mp4","Nama e ka mpeng ho khome?", "Ho se bui litaba ha ho hlokala", "Ho pata litaba", "Ke lekunutu kapa pinyane", "Ho iphapanya", "2"}
+        questions[11] = new String[][] {
+                {"/lefotho.png","khetha lijo tse amanang le sets'oants'o seka holimo ", "lefotho?", "lipabi?", "qhubu?", "sebera?", "0"},
+                {"/lipabi.png","khetha lijo tse amanang le sets'oants'o seka holimo ", "mabele?", "Moholu?", "sebera?", "lipabi?", "3"},
+                {"/sebera.jpeg","khetha lijo tse amanang le sets'oants'o seka holimo ", "lefotho?", "sebera?", "lipabi?", "nyekoe?", "1"}
         };
 
-        questions[14] = new String[][] {
-                {"/applauseV.mp4","Moketa Khomo o nonela tlhakong?", "Monna o nyala ngaoana ena ale moholo", "Monna aka na nyala moqekoa a holileng ho mo thusa", "Ngoana o holela mosebetsing", "Motho o holisoa ke ho sebetsa", "1"},
-                {"/applauseV.mp4","Ke u tsoela Khomo?", "Motho a senyang nako, a etsa seo se sa motsoeleng molemo", "Moholu", "Moraha ka sakeng", "Mohloa", "3"},
-                {"/applauseV.mp4","Ho tlola Khomo?", "Moraha ka sakeng", "Ho senyeheloa", "Jwala bo qhalaneng", "Bana ba hae", "3"}
-        };
-
-        if (currentCategory >= 12 && currentCategory <= 14 &&
+        if (currentCategory >= 9 && currentCategory <= 11 &&
                 questions[currentCategory] != null &&
                 levelIndex < questions[currentCategory].length) {
 

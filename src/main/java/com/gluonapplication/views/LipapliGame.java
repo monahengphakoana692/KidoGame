@@ -82,26 +82,26 @@ public class LipapliGame extends View {
     }
 
     private VBox createQuestionView(int levelIndex) {
-        String[][][] questions = new String[9][3][7];
-        questions[6] = new String[][] {
-                {"/applauseV.mp4","Khomo ea lebese ha e itsoale?", "Ha ho motho a iketsetsang lintho", "Hase ha ngata ngoana \n aka futsang Motsoali \n ka matla ", "Batho ba thusana", "Motho a phelang \n ka litsietse", "1"},
-                {"/applauseV.mp4","Khomo Lija Tika Motse?", "Batho ba sebetsa ntse \n ba orohela hae", "Batho baja", "Batho ba bitsoa moketeng", "Masholu ka hara motse", "0"},
-                {"/applauseV.mp4","Khomo li ne li tseba Monoang?", "Thimola", "Motho a phelang ka litsietse ", "Motho a phelang ka ho Hlorisoa", "Mokhubu", "1"}
+        String[][][] questions = new String[15][3][7];
+        questions[12] = new String[][] {
+                {"/mokhibo.mp4","Mokhibo ke papali e ", "bapaloang ke banna kapa bahlankana?", "bapaloang ka banana ba motse, ba sebelisa majoana?", "bapaloang ke bana le baroetsana ba sebelisa lechoba le thebe?", "bapaloa ke banna le bahlankana ba sebelisa melanoana le machoba?", "2"},
+                {"litolobonya.mp4","litolobonya ke papali e ", "bapaloang ke baroetsana, banana kapa basali ba tenne litolobonya", "bapaloa ke banna le bahlankana ba sebelisa melanoana le machoba?", "bapaloang ka banana ba motse, ba sebelisa majoana?", "bapaloang ke banana kapa baroetsana ba sebelisa lesokoana?", "0"},
+                {"/lesokoana.mp4","lesokoana ke papali e bapaloang ke banana kapa baroetsana ba sebelisa lesokoana?", "bapaloang ka banana ba motse, ba sebelisa majoana?", "bapaloang ke baroetsana, banana kapa basali ba tenne litolobonya?", "bapaloang ke banna lebahlankana ba sebelisa majoana le letlapa?", "bapaloang ke banna kapa bahlankana?", "0"}
         };
 
-        questions[7] = new String[][] {
-                {"/applauseV.mp4","Lefura la monga khomo le psheisa mongalona? ", "Moholu", "Letlotlo", "Bolo", "chai", "0"},
-                {"/applauseV.mp4","Khomo e thibela lerumo? ", "Ho hlaba khomo nakong \n ea mokete","Khomo e thusana li \n nthong tse ngata", "Bophelo ba motho bo bohlokoa \n ho feta leruo", "Motho o etsa sehlabelo ka \n ena ho thusa ba bang", "2"},
-                {"/applauseV.mp4","Nama e ka mpeng ho khome?", "Ho se bui litaba\n ha ho hlokala", "Ho pata litaba", "Ke lekunutu kapa pinyane", "Ho iphapanya", "2"}
+        questions[13] = new String[][] {
+                {"/morabaraba.mp4","khetha papali e hlang ts'oants'isong e ka holimo ", "lesokoana?", "ho cheya litali?", "bolo?", "moraba-raba?", "3"},
+                {"/mokhibo.mp4","khetha papali e hlang ts'oants'isong e ka holimo ", "litolobonya?","mokhibo?", "selia-lia?", "liketoana", "1"},
+                {"/mohobelo.mp4","khetha papali e hlang ts'oants'isong e ka holimo ", "ndlamo?", "mokhibo?", "mohobelo?", "litolobonya?", "2"}
         };
 
-        questions[8] = new String[][] {
-                {"/applauseV.mp4","Moketa Khomo o nonela tlhakong?", "Monna o nyala ngaoana \n ena ale moholo", "Monna aka na nyala moqekoa a \nholileng ho mo thusa", "Ngoana o holela mosebetsing", "Motho o holisoa ke \nho sebetsa", "1"},
-                {"/applauseV.mp4","Ke u tsoela Khomo?", "Motho a senyang nako, \na etsa seo se sa \nmotsoeleng molemo", "Moholu", "Moraha ka sakeng", "Mohloa", "3"},
-                {"/applauseV.mp4","Ho tlola Khomo?", "Moraha ka sakeng", "Ho senyeheloa", "Jwala bo qhalaneng", "Bana ba hae", "1"}
+        questions[14] = new String[][] {
+                {"khati.mp4","khetha papali e hlang ts'oants'isong e ka holimo ", "mohobelo?", "khati?", "morabaraba?", "lesokoana?", "1"},
+                {"/bolekeba-maipatile.mp4","khetha papali e hlang ts'oants'isong e ka holimo ", "mohobelo?", "khati?", "lesokoana?", "bolekeba-maipatile", "3"},
+                {"/mokallo.mp4","khetha papali e hlang ts'oants'isong e ka holimo ", "mohobelo?", "khati?", "ho kalla?", "ntoa?", "2"}
         };
 
-        if (currentCategory >= 6 && currentCategory <= 8 &&
+        if (currentCategory >= 12 && currentCategory <= 14 &&
                 questions[currentCategory] != null &&
                 levelIndex < questions[currentCategory].length) {
 

@@ -91,15 +91,15 @@ public class LilothoGame extends View {
                 },
                 // Category 1
                 {
-                        {"/moholu.jpg","khetha selotho sa amanang le sets'oants'o se amanang le se ka holimo","Ka qhala Phoofo \n ka ja mokotla? ", "nthethe a bina moholo a lutse", "mala nku mararang", "mokopu ha u nama", "0"},
-                        {"/likhobe.jpg","khetha selotho sa amanang le sets'oants'o se \n amanang le se ka holimo", "O monate fela oa hlaba? ", "Ka qhala Phoofo \n ka ja mokotla?","Thankha-Thankha ketla tsoalla kae","Maqheku a qabana ka lehaheng", "3"},
-                        {"/mokopu.jpg","khetha selotho sa amanang le sets'oants'o se \n amanang le se ka holimo","Thankha-Thankha ketla tsoalla kae?", "Setoto se ts'ela tsela?", "Mohaisane o tlola jarete?", "tsa anehoa tsa tsoha li ile?", "0"}
+                        {"/moholu.jpg","khetha selotho sa amanang le sets'oants'o se ka holimo","Ka qhala Phoofo \n ka ja mokotla? ", "nthethe a bina moholo a lutes?", "mala nku mararang?", "mokopu ha u nama?", "0"},
+                        {"/likhobe.jpg","khetha selotho sa amanang le sets'oants'o se ka holimo", "O monate fela oa hlaba? ", "Ka qhala Phoofo \n ka ja mokotla?","Thankha-Thankha ketla tsoalla kae?","Maqheku a qabana ka lehaheng?", "3"},
+                        {"/mokopu.jpg","khetha selotho sa amanang le sets'oants'o se ka holimo","Thankha-Thankha ketla tsoalla kae?", "Setoto se ts'ela tsela?", "Mohaisane o tlola jarete?", "tsa anehoa tsa tsoha li ile?", "0"}
                 },
                 // Category 2
                 {
-                        {"/Leleme.jpg","Phate li ea lekana?", "Likobo", "Lefats'e", "Leholimo le Lefats'e", "Leholimo", "2"},
-                        {"/Leleme.jpg","Mala a nku marang-rang?", "Boea", "Moholu", "Moraha ka sakeng", "Mohloa", "3"},
-                        {"/Leleme.jpg","Setoto se tlala ntlo?", "Moraha ka sakeng", "Metsi", "Jwala bo qhalaneng", "Bana ba hae", "0"}
+                        {"/linaleli.jpg","khetha selotho sa amanang le sets'oants'o se ka holimo", "Monna eo e reng ha khots'e a roalle?", "Lithung-thung tsa letlapa le leholo?", "Phutse le hara thota?", "Phate li ea lekana?", "2"},
+                        {"/mohloa.jpg","khetha selotho sa amanang le sets'oants'o se ka holimo", "Setoto se tlala ntlo?", "Nthethe a bina moholo a lutse?", "Lithung-thung tsa letlapa le leholo?", "Mala a nku marang-rang?", "3"},
+                        {"/moraha.jpg","khetha selotho sa amanang le sets'oants'o se ka holimo", "Phutse le hara thota?", "Setoto se tlala ntlo?", "Masimo a mothating?", "Nthethe a bina moholo a lutse?", "1"}
                 }
         };
 
@@ -152,7 +152,7 @@ public class LilothoGame extends View {
     private VBox createOptionImage(String url) {
         Image image = new Image(url);
         ImageView imageView = new ImageView(image);
-        imageView.setFitHeight(100);
+        imageView.setFitHeight(70);
         imageView.setFitWidth(150);
 
         VBox imageHolder = new VBox(imageView);

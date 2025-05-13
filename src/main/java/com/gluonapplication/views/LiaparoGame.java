@@ -82,26 +82,26 @@ public class LiaparoGame extends View {
     }
 
     private VBox createQuestionView(int levelIndex) {
-        String[][][] questions = new String[12][3][7];
-        questions[9] = new String[][] {
-                {"/applauseV.mp4","Khomo ea lebese ha e itsoale?", "Ha ho motho a iketsetsang lintho", "Hase ha ngata ngoana \n aka futsang Motsoali ka matla ", "Batho ba thusana", "Motho a phelang ka litsietse", "1"},
-                {"/applauseV.mp4","Khomo Lija Tika Motse?", "Batho ba sebetsa ntse ba orohela hae", "Batho baja", "Batho ba bitsoa moketeng", "Masholu ka hara motse", "0"},
-                {"/applauseV.mp4","Khomo li ne li tseba Monoang?", "Thimola", "Motho a phelang ka litsietse ", "Motho a phelang ka ho Hlorisoa", "Mokhubu", "1"}
+        String[][][] questions = new String[15][3][7];
+        questions[3] = new String[][] {
+                {"/ts'ea.png","Ts'ea ke ?", "mose o tenoang ke baroetsana ha ba bina pina tsa mokopu", "ke kobo ea Basotho ", "seaparo se tenoang ke bahlanka ba tsoang lebollong", "kobo e aparoang ke makoti", "2"},
+                {"/pokoma.png","pokoma ke ?", "mose o tenoang ke baroetsana ha ba bina pina tsa mokopu", "ke kobo ea Basotho ", "kobo e aparoang ke makoti", "mose o tenoang ke baroetsana ba Basotho", "0"},
+                {"/tjale.jpeg","tjale ke ?", "mose o aparoang ke basali ba basotho", "kobo e aparoang ke makoti", "mose o tenoang ke baroetsana ba Basotho ", "ke mose oa khomo", "1"}
         };
 
-        questions[10] = new String[][] {
-                {"/applauseV.mp4","Lefura la monga khomo le psheisa mongalona? ", "Moholu", "Letlotlo", "Bolo", "chai", "0"},
-                {"/applauseV.mp4","Khomo e thibela lerumo? ", "Ho hlaba khomo nakong ea mokete","Khomo e thusana li nthong tse ngata", "Bophelo ba motho bo bohlokoa ho feta leruo", "Motho o etsa sehlabelo ka ena ho thusa ba bang", "2"},
-                {"/applauseV.mp4","Nama e ka mpeng ho khome?", "Ho se bui litaba ha ho hlokala", "Ho pata litaba", "Ke lekunutu kapa pinyane", "Ho iphapanya", "2"}
+        questions[4] = new String[][] {
+                {"/kholokoane.png","khetha seaparo se amanang le sets'oants'o se ka holimo ", "Thethana", "pokoma", "Kholokoane", "tjale", "2"},
+                {"/mose-oa-khomo.png","khetha seaparo se amanang le sets'oants'o se ka holimo ", "ts'ea","seanamarena", "sebeto", "mose-oa-khomo", "3"},
+                {"/letata.png","khetha seaparo se amanang le sets'oants'o se ka holimo ", "letata", "tjale", "kholokoane", "seanamarena", "0"}
         };
 
-        questions[11] = new String[][] {
-                {"/applauseV.mp4","Moketa Khomo o nonela tlhakong?", "Monna o nyala ngaoana ena ale moholo", "Monna aka na nyala moqekoa a holileng ho mo thusa", "Ngoana o holela mosebetsing", "Motho o holisoa ke ho sebetsa", "1"},
-                {"/applauseV.mp4","Ke u tsoela Khomo?", "Motho a senyang nako, a etsa seo se sa motsoeleng molemo", "Moholu", "Moraha ka sakeng", "Mohloa", "3"},
-                {"/applauseV.mp4","Ho tlola Khomo?", "Moraha ka sakeng", "Ho senyeheloa", "Jwala bo qhalaneng", "Bana ba hae", "3"}
+        questions[5] = new String[][] {
+                {"/thethana.png","khetha seaparo se amanang le sets'oants'o se ka holimo ", "pokoma", "thethana", "kholokoane", "letata", "1"},
+                {"mokorotlo.png","khetha seaparo se amanang le sets'oants'o se ka holimo ", "sebeto", "ts'ea", "pokoma", "Mokorotlo", "3"},
+                {"sebeto.png","khetha seaparo se amanang le sets'oants'o se ka holimo ", "kholokoane", "thethana", "sebeto", "tjale", "2"}
         };
 
-        if (currentCategory >= 9 && currentCategory <= 11 &&
+        if (currentCategory >= 12 && currentCategory <= 14 &&
                 questions[currentCategory] != null &&
                 levelIndex < questions[currentCategory].length) {
 
