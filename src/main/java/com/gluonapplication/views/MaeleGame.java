@@ -86,11 +86,11 @@
                     {
                             {"/likhomo.jpg","Khomo ea lebese ha e itsoale?",
                                     "Ha ho motho a iketsetsang lintho",
-                                    "Hase ha ngata ngoana \n aka futsang Motsoali \n ka matla ",
+                                    "Hase ha ngata ngoana \naka futsang Motsoali \nka matla ",
                                     "Batho ba thusana",
                                     "Motho a phelang \n ka litsietse", "1"},
                             {"/home.jpg","Khomo Lija Tika Motse?",
-                                    "Batho ba sebetsa ntse \n ba orohela hae",
+                                    "Batho ba sebetsa ntse \nba orohela hae",
                                     "Batho baja",
                                     "Batho ba bitsoa moketeng",
                                     "Masholu ka hara motse", "0"},
@@ -98,7 +98,7 @@
                                     "ho hlaha makhopho",
                                     "Motho a phelang ka litsietse ",
                                     "Motho a phelang ka thata",
-                                    "lekoko la khomo le tlohileng boya", "1"}
+                                    "lekoko la khomo le \ntlohileng boya", "1"}
                     },
                     // Category 4 (displayed as Level 2)
                     {
@@ -112,21 +112,21 @@
                                     "Khomo ha lina motlooa pele",
                                     "Bosiu ba naka tsa khomo?",
                                     "Khomo ea senona le tlhako",
-                                    "khomo tsa lira halina moketahali", "2"},
+                                     "2"},
                             {"/meat.jpg","khetha maele a amanang le sets'oants'o seka holimo",
                                     "khomo li hlabana maqhubu sakeng?",
                                     "Lebitla la khomoka molomo?",
                                     "Ho opa khomo lenaka?",
-                                    "Khomo tsabo moshemane hali jooe?", "1"}
+                                    "Khomo tsabo moshemane \nhali jooe?", "1"}
                     },
                     // Category 5 (displayed as Level 3)
                     {
                             {"/lipuotsahae.jpg","khetha maele a amanang le sets'oants'o seka holimo",
                                     "Moketa Khomo o nonela tlhakong?",
-                                    "Morena ke khomo ea sehangoa ke bohle",
+                                    "Morena ke khomo ea \nsehangoa ke bohle",
                                     "Khomo e ts'oaroa ka linaka?",
                                     "Ho batla ka khomo mmele?", "2"},
-                            {"/home.jpg", "khetha maele a amanang le sets'oants'o seka holimo",
+                            {"/haeno.jpg", "khetha maele a amanang le sets'oants'o seka holimo",
                                     "Ke u tsoela Khomo?",
                                     "Khomo e thibela lerumo?",
                                     "Khomo halina motlowa pele",
@@ -285,7 +285,9 @@
                         break;
                     case 5:
                         levelsView.setL3Icon("/win3.png");
-                        // All categories completed
+                        if (Integer.parseInt(PrimaryView.getLevelnum()) == 5) {
+                            PrimaryView.setLevelnum("6");
+                        }
                         break;
                 }
 

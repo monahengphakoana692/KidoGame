@@ -82,31 +82,31 @@ public class LijoGame extends View {
     }
 
     private VBox createQuestionView(int levelIndex) {
-        String[][][] questions = new String[12][3][7];
-        questions[9] = new String[][] {
-                {"/Nyekoe.jpg","nyekoe ke ?", "poone e halikiloeng", "mokopu, linaoa le mabele tse phehiloeng mmoho", "poone ea lehoetla e phehiloeng", "mokopu oa oa solotsi o phehiloeng osa betloa ", "1"},
-                {"/likhetso.png","likhetso ke ?", "mokopu oa lephutse ", "mokopu o besitsoeng ", "likhobe tsa poone ", "mokopu oa oa solotsi o phehiloeng osa betloa", "3"},
-                {"/qhubu.png","qhubu ke ?", "mokopu oa lephutse", "likhobe tsa poone ", "poone e halikiloeng", "poone e halikiloeng ea nto siloa ", "1"}};
+        String[][][] questions = new String[15][3][7];
+        questions[12] = new String[][] {
+                {"/nyekoe.jpg","nyekoe ke ?", "poone e halikiloeng", "mokopu, linaoa le mabele\ntse phehiloeng mmoho", "poone ea lehoetla e\n phehiloeng", "mokopu oa oa solotsi o\n phehiloeng osa betloa ", "1"},
+                {"/likhetso.jpg","likhetso ke ?", "mokopu oa lephutse ", "mokopu o besitsoeng ", "likhobe tsa poone ", "mokopu oa oa solotsi o \nphehiloeng osa betloa", "3"},
+                {"/qhubu.jpg","qhubu ke ?", "mokopu oa lephutse", "likhobe tsa poone ", "poone e halikiloeng", "poone e halikiloeng ea \nnto siloa ", "1"}};
 
-        questions[10] = new String[][] {
-                {"/lepu.png","khetha lijo tse amanang le sets'oants'o seka holimo ", "likhetso?", "sebera?", "Lepu?", "lipabi?", "2"},
-                {"/leqhebekoane.png","khetha lijo tse amanang le sets'oants'o seka holimo ", "sebutsoa-butsoane?","leqebekoane?", "lipabi?", "sebera?", "1"},
-                {"/sekele.png","khetha lijo tse amanang le sets'oants'o seka holimo ", "sebutsoa-butsoane?", "sebera?", "sekele?", "likhetso?", "2"}
+        questions[13] = new String[][] {
+                {"/lepu.jpg","khetha lijo tse amanang le sets'oants'o seka holimo ", "likhetso?", "sebera?", "Lepu?", "lipabi?", "2"},
+                {"/leqebekoane.jpg","khetha lijo tse amanang le sets'oants'o seka holimo ", "sebutsoa-butsoane?","leqebekoane?", "lipabi?", "sebera?", "1"},
+                {"/sekele.jpg","khetha lijo tse amanang le sets'oants'o seka holimo ", "sebutsoa-butsoane?", "sebera?", "sekele?", "likhetso?", "2"}
         };
 
-        questions[11] = new String[][] {
-                {"/lefotho.png","khetha lijo tse amanang le sets'oants'o seka holimo ", "lefotho?", "lipabi?", "qhubu?", "sebera?", "0"},
-                {"/lipabi.png","khetha lijo tse amanang le sets'oants'o seka holimo ", "mabele?", "Moholu?", "sebera?", "lipabi?", "3"},
-                {"/sebera.jpeg","khetha lijo tse amanang le sets'oants'o seka holimo ", "lefotho?", "sebera?", "lipabi?", "nyekoe?", "1"}
+        questions[14] = new String[][] {
+                {"/lefotho.jpg","khetha lijo tse amanang le sets'oants'o seka holimo ", "lefotho?", "lipabi?", "qhubu?", "sebera?", "0"},
+                {"/lipabi.jpg","khetha lijo tse amanang le sets'oants'o seka holimo ", "mabele?", "Moholu?", "sebera?", "lipabi?", "3"},
+                {"/sebera.jpg","khetha lijo tse amanang le sets'oants'o seka holimo ", "lefotho?", "sebera?", "lipabi?", "nyekoe?", "1"}
         };
 
-        if (currentCategory >= 9 && currentCategory <= 11 &&
+        if (currentCategory >= 12 && currentCategory <= 14 &&
                 questions[currentCategory] != null &&
                 levelIndex < questions[currentCategory].length) {
 
             String[] questionData = questions[currentCategory][levelIndex];
             if (questionData != null && questionData.length >= 7) {
-                String questionText = "Khetha tlhaloso ea Leele le latelang: \n" + questionData[1];
+                String questionText = questionData[1];
                 String[] options = {questionData[2], questionData[3], questionData[4], questionData[5]};
                 int correctIndex = Integer.parseInt(questionData[6]);
                 return createQuestion(questionData[0], questionText, options, correctIndex);
@@ -115,18 +115,15 @@ public class LijoGame extends View {
         return createResultsView();
     }
 
-    private VBox createOptionVideo(String url) {
-        video = new Media(getClass().getResource(url).toString());
-        questionMediaPlayer = new MediaPlayer(video);
-        questionVideoView = new MediaView(questionMediaPlayer);
-        questionVideoView.setFitHeight(70);
-        questionVideoView.setFitWidth(70);
-        questionMediaPlayer.setCycleCount(10);
-        questionMediaPlayer.play();
+    private VBox createOptionImage(String url) {
+        Image image = new Image(url);
+        ImageView imageView = new ImageView(image);
+        imageView.setFitHeight(70);
+        imageView.setFitWidth(150);
 
-        VBox videoHolder = new VBox(questionVideoView);
-        videoHolder.setAlignment(Pos.TOP_CENTER);
-        return videoHolder;
+        VBox imageHolder = new VBox(imageView);
+        imageHolder.setAlignment(Pos.TOP_CENTER);
+        return imageHolder;
     }
 
     private VBox createQuestion(String url, String questionText, String[] options, int correctIndex) {
@@ -149,7 +146,7 @@ public class LijoGame extends View {
             optionsBox.getChildren().add(optionButton);
         }
 
-        VBox questionBox = new VBox(20, createOptionVideo(url), questionLabel, timerProgressBar, optionsBox);
+        VBox questionBox = new VBox(20, createOptionImage(url), questionLabel, timerProgressBar, optionsBox);
         questionBox.setAlignment(Pos.CENTER);
 
         startQuestionTimer(correctIndex);

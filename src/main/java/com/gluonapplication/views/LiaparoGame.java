@@ -82,32 +82,32 @@ public class LiaparoGame extends View {
     }
 
     private VBox createQuestionView(int levelIndex) {
-        String[][][] questions = new String[15][3][7];
-        questions[3] = new String[][] {
-                {"/ts'ea.png","Ts'ea ke ?", "mose o tenoang ke baroetsana ha ba bina pina tsa mokopu", "ke kobo ea Basotho ", "seaparo se tenoang ke bahlanka ba tsoang lebollong", "kobo e aparoang ke makoti", "2"},
-                {"/pokoma.png","pokoma ke ?", "mose o tenoang ke baroetsana ha ba bina pina tsa mokopu", "ke kobo ea Basotho ", "kobo e aparoang ke makoti", "mose o tenoang ke baroetsana ba Basotho", "0"},
-                {"/tjale.jpeg","tjale ke ?", "mose o aparoang ke basali ba basotho", "kobo e aparoang ke makoti", "mose o tenoang ke baroetsana ba Basotho ", "ke mose oa khomo", "1"}
+        String[][][] questions = new String[12][3][7];
+        questions[9] = new String[][] {
+                {"/ts'ea.jpg","Ts'ea ke ?", "mose o tenoang ke baroetsana\n ha ba bina pina \ntsa mokopu", "ke kobo ea Basotho ", "seaparo se tenoang ke \nbahlanka ba tsoang lebollong", "kobo e aparoang ke makoti", "2"},
+                {"/pokoma.jpg","pokoma ke ?", "mose o tenoang ke baroetsana \nha ba bina pina tsa mokopu", "ke kobo ea Basotho ", "kobo e aparoang ke makoti", "mose o tenoang ke baroetsana", "0"},
+                {"/tjale.jpg","tjale ke ?", "mose o aparoang ke basali\n ba basotho", "kobo e aparoang ke makoti", "mose o tenoang ke baroetsana", "ke mose oa khomo", "1"}
         };
 
-        questions[4] = new String[][] {
-                {"/kholokoane.png","khetha seaparo se amanang le sets'oants'o se ka holimo ", "Thethana", "pokoma", "Kholokoane", "tjale", "2"},
-                {"/mose-oa-khomo.png","khetha seaparo se amanang le sets'oants'o se ka holimo ", "ts'ea","seanamarena", "sebeto", "mose-oa-khomo", "3"},
-                {"/letata.png","khetha seaparo se amanang le sets'oants'o se ka holimo ", "letata", "tjale", "kholokoane", "seanamarena", "0"}
+        questions[10] = new String[][] {
+                {"/kholokoane.jpg","khetha seaparo se amanang\n le sets'oants'o se ka holimo ", "Thethana", "pokoma", "Kholokoane", "tjale", "2"},
+                {"/mose-oa-khomo.jpg","khetha seaparo se amanang\n le sets'oants'o se ka holimo ", "ts'ea","seanamarena", "sebeto", "mose-oa-khomo", "3"},
+                {"/letata.jpg","khetha seaparo se amanang\n le sets'oants'o se ka holimo ", "letata", "tjale", "kholokoane", "seanamarena", "0"}
         };
 
-        questions[5] = new String[][] {
-                {"/thethana.png","khetha seaparo se amanang le sets'oants'o se ka holimo ", "pokoma", "thethana", "kholokoane", "letata", "1"},
-                {"mokorotlo.png","khetha seaparo se amanang le sets'oants'o se ka holimo ", "sebeto", "ts'ea", "pokoma", "Mokorotlo", "3"},
-                {"sebeto.png","khetha seaparo se amanang le sets'oants'o se ka holimo ", "kholokoane", "thethana", "sebeto", "tjale", "2"}
+        questions[11] = new String[][] {
+                {"/thethana.jpg","khetha seaparo se amanang \nle sets'oants'o se ka holimo ", "pokoma", "thethana", "kholokoane", "letata", "1"},
+                {"/mokorotlo.jpg","khetha seaparo se amanang \nle sets'oants'o se ka holimo ", "sebeto", "ts'ea", "pokoma", "Mokorotlo", "3"},
+                {"/sebeto.jpg","khetha seaparo se amanang le \nsets'oants'o se ka holimo ", "kholokoane", "thethana", "sebeto", "tjale", "2"}
         };
 
-        if (currentCategory >= 12 && currentCategory <= 14 &&
+        if (currentCategory >= 9 && currentCategory <= 11 &&
                 questions[currentCategory] != null &&
                 levelIndex < questions[currentCategory].length) {
 
             String[] questionData = questions[currentCategory][levelIndex];
             if (questionData != null && questionData.length >= 7) {
-                String questionText = "Khetha tlhaloso ea Leele le latelang: \n" + questionData[1];
+                String questionText =  questionData[1];
                 String[] options = {questionData[2], questionData[3], questionData[4], questionData[5]};
                 int correctIndex = Integer.parseInt(questionData[6]);
                 return createQuestion(questionData[0], questionText, options, correctIndex);
@@ -116,18 +116,15 @@ public class LiaparoGame extends View {
         return createResultsView();
     }
 
-    private VBox createOptionVideo(String url) {
-        video = new Media(getClass().getResource(url).toString());
-        mediaPlayer = new MediaPlayer(video);
-        videoView = new MediaView(mediaPlayer);
-        videoView.setFitHeight(70);
-        videoView.setFitWidth(70);
-        mediaPlayer.setCycleCount(10);
-        mediaPlayer.play();
+    private VBox createOptionImage(String url) {
+        Image image = new Image(url);
+        ImageView imageView = new ImageView(image);
+        imageView.setFitHeight(70);
+        imageView.setFitWidth(150);
 
-        VBox videoHolder = new VBox(videoView);
-        videoHolder.setAlignment(Pos.TOP_CENTER);
-        return videoHolder;
+        VBox imageHolder = new VBox(imageView);
+        imageHolder.setAlignment(Pos.TOP_CENTER);
+        return imageHolder;
     }
 
     private VBox createQuestion(String url, String questionText, String[] options, int correctIndex) {
@@ -150,7 +147,7 @@ public class LiaparoGame extends View {
             optionsBox.getChildren().add(optionButton);
         }
 
-        VBox questionBox = new VBox(20, createOptionVideo(url), questionLabel, timerProgressBar, optionsBox);
+        VBox questionBox = new VBox(20, createOptionImage(url), questionLabel, timerProgressBar, optionsBox);
         questionBox.setAlignment(Pos.CENTER);
 
         startQuestionTimer(correctIndex);
@@ -209,7 +206,7 @@ public class LiaparoGame extends View {
             questionTimer.stop();
         }
 
-        timeRemaining.set(15);
+        timeRemaining.set(20);
         questionTimer = new Timeline(
                 new KeyFrame(Duration.seconds(0.1), event -> {
                     timeRemaining.set(timeRemaining.get() - 0.1);

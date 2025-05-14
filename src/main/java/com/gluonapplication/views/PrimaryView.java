@@ -17,7 +17,7 @@ import javafx.util.Duration;
 
 public class PrimaryView extends View
 {
-    private static String Levelnum = "0";
+    private static String Levelnum = "1";
     private Label levelLabel;
     public static final String[] basicLevel = {"/L1.png","/L2.png","/L3.png"};
     public static final String[] AdvancedLevel = {"/win1.png","/win2.png","/win3.png"};
@@ -63,7 +63,7 @@ public class PrimaryView extends View
 
         // Set the ScrollPane as the center of the View
         setCenter(scrollPane);
-        if(getLevelnum().equals(15))
+        if(getLevelnum().equals("15"))
         {
             getAppManager().addViewFactory(secondaryView, () -> new SecondaryView());
         }

@@ -92,13 +92,13 @@ public class LilothoGame extends View {
                 // Category 1
                 {
                         {"/moholu.jpg","khetha selotho sa amanang le sets'oants'o se ka holimo","Ka qhala Phoofo \n ka ja mokotla? ", "nthethe a bina moholo a lutes?", "mala nku mararang?", "mokopu ha u nama?", "0"},
-                        {"/likhobe.jpg","khetha selotho sa amanang le sets'oants'o se ka holimo", "O monate fela oa hlaba? ", "Ka qhala Phoofo \n ka ja mokotla?","Thankha-Thankha ketla tsoalla kae?","Maqheku a qabana ka lehaheng?", "3"},
-                        {"/mokopu.jpg","khetha selotho sa amanang le sets'oants'o se ka holimo","Thankha-Thankha ketla tsoalla kae?", "Setoto se ts'ela tsela?", "Mohaisane o tlola jarete?", "tsa anehoa tsa tsoha li ile?", "0"}
+                        {"/likhobe.jpg","khetha selotho sa amanang le sets'oants'o se ka holimo", "O monate fela oa hlaba? ", "Ka qhala Phoofo \n ka ja mokotla?","Thankha-Thankha ketla \ntsoalla kae?","Maqheku a qabana ka lehaheng?", "3"},
+                        {"/mokopu.jpg","khetha selotho sa amanang le sets'oants'o se ka holimo","Thankha-Thankha ketla\n tsoalla kae?", "Setoto se ts'ela tsela?", "Mohaisane o tlola jarete?", "tsa anehoa tsa tsoha li ile?", "0"}
                 },
                 // Category 2
                 {
-                        {"/linaleli.jpg","khetha selotho sa amanang le sets'oants'o se ka holimo", "Monna eo e reng ha khots'e a roalle?", "Lithung-thung tsa letlapa le leholo?", "Phutse le hara thota?", "Phate li ea lekana?", "2"},
-                        {"/mohloa.jpg","khetha selotho sa amanang le sets'oants'o se ka holimo", "Setoto se tlala ntlo?", "Nthethe a bina moholo a lutse?", "Lithung-thung tsa letlapa le leholo?", "Mala a nku marang-rang?", "3"},
+                        {"/linaleli.jpg","khetha selotho sa amanang le sets'oants'o se ka holimo", "Monna eo e reng ha khots'e a roalle?", "Lithung-thung tsa letlapa\n le leholo?", "Phutse le hara thota?", "Phate li ea lekana?", "2"},
+                        {"/mohloa.jpg","khetha selotho sa amanang le sets'oants'o se ka holimo", "Setoto se tlala ntlo?", "Nthethe a bina moholo a lutse?", "Lithung-thung tsa letlapa\n le leholo?", "Mala a nku marang-rang?", "3"},
                         {"/moraha.jpg","khetha selotho sa amanang le sets'oants'o se ka holimo", "Phutse le hara thota?", "Setoto se tlala ntlo?", "Masimo a mothating?", "Nthethe a bina moholo a lutse?", "1"}
                 }
         };

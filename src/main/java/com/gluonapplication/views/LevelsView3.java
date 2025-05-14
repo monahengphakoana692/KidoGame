@@ -235,6 +235,7 @@ public class LevelsView3 extends View
                             {
                                 lipapliGame.showLevel(7);
                                 getAppManager().addViewFactory(viewName, () -> lipapliGame);
+
                             }else
                             {
                                 showAlert("Boemo bo Koetsoe");
@@ -262,6 +263,7 @@ public class LevelsView3 extends View
                     }
                 } catch (Exception e) {
                     System.out.println("Error: " + e.toString());
+                    getAppManager().switchView(viewName);
                 }
             }
         } catch (Exception e) {

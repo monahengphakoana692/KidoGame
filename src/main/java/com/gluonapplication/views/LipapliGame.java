@@ -45,12 +45,14 @@ public class LipapliGame extends View {
 
     public LipapliGame() {
         initializeUI();
-        loadFirstLevel();
+       // loadFirstLevel();
+
     }
 
     private void initializeUI() {
         getStylesheets().add(getClass().getResource("primary.css").toExternalForm());
         currentCategory = Integer.parseInt(PrimaryView.getLevelnum());
+
     }
 
     private void loadFirstLevel() {
@@ -81,33 +83,34 @@ public class LipapliGame extends View {
         return container;
     }
 
-    private VBox createQuestionView(int levelIndex) {
-        String[][][] questions = new String[15][3][7];
-        questions[12] = new String[][] {
-                {"/mokhibo.mp4","Mokhibo ke papali e ", "bapaloang ke banna kapa bahlankana?", "bapaloang ka banana ba motse, ba sebelisa majoana?", "bapaloang ke bana le baroetsana ba sebelisa lechoba le thebe?", "bapaloa ke banna le bahlankana ba sebelisa melanoana le machoba?", "2"},
-                {"litolobonya.mp4","litolobonya ke papali e ", "bapaloang ke baroetsana, banana kapa basali ba tenne litolobonya", "bapaloa ke banna le bahlankana ba sebelisa melanoana le machoba?", "bapaloang ka banana ba motse, ba sebelisa majoana?", "bapaloang ke banana kapa baroetsana ba sebelisa lesokoana?", "0"},
-                {"/lesokoana.mp4","lesokoana ke papali e bapaloang ke banana kapa baroetsana ba sebelisa lesokoana?", "bapaloang ka banana ba motse, ba sebelisa majoana?", "bapaloang ke baroetsana, banana kapa basali ba tenne litolobonya?", "bapaloang ke banna lebahlankana ba sebelisa majoana le letlapa?", "bapaloang ke banna kapa bahlankana?", "0"}
+    private VBox createQuestionView(int levelIndex)
+    {   String[][][] questions = null;
+        questions = new String[9][3][7];
+        questions[6] = new String[][] {
+                {"/mokhibo.mp4","Mokhibo ke papali e ", "bapaloang ke banna \n kapa bahlankana?", "bapaloang ka banana \nba motse,ba sebelisa\n majoana?", "bapaloang ke bana le baroetsana\nba sebelisa lechoba le thebe?", "bapaloa ke banna le \nbahlankana ba sebelisa \nmelangoana le machoba?", "2"},
+                {"/Litolobonya.mp4","litolobonya ke papali e ", "bapaloang ke baroetsana,\nbanana kapa basali ba \ntenne litolobonya", "bapaloa ke banna le \n bahlankana ba sebelisa\n melanoana le machoba?", "bapaloang ka banana ba motse,\nba sebelisa majoana?", "bapaloang ke banana kapa \nbaroetsana ba sebelisa\n lesokoana?", "0"},
+                {"/lesokoana.mp4","lesokoana ke papali e bapaloang \nke?", "banana kapa baroetsana\nba sebelisa\nlesokoana?", "bapaloang ka banana ba \nmotse,ba sebelisa majoana?", "bapaloang ke baroetsana,\nbanana kapa basali ba \ntenne litolobonya?", "bapaloang ke banna \nkapa bahlankana?", "0"}
         };
 
-        questions[13] = new String[][] {
-                {"/morabaraba.mp4","khetha papali e hlang ts'oants'isong e ka holimo ", "lesokoana?", "ho cheya litali?", "bolo?", "moraba-raba?", "3"},
-                {"/mokhibo.mp4","khetha papali e hlang ts'oants'isong e ka holimo ", "litolobonya?","mokhibo?", "selia-lia?", "liketoana", "1"},
-                {"/mohobelo.mp4","khetha papali e hlang ts'oants'isong e ka holimo ", "ndlamo?", "mokhibo?", "mohobelo?", "litolobonya?", "2"}
+        questions[7] = new String[][] {
+                {"/morabaraba.mp4","khetha papali e hlang ts'oants'isong\n e ka holimo ","lesokoana?", "ho cheya litali?", "bolo?", "moraba-raba?", "3"},
+                {"/mokhibo.mp4","khetha papali e hlang \nts'oants'isong e ka holimo ", "litolobonya?","mokhibo?", "selia-lia?", "liketoana", "1"},
+                {"/mohobelo.mp4","khetha papali e hlang \nts'oants'isong e ka holimo ", "ndlamo?", "mokhibo?", "mohobelo?", "litolobonya?", "2"}
         };
 
-        questions[14] = new String[][] {
-                {"khati.mp4","khetha papali e hlang ts'oants'isong e ka holimo ", "mohobelo?", "khati?", "morabaraba?", "lesokoana?", "1"},
-                {"/bolekeba-maipatile.mp4","khetha papali e hlang ts'oants'isong e ka holimo ", "mohobelo?", "khati?", "lesokoana?", "bolekeba-maipatile", "3"},
-                {"/mokallo.mp4","khetha papali e hlang ts'oants'isong e ka holimo ", "mohobelo?", "khati?", "ho kalla?", "ntoa?", "2"}
+        questions[8] = new String[][] {
+                {"/khati.mp4","khetha papali e hlang \nts'oants'isong e ka holimo ", "mohobelo?", "khati?", "morabaraba?", "lesokoana?", "1"},
+                {"/bolekeba-maipatile.mp4","khetha papali e hlang \nts'oants'isong e ka holimo ", "mohobelo?", "khati?", "lesokoana?", "bolekeba-maipatile", "3"},
+                {"/mokallo.mp4","khetha papali e hlang \nts'oants'isong e ka holimo ", "mohobelo?", "khati?", "ho kalla?", "ntoa?", "2"}
         };
 
-        if (currentCategory >= 12 && currentCategory <= 14 &&
+        if (currentCategory >= 6 && currentCategory <= 8 &&
                 questions[currentCategory] != null &&
                 levelIndex < questions[currentCategory].length) {
 
             String[] questionData = questions[currentCategory][levelIndex];
             if (questionData != null && questionData.length >= 7) {
-                String questionText = "Khetha tlhaloso ea Leele le latelang: \n" + questionData[1];
+                String questionText = questionData[1];
                 String[] options = {questionData[2], questionData[3], questionData[4], questionData[5]};
                 int correctIndex = Integer.parseInt(questionData[6]);
                 return createQuestion(questionData[0], questionText, options, correctIndex);
@@ -147,8 +150,9 @@ public class LipapliGame extends View {
             getAppManager().goHome();
         });
 
-        Button retryButton = new Button("Leka ho Lekha");
-        retryButton.setOnAction(e -> {
+        Button retryButton = new Button("Leka ho Lekhetha");
+        retryButton.setOnAction(e ->
+        {
             onHidden();
             loadFirstLevel();
         });
@@ -181,7 +185,7 @@ public class LipapliGame extends View {
 
     private VBox createQuestion(String url, String questionText, String[] options, int correctIndex) {
         Label questionLabel = new Label(questionText);
-        questionLabel.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+        questionLabel.setFont(Font.font("Arial", FontWeight.BOLD, 12));
         questionLabel.setWrapText(true);
 
         // Timer progress bar
@@ -296,7 +300,7 @@ public class LipapliGame extends View {
             questionTimer.stop();
         }
 
-        timeRemaining.set(15);
+        timeRemaining.set(20);
         questionTimer = new Timeline(
                 new KeyFrame(Duration.seconds(0.1), event -> {
                     timeRemaining.set(timeRemaining.get() - 0.1);
