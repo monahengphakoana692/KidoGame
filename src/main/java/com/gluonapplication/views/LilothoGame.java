@@ -92,7 +92,7 @@ public class LilothoGame extends View {
                 // Category 1
                 {
                         {"/moholu.jpg","khetha selotho sa amanang le sets'oants'o se ka holimo","Ka qhala Phoofo \n ka ja mokotla? ", "nthethe a bina moholo a lutes?", "mala nku mararang?", "mokopu ha u nama?", "0"},
-                        {"/likhobe.jpg","khetha selotho sa amanang le sets'oants'o se ka holimo", "O monate fela oa hlaba? ", "Ka qhala Phoofo \n ka ja mokotla?","Thankha-Thankha ketla \ntsoalla kae?","Maqheku a qabana ka lehaheng?", "3"},
+                        {"/likhobe.jpg","khetha selotho sa amanang le sets'oants'o se ka holimo", "O monate fela oa hlaba? ", "Ka qhala Phoofo \n ka ja mokotla?","Thankha-Thankha ketla tsoalla\n kae?","Maqheku a qabana ka lehaheng?", "3"},
                         {"/mokopu.jpg","khetha selotho sa amanang le sets'oants'o se ka holimo","Thankha-Thankha ketla\n tsoalla kae?", "Setoto se ts'ela tsela?", "Mohaisane o tlola jarete?", "tsa anehoa tsa tsoha li ile?", "0"}
                 },
                 // Category 2
@@ -118,7 +118,7 @@ public class LilothoGame extends View {
 
     private VBox createQuestion(String url, String questionText, String[] options, int correctIndex) {
         Label questionLabel = new Label(questionText);
-        questionLabel.setFont(Font.font("Arial", FontWeight.BOLD, 30));
+        questionLabel.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         questionLabel.setWrapText(true);
 
         timerProgressBar = new ProgressBar();
@@ -163,7 +163,8 @@ public class LilothoGame extends View {
     private Button createOptionButton(String text, boolean isCorrect) {
         Button button = new Button(text);
         button.setUserData(isCorrect);
-        button.setStyle("-fx-font-size: 13px; -fx-pref-width: 210px; -fx-pref-height: 30px; -fx-background-radius: 25; -fx-border-radius: 25;");
+
+        button.setStyle("-fx-font-size: 13px; -fx-pref-width: 210px; -fx-pref-height: 50px; -fx-background-radius: 25; -fx-border-radius: 25;");
         button.setOnAction(e -> handleAnswer(button, isCorrect));
         return button;
     }
@@ -249,13 +250,13 @@ public class LilothoGame extends View {
             getAppManager().goHome();
         });
 
-        Button retryButton = new Button("Leka ho Lekha");
+        Button retryButton = new Button("Leka ho khetha");
         retryButton.setOnAction(e -> {
             onHidden();
             loadFirstLevel();
         });
 
-        Button nextCategoryButton = new Button("Karolo e 'ngoe");
+        Button nextCategoryButton = new Button("Lapeng");
         nextCategoryButton.setOnAction(e -> {
             getAppManager().goHome();
             HoldMediaPlayers();

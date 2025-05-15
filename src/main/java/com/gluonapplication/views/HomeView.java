@@ -81,13 +81,42 @@ public class HomeView extends View {
 
             // Add a delay between each category's animation
             if (i > 0) {
-                parallelTransition.setDelay(Duration.millis(200 * i));
+                parallelTransition.setDelay(Duration.millis(100 * i));
             }
 
             sequentialTransition.getChildren().add(parallelTransition);
+
+            // Adding continuous pulsing animation after the initial animation completes
+            parallelTransition.setOnFinished(e -> {
+                startPulseAnimation(category);
+            });
         }
 
         sequentialTransition.play();
+    }
+
+    private void startPulseAnimation(VBox box) {
+        // Create a gentle pulsing animation
+        ScaleTransition pulse = new ScaleTransition(Duration.seconds(1.5), box);
+        pulse.setFromX(1.0);
+        pulse.setFromY(1.0);
+        pulse.setToX(1.05);  // 5% scale up
+        pulse.setToY(1.05);  // 5% scale up
+        pulse.setAutoReverse(true);
+        pulse.setCycleCount(ScaleTransition.INDEFINITE);
+
+        // Optional: Add slight opacity variation for more effect
+        FadeTransition fadePulse = new FadeTransition(Duration.seconds(1.5), box);
+        fadePulse.setFromValue(1.0);
+        fadePulse.setToValue(0.95);
+        fadePulse.setAutoReverse(true);
+        fadePulse.setCycleCount(FadeTransition.INDEFINITE);
+
+        ParallelTransition pulseAnimation = new ParallelTransition(pulse, fadePulse);
+        pulseAnimation.play();
+
+        // Store the animation so we can stop it later if needed
+        box.setUserData(pulseAnimation);
     }
 
     public Label getTitle() {

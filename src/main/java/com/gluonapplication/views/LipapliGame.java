@@ -8,10 +8,7 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -120,16 +117,44 @@ public class LipapliGame extends View {
     }
 
     private VBox createOptionVideo(String url) {
+        // Create media objects
         video = new Media(getClass().getResource(url).toString());
         mediaPlayer = new MediaPlayer(video);
         videoView = new MediaView(mediaPlayer);
+
+        // Set video view properties
         videoView.setFitHeight(60);
         videoView.setFitWidth(70);
+
+        // Set media player properties
         mediaPlayer.setCycleCount(10);
+        mediaPlayer.setVolume(0); // Set volume to 0 as requested
+
+        // Create progress slider
+        Slider progressSlider = new Slider();
+        progressSlider.setMinWidth(200);
+
+        // Update slider as video plays
+        mediaPlayer.currentTimeProperty().addListener((obs, oldVal, newVal) -> {
+            if (!progressSlider.isValueChanging()) { // Don't update if user is dragging
+                progressSlider.setValue(newVal.toSeconds() / mediaPlayer.getTotalDuration().toSeconds() * 1000);
+            }
+        });
+
+        // Allow user to seek video
+        progressSlider.valueChangingProperty().addListener((obs, oldVal, newVal) -> {
+            if (!newVal) { // When user finishes dragging
+                mediaPlayer.seek(mediaPlayer.getMedia().getDuration().multiply(progressSlider.getValue() / 100));
+            }
+        });
+
+        // Play the video
         mediaPlayer.play();
 
-        VBox videoHolder = new VBox(videoView);
+        // Create layout
+        VBox videoHolder = new VBox(5, videoView, progressSlider);
         videoHolder.setAlignment(Pos.TOP_CENTER);
+
         return videoHolder;
     }
 

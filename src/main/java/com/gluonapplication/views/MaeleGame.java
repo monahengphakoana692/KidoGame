@@ -147,7 +147,7 @@
 
                 String[] questionData = questions[categoryIndex][levelIndex];
                 if (questionData != null && questionData.length >= 7) {
-                    String questionText = "Khetha tlhaloso ea Leele le latelang: \n" + questionData[1];
+                    String questionText = "Khetha tlhaloso ea Maele a latelang: \n" + questionData[1];
                     String[] options = {
                             questionData[2],
                             questionData[3],
@@ -178,7 +178,7 @@
         private VBox createQuestion(String url, String questionText, String[] options, int correctIndex)
         {
             Label questionLabel = new Label(questionText);
-            questionLabel.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+            questionLabel.setFont(Font.font("Arial", FontWeight.BOLD, 15));
             questionLabel.setWrapText(true);
 
             // Create and configure the timer progress bar
@@ -313,13 +313,13 @@
                 getAppManager().goHome();
             });
 
-            Button retryButton = new Button("Leka ho Lekha");
+            Button retryButton = new Button("Leka ho khetha");
             retryButton.setOnAction(e -> {
                 onHidden();
                 loadFirstLevel();
             });
 
-            Button nextCategoryButton = new Button("Karolo e 'ngoe");
+            Button nextCategoryButton = new Button("Lapeng");
             nextCategoryButton.setOnAction(e -> {
 
                     getAppManager().goHome();
