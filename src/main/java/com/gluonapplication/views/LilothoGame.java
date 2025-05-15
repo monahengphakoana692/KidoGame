@@ -250,7 +250,7 @@ public class LilothoGame extends View {
             getAppManager().goHome();
         });
 
-        Button retryButton = new Button("Leka ho khetha");
+        Button retryButton = new Button("Bapala");
         retryButton.setOnAction(e -> {
             onHidden();
             loadFirstLevel();
@@ -432,10 +432,10 @@ public class LilothoGame extends View {
         if (questionTimer != null) {
             questionTimer.stop();
         }
-        timeRemaining.set(10);
+        timeRemaining.set(20);
         questionTimer = new Timeline(
-                new KeyFrame(Duration.seconds(0.1), event -> {
-                    timeRemaining.set(timeRemaining.get() - 0.1);
+                new KeyFrame(Duration.seconds(0.2), event -> {
+                    timeRemaining.set(timeRemaining.get() - 0.2);
                     if (timeRemaining.get() < 3) {
                         timerProgressBar.setStyle("-fx-accent: #F44336;");
                     } else if (timeRemaining.get() < 7) {

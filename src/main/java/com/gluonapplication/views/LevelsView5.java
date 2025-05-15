@@ -24,14 +24,14 @@ import javax.swing.*;
 public class LevelsView5 extends View
 {
     // Constants for view names
-    public static final String LEVEL1 = "Level1";
+    public static final String LEVEL1 = "Level13";
 
-    public static final String LEVEL2 = "Level2";
-    public static final String LEVEL3 = "Level3";
+    public static final String LEVEL2 = "Level14";
+    public static final String LEVEL3 = "Level15";
 
-    private static String L1Icon = "/L1.png";
-    private static String L2Icon = "/L2.png";
-    private static String L3Icon= "/L3.png";
+    private static String L1Icon = "/13.png";
+    private static String L2Icon = "/14.png";
+    private static String L3Icon= "/15.jpg";
 
 
     public static  String getL1Icon() {
@@ -96,9 +96,9 @@ public class LevelsView5 extends View
         mainContainer.getChildren().clear();
 
         // Create new boxes with current icons
-        level1Box = createCenteredLevelBox(getL1Icon(), "Boemo ba 1", LEVEL1);
-        level2Box = createCenteredLevelBox(getL2Icon(), "Boemo ba 2", LEVEL2);
-        level3Box = createCenteredLevelBox(getL3Icon(), "Boemo ba 3", LEVEL3);
+        level1Box = createCenteredLevelBox(getL1Icon(), "Boemo ba 13", LEVEL1);
+        level2Box = createCenteredLevelBox(getL2Icon(), "Boemo ba 14", LEVEL2);
+        level3Box = createCenteredLevelBox(getL3Icon(), "Boemo ba 15", LEVEL3);
 
         // Initially set them to invisible (they'll fade in)
         level1Box.setOpacity(0);

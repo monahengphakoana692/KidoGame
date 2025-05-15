@@ -308,13 +308,13 @@ public class LijoGame extends View {
             getAppManager().goHome();
         });
 
-        Button retryButton = new Button("Leka ho Lekha");
+        Button retryButton = new Button("Bapala");
         retryButton.setOnAction(e -> {
             onHidden();
             loadFirstLevel();
         });
 
-        Button nextCategoryButton = new Button("Karolo e 'ngoe");
+        Button nextCategoryButton = new Button("Lapeng");
         nextCategoryButton.setOnAction(e -> {
             getAppManager().goHome();
             HoldMediaPlayers();

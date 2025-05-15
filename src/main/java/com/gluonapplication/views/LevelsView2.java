@@ -29,9 +29,9 @@ public class LevelsView2 extends View
     public static final String LEVEL2 = "Level5";
     public static final String LEVEL3 = "Level6";
 
-    private static String L1Icon = "/L1.png";
-    private static String L2Icon = "/L2.png";
-    private static String L3Icon= "/L3.png";
+    private static String L1Icon = "/4.png";
+    private static String L2Icon = "/5.png";
+    private static String L3Icon= "/6.jpg";
 
 
     public static  String getL1Icon() {
@@ -95,9 +95,9 @@ public class LevelsView2 extends View
         mainContainer.getChildren().clear();
 
         // Create new boxes with current icons
-        level1Box = createCenteredLevelBox(getL1Icon(), "Boemo ba 1", LEVEL1);
-        level2Box = createCenteredLevelBox(getL2Icon(), "Boemo ba 2", LEVEL2);
-        level3Box = createCenteredLevelBox(getL3Icon(), "Boemo ba 3", LEVEL3);
+        level1Box = createCenteredLevelBox(getL1Icon(), "Boemo ba 4", LEVEL1);
+        level2Box = createCenteredLevelBox(getL2Icon(), "Boemo ba 5", LEVEL2);
+        level3Box = createCenteredLevelBox(getL3Icon(), "Boemo ba 6", LEVEL3);
 
         // Initially set them to invisible (they'll fade in)
         level1Box.setOpacity(0);

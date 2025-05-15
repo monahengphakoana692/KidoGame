@@ -114,7 +114,7 @@
                                     "Khomo ea senona le tlhako",
                                      "2"},
                             {"/meat.jpg","khetha maele a amanang le sets'oants'o seka holimo",
-                                    "khomo li hlabana maqhubu sakeng?",
+                                    "khomo li hlabana \nmaqhubu sakeng?",
                                     "Lebitla la khomoka molomo?",
                                     "Ho opa khomo lenaka?",
                                     "Khomo tsabo moshemane \nhali jooe?", "1"}
@@ -125,17 +125,17 @@
                                     "Moketa Khomo o nonela tlhakong?",
                                     "Morena ke khomo ea \nsehangoa ke bohle",
                                     "Khomo e ts'oaroa ka linaka?",
-                                    "Ho batla ka khomo mmele?", "2"},
+                                    "Ho batla ka \nkhomo mmele?", "2"},
                             {"/haeno.jpg", "khetha maele a amanang le sets'oants'o seka holimo",
                                     "Ke u tsoela Khomo?",
                                     "Khomo e thibela lerumo?",
-                                    "Khomo halina motlowa pele",
-                                    "Khomo boela haeno o holile?", "3"},
+                                    "Khomo halina \nmotlowa pele",
+                                    "Khomo boela haeno\n o holile?", "3"},
                             {"/honepa.jpg", "khetha maele a amanang le sets'oants'o seka holimo",
                                     "Ho tlola Khomo?",
                                     "Ho opa khomo lenaka?",
-                                    "Khomo li jeoa ka ngoana a le mong?",
-                                    "Khomo ha lina motlooa pele?", "1"}
+                                    "Khomo li jeoa ka\n ngoana a le mong?",
+                                    "Khomo ha lina motlooa \npele?", "1"}
                     }
             };
 
@@ -313,7 +313,7 @@
                 getAppManager().goHome();
             });
 
-            Button retryButton = new Button("Leka ho khetha");
+            Button retryButton = new Button("Bapala");
             retryButton.setOnAction(e -> {
                 onHidden();
                 loadFirstLevel();

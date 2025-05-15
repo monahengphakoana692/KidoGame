@@ -42,13 +42,14 @@ public class LipapliGame extends View {
 
     public LipapliGame() {
         initializeUI();
-       // loadFirstLevel();
+       loadFirstLevel();
 
     }
 
     private void initializeUI() {
         getStylesheets().add(getClass().getResource("primary.css").toExternalForm());
         currentCategory = Integer.parseInt(PrimaryView.getLevelnum());
+
 
     }
 
@@ -175,14 +176,14 @@ public class LipapliGame extends View {
             getAppManager().goHome();
         });
 
-        Button retryButton = new Button("Leka ho Lekhetha");
+        Button retryButton = new Button("Bapala");
         retryButton.setOnAction(e ->
         {
             onHidden();
             loadFirstLevel();
         });
 
-        Button nextCategoryButton = new Button("Karolo e 'ngoe");
+        Button nextCategoryButton = new Button("Lapeng");
         nextCategoryButton.setOnAction(e -> {
 
             getAppManager().goHome();
