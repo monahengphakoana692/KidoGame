@@ -14,23 +14,26 @@ import javafx.scene.text.FontWeight;
 import javafx.util.Duration;
 
 public class HomeView extends View {
-    VBox backgroundLayout = null;
+    private VBox backgroundLayout = null;
+    private Catagories categories;
+    private VBox lilotho, maele, lipapali, liaparo, lijo;
 
     public VBox getBackgroundLayout() {
-        backgroundLayout = new VBox(10);
+        backgroundLayout = new VBox(5);
         backgroundLayout.setAlignment(Pos.TOP_CENTER);
-        Catagories catagories = new Catagories();
+        categories = new Catagories();
 
         backgroundLayout.setPrefHeight(600);
         backgroundLayout.setPrefWidth(350);
         backgroundLayout.setStyle("-fx-background-color: transparent; -fx-opacity:1;");
 
         // Get all category boxes
-        VBox lilotho = catagories.getLilotho();
-        VBox maele = catagories.getMaele();
-        VBox lipapali = catagories.getLipapali();
-        VBox liaparo = catagories.getLiaparo();
-        VBox lijo = catagories.getLijo();
+        lilotho = categories.getLilotho();
+        maele = categories.getMaele();
+        lipapali = categories.getLipapali();
+        liaparo = categories.getLiaparo();
+        lijo = categories.getLijo();
+
 
         // Initially set them to invisible (they'll fade in)
         lilotho.setOpacity(0);
@@ -42,12 +45,70 @@ public class HomeView extends View {
         // Add all components to the layout
         backgroundLayout.getChildren().addAll(getTitle(), lilotho, maele, lipapali, liaparo, lijo);
 
+        // Load saved progress (if any)
+        loadProgress();
+
         // Animate the categories sequentially
         animateCategories(lilotho, maele, lipapali, liaparo, lijo);
 
         return backgroundLayout;
     }
 
+    private void loadProgress() {
+        // Here you would load saved progress from persistent storage
+        // For now, we'll just initialize with some example values
+        // Replace this with actual loading logic
+
+        // Example progress (replace with your loading logic):
+        categories.updateProgress(Catagories.LILOTHO_VIEW, getSavedProgress(Catagories.LILOTHO_VIEW));
+        categories.updateProgress(Catagories.MAELE_VIEW, getSavedProgress(Catagories.MAELE_VIEW));
+        categories.updateProgress(Catagories.LIPAPALI_VIEW, getSavedProgress(Catagories.LIPAPALI_VIEW));
+        categories.updateProgress(Catagories.LIAPARO_VIEW, getSavedProgress(Catagories.LIAPARO_VIEW));
+        categories.updateProgress(Catagories.LIJO_VIEW, getSavedProgress(Catagories.LIJO_VIEW));
+    }
+
+    private int getSavedProgress(String category) {
+        // Replace this with actual loading from preferences/database
+        // For now, returning 0 for all categories
+        return Integer.parseInt(PrimaryView.getLevelnum());
+    }
+
+    public void updateCategoryProgress(String categoryName, int starsEarned) {
+        // Update the progress in the Categories class
+        categories.updateProgress(categoryName, starsEarned);
+
+        // Save the progress (you would implement this)
+        saveProgress(categoryName, starsEarned);
+
+        // Refresh the view to show updated stars
+        refreshCategoryViews();
+    }
+
+    private void saveProgress(String categoryName, int starsEarned) {
+        // Implement your saving logic here
+        // This could be to SharedPreferences, a database, or a file
+    }
+
+    private void refreshCategoryViews() {
+        // Recreate the category views to show updated stars
+        VBox newLilotho = categories.getLilotho();
+        VBox newMaele = categories.getMaele();
+        VBox newLipapali = categories.getLipapali();
+        VBox newLiaparo = categories.getLiaparo();
+        VBox newLijo = categories.getLijo();
+
+        // Replace the old views with the new ones
+        backgroundLayout.getChildren().set(1, newLilotho);
+        backgroundLayout.getChildren().set(2, newMaele);
+        backgroundLayout.getChildren().set(3, newLipapali);
+        backgroundLayout.getChildren().set(4, newLiaparo);
+        backgroundLayout.getChildren().set(5, newLijo);
+
+        // Reapply animations to the new views
+        animateCategories(newLilotho, newMaele, newLipapali, newLiaparo, newLijo);
+    }
+
+    // Rest of your existing methods (animateCategories, startPulseAnimation, getTitle) remain the same
     private void animateCategories(VBox... categories) {
         SequentialTransition sequentialTransition = new SequentialTransition();
 

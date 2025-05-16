@@ -8,8 +8,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Catagories extends View {
     // Constants for view names
@@ -18,19 +21,34 @@ public class Catagories extends View {
     public static final String LIPAPALI_VIEW = "Lipapali";
     public static final String LIAPARO_VIEW = "Liaparo";
     public static final String LIJO_VIEW = "Lijo";
+
     // Game instances
-    private  LevelsView levelsView;
-    private  LevelsView2 levelsView2;
-    private  LevelsView3 levelsView3;
-    private  LevelsView4 levelsView4;
-    private  LevelsView5 levelsView5;
+    private LevelsView levelsView;
+    private LevelsView2 levelsView2;
+    private LevelsView3 levelsView3;
+    private LevelsView4 levelsView4;
+    private LevelsView5 levelsView5;
+
+    private HBox starContainer;
+
+    // Track progress for each category (0-3 stars)
+    private Map<String, Integer> categoryProgress = new HashMap<>();
+
+    public Catagories() {
+        // Initialize default progress (0 stars for all categories)
+        categoryProgress.put(LILOTHO_VIEW, 0);
+        categoryProgress.put(MAELE_VIEW, 0);
+        categoryProgress.put(LIPAPALI_VIEW, 0);
+        categoryProgress.put(LIAPARO_VIEW, 0);
+        categoryProgress.put(LIJO_VIEW, 0);
+    }
 
     public VBox getLilotho() {
         return createCategoryBox(
-                "/background2.jpg", // Unique image for each category
+                "/background2.jpg",
                 "papali ka LiLOTHO",
                 LILOTHO_VIEW,
-                "-fx-background-color: #FFA500;" // Orange
+                "-fx-background-color: #FFA500;"
         );
     }
 
@@ -39,7 +57,7 @@ public class Catagories extends View {
                 "/background2.jpg",
                 "papali ka Maele",
                 MAELE_VIEW,
-                "-fx-background-color: #4CAF50;" // Green
+                "-fx-background-color: #4CAF50;"
         );
     }
 
@@ -48,7 +66,7 @@ public class Catagories extends View {
                 "/background2.jpg",
                 "papali ka Lipapali",
                 LIPAPALI_VIEW,
-                "-fx-background-color: #2196F3;" // Blue
+                "-fx-background-color: #2196F3;"
         );
     }
 
@@ -57,7 +75,7 @@ public class Catagories extends View {
                 "/background2.jpg",
                 "papali ka liaparo",
                 LIAPARO_VIEW,
-                "-fx-background-color: #2196F3;" // Blue
+                "-fx-background-color: #84c5f8;"
         );
     }
 
@@ -66,8 +84,12 @@ public class Catagories extends View {
                 "/background2.jpg",
                 "papali ka lijo",
                 LIJO_VIEW,
-                "-fx-background-color: #2196F3;" // Blue
+                "-fx-background-color: #dfd80f;"
         );
+    }
+
+    public void setStarContainer(HBox starContainer) {
+        this.starContainer = starContainer;
     }
 
     private VBox createCategoryBox(String imagePath, String title, String viewName, String style) {
@@ -100,7 +122,6 @@ public class Catagories extends View {
             });
 
             imageView.setOnMouseClicked(event -> {
-                // Add click animation
                 ScaleTransition click = new ScaleTransition(Duration.millis(100), imageView);
                 click.setToX(0.95);
                 click.setToY(0.95);
@@ -118,7 +139,10 @@ public class Catagories extends View {
             label.setOnMouseEntered(e -> label.setStyle("-fx-font-weight: bold; -fx-text-fill: white;"));
             label.setOnMouseExited(e -> label.setStyle("-fx-font-weight: bold; -fx-text-fill: black;"));
 
-            categoryBox.getChildren().addAll(imageView, label);
+            // Create star rating based on progress
+            starContainer = createStarRating(viewName);
+
+            categoryBox.getChildren().addAll(imageView, label, starContainer);
         } catch (Exception e) {
             showAlert("Error loading category: " + e.getMessage());
         }
@@ -126,17 +150,69 @@ public class Catagories extends View {
         return categoryBox;
     }
 
+    public HBox createStarRating(String viewName) {
+        HBox starContainer = new HBox(2);
+        starContainer.setAlignment(Pos.CENTER);
+
+        int progress = categoryProgress.getOrDefault(viewName, Integer.parseInt(PrimaryView.getLevelnum()));
+
+        for (int i = 0; i < 3; i++)
+        {
+            ImageView star = new ImageView();
+
+            switch (progress)
+            {
+                case 0:
+                    star.setImage(new Image("/L2.png"));
+                    star.setFitWidth(20);
+                    star.setFitHeight(20);
+                    starContainer.getChildren().add(star);
+                    break;
+                case 1:
+                    star.setImage(new Image("/win2.png"));
+                    star.setFitWidth(20);
+                    star.setFitHeight(20);
+                    starContainer.getChildren().add(star);
+                    break;
+            }
+        }
+
+        return starContainer;
+    }
+
+    // Method to update progress for a category
+    public void updateProgress(String viewName, int starsEarned) {
+        if (starsEarned >= 0 && starsEarned <= 3) {
+            categoryProgress.put(viewName, starsEarned);
+            // Here you would typically save this progress to persistent storage
+        }
+    }
+
     public void showGame(String viewName) {
         try {
-            levelsView = new LevelsView();
-            levelsView2 = new LevelsView2();
-            levelsView3 = new LevelsView3();
-            levelsView4 = new LevelsView4();
-            levelsView5 = new LevelsView5();
+            // Initialize the appropriate view based on category
+            switch (viewName) {
+                case LILOTHO_VIEW:
+                    levelsView = new LevelsView();
+                    break;
+                case MAELE_VIEW:
+                    levelsView2 = new LevelsView2();
+                    break;
+                case LIPAPALI_VIEW:
+                    levelsView3 = new LevelsView3();
+                    break;
+                case LIAPARO_VIEW:
+                    levelsView4 = new LevelsView4();
+                    break;
+                case LIJO_VIEW:
+                    levelsView5 = new LevelsView5();
+                    break;
+            }
+
             if (getAppManager() != null) {
-                // Check if view exists by attempting to switch to it
                 try {
                     getAppManager().switchView(viewName);
+                    // Add view factory for each category
                     switch (viewName) {
                         case LILOTHO_VIEW:
                             getAppManager().addViewFactory(viewName, () -> levelsView);
@@ -170,6 +246,4 @@ public class Catagories extends View {
         alert.setContentText(error);
         alert.showAndWait();
     }
-
-
 }

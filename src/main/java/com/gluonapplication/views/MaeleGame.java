@@ -26,7 +26,6 @@
     public class MaeleGame extends View {
 
         private static final int LEVELS_PER_CATEGORY = 3;
-        private static final int TOTAL_CATEGORIES = 3;
         private final boolean[] levelResults = new boolean[LEVELS_PER_CATEGORY];
         private MediaPlayer videoPlayer;
         private MediaPlayer audioPlayer;
@@ -146,8 +145,17 @@
                     levelIndex < questions[categoryIndex].length) {
 
                 String[] questionData = questions[categoryIndex][levelIndex];
-                if (questionData != null && questionData.length >= 7) {
-                    String questionText = "Khetha tlhaloso ea Maele a latelang: \n" + questionData[1];
+                if (questionData != null && questionData.length >= 7)
+                {
+                    String questionText = "";
+                    if("khetha maele a amanang le sets'oants'o seka holimo".equals(questionData[1]))
+                    {
+                        questionText = questionData[1];
+                    }else
+                    {
+                        questionText = "Khetha tlhaloso ea Maele a latelang: \n" + questionData[1];
+                    }
+
                     String[] options = {
                             questionData[2],
                             questionData[3],
@@ -165,8 +173,8 @@
         {
             Image image = new Image(url);
             ImageView imageView = new ImageView(image);
-            imageView.setFitHeight(70);
-            imageView.setFitWidth(70);
+            imageView.setFitHeight(100);
+            imageView.setFitWidth(150);
 
             VBox imageHolder = new VBox(imageView);
             imageHolder.setAlignment(Pos.TOP_CENTER);
@@ -178,7 +186,7 @@
         private VBox createQuestion(String url, String questionText, String[] options, int correctIndex)
         {
             Label questionLabel = new Label(questionText);
-            questionLabel.setFont(Font.font("Arial", FontWeight.BOLD, 15));
+            questionLabel.setFont(Font.font("Arial", FontWeight.BOLD, 11));
             questionLabel.setWrapText(true);
 
             // Create and configure the timer progress bar

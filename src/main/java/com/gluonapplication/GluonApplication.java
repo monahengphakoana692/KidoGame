@@ -26,7 +26,7 @@ public class GluonApplication extends Application {
         System.setProperty("charm.glisten.tracking.hide", "true");
         System.setProperty("attach.storage.path", System.getProperty("user.home") + "/.KidoGame");
         appManager.addViewFactory(PRIMARY_VIEW, PrimaryView::new);
-        appManager.addViewFactory(SECONDARY_VIEW, SecondaryView::new);
+        //appManager.addViewFactory(SECONDARY_VIEW, SecondaryView::new);
         appManager.addViewFactory(LESSSONS_VIEW, Lessons::new);
 
 

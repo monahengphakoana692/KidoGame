@@ -17,7 +17,7 @@ import javafx.util.Duration;
 
 public class PrimaryView extends View
 {
-    private static String Levelnum = "14";
+    private static String Levelnum = "0";
     private Label levelLabel;
     public static final String[] basiLevel = {"/L1.png","/L2.png","/L3.png"};
     public static final String[] AdvancedLevel = {"/win1.png","/win2.png","/win3.png"};
@@ -43,7 +43,7 @@ public class PrimaryView extends View
         background1.setStyle("-fx-background-color:yellow;");
 
         imageView.setFitWidth(315);
-        imageView.setFitHeight(900);
+        imageView.setFitHeight(1000);
 
         background1.getChildren().addAll(imageView,homeView.getBackgroundLayout());
         background1.setPadding(new javafx.geometry.Insets(10, 10, 0, 10));
@@ -67,6 +67,8 @@ public class PrimaryView extends View
         {
             getAppManager().addViewFactory(secondaryView, () -> new SecondaryView());
         }
+
+
 
         BackgroundSound();//playing the background sound
 

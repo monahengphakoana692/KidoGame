@@ -26,17 +26,12 @@ import javafx.util.Duration;
 public class LiaparoGame extends View {
 
     private static final int LEVELS_PER_CATEGORY = 3;
-    private static final int TOTAL_CATEGORIES = 3;
     private final boolean[] levelResults = new boolean[LEVELS_PER_CATEGORY];
     private MediaPlayer videoPlayer;
     private MediaPlayer audioPlayer;
     private MediaView mediaView;
     private int currentLevelIndex = 0;
     private int currentCategory;
-    private Media video;
-    private MediaPlayer mediaPlayer;
-    private MediaView videoView;
-    private LevelsView4 levelsView = new LevelsView4();
 
     // Timer related variables
     private Timeline questionTimer;
@@ -268,18 +263,15 @@ public class LiaparoGame extends View {
             // Update icons based on current category progression
             switch(currentCategory) {
                 case 9:
-                    levelsView.setL1Icon("/win1.png");
-                    // Unlock next category (7)
+
                     PrimaryView.setLevelnum("10");
                     break;
                 case 10:
-                    levelsView.setL2Icon("/win2.png");
-                    // Unlock next category (8)
+
                     PrimaryView.setLevelnum("11");
                     break;
                 case 11:
-                    levelsView.setL3Icon("/win3.png");
-                    // All categories completed
+
                     PrimaryView.setLevelnum("12");
                     break;
             }

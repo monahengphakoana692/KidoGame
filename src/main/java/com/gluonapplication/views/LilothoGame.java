@@ -118,7 +118,7 @@ public class LilothoGame extends View {
 
     private VBox createQuestion(String url, String questionText, String[] options, int correctIndex) {
         Label questionLabel = new Label(questionText);
-        questionLabel.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+        questionLabel.setFont(Font.font("Arial", FontWeight.BOLD, 15));
         questionLabel.setWrapText(true);
 
         timerProgressBar = new ProgressBar();
@@ -152,7 +152,7 @@ public class LilothoGame extends View {
     private VBox createOptionImage(String url) {
         Image image = new Image(url);
         ImageView imageView = new ImageView(image);
-        imageView.setFitHeight(70);
+        imageView.setFitHeight(100);
         imageView.setFitWidth(150);
 
         VBox imageHolder = new VBox(imageView);
@@ -217,6 +217,7 @@ public class LilothoGame extends View {
 
         if (correctCount == LEVELS_PER_CATEGORY) {
             playSuccessAnimation();
+
             switch (PrimaryView.getLevelnum()) {
                 case "1": levelsView.setL1Icon("/win1.png"); break;
                 case "2": levelsView.setL2Icon("/win2.png"); break;

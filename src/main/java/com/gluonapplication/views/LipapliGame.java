@@ -86,7 +86,7 @@ public class LipapliGame extends View {
         questions = new String[9][3][7];
         questions[6] = new String[][] {
                 {"/mokhibo.mp4","Mokhibo ke papali e ", "bapaloang ke banna \n kapa bahlankana?", "bapaloang ka banana \nba motse,ba sebelisa\n majoana?", "bapaloang ke bana le baroetsana\nba sebelisa lechoba le thebe?", "bapaloa ke banna le \nbahlankana ba sebelisa \nmelangoana le machoba?", "2"},
-                {"/Litolobonya.mp4","litolobonya ke papali e ", "bapaloang ke baroetsana,\nbanana kapa basali ba \ntenne litolobonya", "bapaloa ke banna le \n bahlankana ba sebelisa\n melanoana le machoba?", "bapaloang ka banana ba motse,\nba sebelisa majoana?", "bapaloang ke banana kapa \nbaroetsana ba sebelisa\n lesokoana?", "0"},
+                {"/Litolobonya.mp4","litolobonya ke papali e ", "bapaloang ke baroetsana,\nbanana kapa basali ba \ntenne lithethana", "bapaloa ke banna le \n bahlankana ba sebelisa\n melanoana le machoba?", "bapaloang ka banana ba motse,\nba sebelisa majoana?", "bapaloang ke banana kapa \nbaroetsana ba sebelisa\n lesokoana?", "0"},
                 {"/lesokoana.mp4","lesokoana ke papali e bapaloang \nke?", "banana kapa baroetsana\nba sebelisa\nlesokoana?", "bapaloang ka banana ba \nmotse,ba sebelisa majoana?", "bapaloang ke baroetsana,\nbanana kapa basali ba \ntenne litolobonya?", "bapaloang ke banna \nkapa bahlankana?", "0"}
         };
 
